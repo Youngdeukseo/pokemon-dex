@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="1세대부터 9세대까지 포켓몬 카드로 기록한 1,025종 전국도감"
+    />
+    <meta name="theme-color" content="#17233f" />
+    <title>1025 전국도감 | MY POKÉMON DEX</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">본문으로 바로가기</a>
+
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="MY POKÉMON DEX 홈">
+        <span class="brand-mark" aria-hidden="true">
+          <span></span>
+        </span>
+        <span class="brand-copy">
+          <strong>MY POKÉMON DEX</strong>
+          <small>COLLECTION ARCHIVE</small>
+        </span>
+      </a>
+      <span class="header-chip">PRIVATE COLLECTION · PUBLIC VIEW</span>
+    </header>
+
+    <div class="site-layout">
+      <aside class="sidebar" aria-label="도감 메뉴">
+        <div class="sidebar-label">MY COLLECTIONS</div>
+        <nav class="collection-nav">
+          <a class="collection-link is-active" href="#national-dex">
+            <span class="collection-icon collection-icon--red" aria-hidden="true"
+              >01</span
+            >
+            <span>
+              <strong>1025 전국도감</strong>
+              <small>1세대–9세대</small>
+            </span>
+          </a>
+          <span class="collection-link is-upcoming" aria-disabled="true">
+            <span class="collection-icon" aria-hidden="true">02</span>
+            <span>
+              <strong>작가 도감</strong>
+              <small>준비 중</small>
+            </span>
+          </span>
+          <span class="collection-link is-upcoming" aria-disabled="true">
+            <span class="collection-icon" aria-hidden="true">03</span>
+            <span>
+              <strong>시리즈 도감</strong>
+              <small>준비 중</small>
+            </span>
+          </span>
+          <span class="collection-link is-upcoming" aria-disabled="true">
+            <span class="collection-icon" aria-hidden="true">04</span>
+            <span>
+              <strong>팩 전종수집</strong>
+              <small>준비 중</small>
+            </span>
+          </span>
+        </nav>
+        <div class="sidebar-note">
+          <span aria-hidden="true">✦</span>
+          도감은 앞으로 이 메뉴에 하나씩 추가됩니다.
+        </div>
+      </aside>
+
+      <main id="main-content" class="main-content">
+        <section id="national-dex" class="hero" aria-labelledby="page-title">
+          <div class="hero-glow hero-glow--one" aria-hidden="true"></div>
+          <div class="hero-glow hero-glow--two" aria-hidden="true"></div>
+          <div class="hero-content">
+            <p class="eyebrow">NATIONAL POKÉDEX · COLLECTION 01</p>
+            <h1 id="page-title">1025 전국도감</h1>
+            <p class="hero-description">
+              1세대 이상해씨부터 9세대 복숭악동까지,<br />
+              포켓몬 카드로 완성해 가는 나만의 전국도감
+            </p>
+          </div>
+          <div class="hero-progress" aria-label="전체 수집 현황">
+            <div class="progress-ring" id="progress-ring" aria-hidden="true">
+              <div>
+                <strong id="hero-rate">—</strong>
+                <span>COMPLETE</span>
+              </div>
+            </div>
+            <div class="hero-progress-copy">
+              <span>현재 수집 현황</span>
+              <strong
+                ><b id="hero-owned">—</b>
+                <small>/ <span id="hero-total">—</span>종</small></strong
+              >
+              <p>미보유 <b id="hero-missing">—</b>종</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="stats-grid" aria-label="전국도감 요약">
+          <article class="stat-card stat-card--owned">
+            <span class="stat-icon" aria-hidden="true">✓</span>
+            <div>
+              <span>보유 포켓몬</span>
+              <strong><b id="stat-owned">—</b><small>종</small></strong>
+            </div>
+          </article>
+          <article class="stat-card stat-card--missing">
+            <span class="stat-icon" aria-hidden="true">○</span>
+            <div>
+              <span>미보유 포켓몬</span>
+              <strong><b id="stat-missing">—</b><small>종</small></strong>
+            </div>
+          </article>
+          <article class="stat-card stat-card--rate">
+            <span class="stat-icon" aria-hidden="true">↗</span>
+            <div>
+              <span>전체 수집률</span>
+              <strong><b id="stat-rate">—</b><small>%</small></strong>
+            </div>
+          </article>
+        </section>
+
+        <section class="catalog-panel" aria-labelledby="catalog-title">
+          <div class="catalog-heading">
+            <div>
+              <p class="section-kicker">CARD CATALOG</p>
+              <h2 id="catalog-title">포켓몬 카드 도감</h2>
+            </div>
+            <p class="catalog-caption">
+              미보유 카드는 흑백으로 표시됩니다.
+            </p>
+          </div>
+
+          <div class="filter-panel">
+            <label class="search-field">
+              <span class="search-icon" aria-hidden="true"></span>
+              <span class="sr-only">포켓몬 검색</span>
+              <input
+                id="search-input"
+                type="search"
+                autocomplete="off"
+                placeholder="이름 또는 도감번호로 검색"
+              />
+              <kbd>⌘ K</kbd>
+            </label>
+
+            <div class="filter-row">
+              <div class="filter-group">
+                <span class="filter-label">세대</span>
+                <div
+                  id="generation-filters"
+                  class="pill-group generation-pills"
+                  role="group"
+                  aria-label="세대 선택"
+                ></div>
+              </div>
+
+              <div class="filter-group filter-group--status">
+                <span class="filter-label">보유 상태</span>
+                <div
+                  id="status-filters"
+                  class="segmented-control"
+                  role="group"
+                  aria-label="보유 상태 선택"
+                >
+                  <button class="is-active" type="button" data-status="all">
+                    전체
+                  </button>
+                  <button type="button" data-status="owned">보유</button>
+                  <button type="button" data-status="missing">미보유</button>
+                </div>
+              </div>
+
+              <label class="sort-field">
+                <span class="filter-label">정렬</span>
+                <select id="sort-select">
+                  <option value="number">도감번호순</option>
+                  <option value="nameKo">이름순</option>
+                  <option value="missingFirst">미보유 우선</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="results-bar">
+            <p>
+              검색 결과 <strong id="result-count">—</strong>종
+              <span id="active-filter-label"></span>
+            </p>
+            <button id="reset-filters" class="text-button" type="button" hidden>
+              필터 초기화
+            </button>
+          </div>
+
+          <div
+            id="card-grid"
+            class="card-grid"
+            aria-live="polite"
+            aria-busy="true"
+          ></div>
+
+          <div id="empty-state" class="empty-state" hidden>
+            <span class="empty-ball" aria-hidden="true"><span></span></span>
+            <h3>검색 결과가 없습니다</h3>
+            <p>검색어 또는 필터를 바꿔보세요.</p>
+            <button class="primary-button" type="button" data-reset>
+              전체 도감 보기
+            </button>
+          </div>
+
+          <div class="load-more-wrap">
+            <p id="visible-count" class="visible-count"></p>
+            <button id="load-more" class="primary-button" type="button" hidden>
+              카드 더 보기
+            </button>
+          </div>
+        </section>
+
+        <footer class="site-footer">
+          <p>
+            개인 수집 기록을 위한 비공식 팬 사이트입니다. Pokémon 및 관련
+            명칭은 각 권리자에게 있습니다.
+          </p>
+          <p>카드 이미지는 원본 도감 파일의 링크를 사용합니다.</p>
+        </footer>
+      </main>
+    </div>
+
+    <dialog id="card-dialog" class="card-dialog">
+      <button
+        id="dialog-close"
+        class="dialog-close"
+        type="button"
+        aria-label="닫기"
+      >
+        ×
+      </button>
+      <div class="dialog-card-image">
+        <img id="dialog-image" src="" alt="" />
+      </div>
+      <div class="dialog-card-copy">
+        <div class="dialog-badges">
+          <span id="dialog-number" class="number-badge"></span>
+          <span id="dialog-status" class="status-badge"></span>
+        </div>
+        <h2 id="dialog-name-ko"></h2>
+        <p id="dialog-name-en" class="dialog-name-en"></p>
+        <dl class="dialog-details">
+          <div>
+            <dt>세대</dt>
+            <dd id="dialog-generation"></dd>
+          </div>
+        </dl>
+      </div>
+    </dialog>
+
+    <template id="card-template">
+      <article class="pokemon-card">
+        <button class="pokemon-card-button" type="button">
+          <span class="card-image-wrap">
+            <img class="card-image" src="" alt="" loading="lazy" />
+            <span class="missing-overlay">미보유</span>
+            <span class="image-fallback" aria-hidden="true">
+              <span class="fallback-ball"><span></span></span>
+              이미지를 불러오지 못했습니다
+            </span>
+          </span>
+          <span class="card-body">
+            <span class="card-topline">
+              <span class="number-badge"></span>
+              <span class="status-badge"></span>
+            </span>
+            <strong class="card-name-ko"></strong>
+            <span class="card-name-en"></span>
+            <span class="card-meta">
+              <span class="card-generation"></span>
+            </span>
+          </span>
+        </button>
+      </article>
+    </template>
+
+    <div id="app-error" class="app-error" role="alert" hidden>
+      <strong>도감 데이터를 불러오지 못했습니다.</strong>
+      <span>잠시 후 페이지를 새로고침해 주세요.</span>
+    </div>
+  </body>
+</html>
