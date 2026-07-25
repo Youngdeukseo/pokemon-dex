@@ -9,17 +9,16 @@
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./packs.css" />
+    <link rel="stylesheet" href="./print.css" />
     <script src="./packs.js" defer></script>
+    <script src="./print.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">본문으로 바로가기</a>
     <header class="site-header">
       <a class="brand" href="./" aria-label="MY POKÉMON DEX 홈">
         <span class="brand-mark" aria-hidden="true"><span></span></span>
-        <span class="brand-copy">
-          <strong>MY POKÉMON DEX</strong>
-          <small>COLLECTION ARCHIVE</small>
-        </span>
+        <span class="brand-copy"><strong>MY POKÉMON DEX</strong><small>COLLECTION ARCHIVE</small></span>
       </a>
       <span class="header-chip">PRIVATE COLLECTION · PUBLIC VIEW</span>
     </header>
@@ -28,43 +27,20 @@
       <aside class="sidebar" aria-label="도감 메뉴">
         <div class="sidebar-label">MY COLLECTIONS</div>
         <nav class="collection-nav">
-          <a class="collection-link" href="./">
-            <span class="collection-icon" aria-hidden="true">01</span>
-            <span><strong>전국도감</strong><small>1세대–9세대</small></span>
-          </a>
-          <a class="collection-link is-active" href="./packs.html" aria-current="page">
-            <span class="collection-icon collection-icon--red" aria-hidden="true">02</span>
-            <span><strong>팩 전종수집</strong><small>S · SV · M</small></span>
-          </a>
-          <a class="collection-link" href="./artists.html">
-  <span class="collection-icon" aria-hidden="true">03</span>
-  <span><strong>작가 도감</strong><small>29 ARTISTS</small></span>
-</a>
-          <span class="collection-link is-upcoming" aria-disabled="true">
-            <span class="collection-icon" aria-hidden="true">04</span>
-            <span><strong>시리즈 도감</strong><small>준비 중</small></span>
-          </span>
+          <a class="collection-link" href="./"><span class="collection-icon" aria-hidden="true">01</span><span><strong>전국도감</strong><small>1세대–9세대</small></span></a>
+          <a class="collection-link is-active" href="./packs.html" aria-current="page"><span class="collection-icon collection-icon--red" aria-hidden="true">02</span><span><strong>팩 전종수집</strong><small>S · SV · M</small></span></a>
+          <a class="collection-link" href="./artists.html"><span class="collection-icon" aria-hidden="true">03</span><span><strong>작가 도감</strong><small>29 ARTISTS</small></span></a>
+          <span class="collection-link is-upcoming" aria-disabled="true"><span class="collection-icon" aria-hidden="true">04</span><span><strong>시리즈 도감</strong><small>준비 중</small></span></span>
         </nav>
       </aside>
 
       <main id="main-content" class="main-content">
         <section class="hero pack-hero" aria-labelledby="page-title">
-          <div class="hero-glow hero-glow--one" aria-hidden="true"></div>
-          <div class="hero-glow hero-glow--two" aria-hidden="true"></div>
-          <div class="hero-content">
-            <p class="eyebrow">BOOSTER PACK ARCHIVE · COLLECTION 02</p>
-            <h1 id="page-title">팩 전종수집</h1>
-            <p class="hero-description">소드&실드부터 MEGA까지,<br />한 팩씩 모아 완성하는 확장팩 컬렉션</p>
-          </div>
+          <div class="hero-glow hero-glow--one" aria-hidden="true"></div><div class="hero-glow hero-glow--two" aria-hidden="true"></div>
+          <div class="hero-content"><p class="eyebrow">BOOSTER PACK ARCHIVE · COLLECTION 02</p><h1 id="page-title">팩 전종수집</h1><p class="hero-description">소드&실드부터 MEGA까지,<br />한 팩씩 모아 완성하는 확장팩 컬렉션</p></div>
           <div class="hero-progress" aria-label="전체 수집 현황">
-            <div class="progress-ring" id="pack-progress-ring" aria-hidden="true">
-              <div><strong id="pack-rate">—</strong><span>COMPLETE</span></div>
-            </div>
-            <div class="hero-progress-copy">
-              <span>현재 수집 현황</span>
-              <strong><b id="pack-owned">—</b><small> / <span id="pack-total">—</span>팩</small></strong>
-              <p>미수집 <b id="pack-missing">—</b>팩</p>
-            </div>
+            <div class="progress-ring" id="pack-progress-ring" aria-hidden="true"><div><strong id="pack-rate">—</strong><span>COMPLETE</span></div></div>
+            <div class="hero-progress-copy"><span>현재 수집 현황</span><strong><b id="pack-owned">—</b><small> / <span id="pack-total">—</span>팩</small></strong><p>미수집 <b id="pack-missing">—</b>팩</p></div>
           </div>
         </section>
 
@@ -77,52 +53,25 @@
         <section class="catalog-panel" aria-labelledby="pack-catalog-title">
           <div class="catalog-heading">
             <div><p class="section-kicker">BOOSTER PACK CATALOG</p><h2 id="pack-catalog-title">확장팩 목록</h2></div>
-            <p class="catalog-caption">미수집 팩은 흐리게 표시됩니다.</p>
+            <div class="catalog-actions"><p class="catalog-caption">미수집 팩은 흐리게 표시됩니다.</p><button class="print-button" type="button" data-print-page>인쇄 · PDF 저장</button></div>
           </div>
           <div class="pack-filter-panel">
-            <label class="search-field">
-              <span class="search-icon" aria-hidden="true"></span>
-              <span class="sr-only">팩 검색</span>
-              <input id="pack-search" type="search" autocomplete="off" placeholder="팩 이름 또는 코드로 검색" />
-            </label>
-            <div class="pack-filter-row">
-              <div id="era-filters" class="pill-group" role="group" aria-label="시리즈 선택"></div>
-              <div id="pack-status-filters" class="segmented-control" role="group" aria-label="수집 상태 선택">
-                <button class="is-active" type="button" data-status="all">전체</button>
-                <button type="button" data-status="owned">수집완료</button>
-                <button type="button" data-status="missing">미수집</button>
-              </div>
-            </div>
+            <label class="search-field"><span class="search-icon" aria-hidden="true"></span><span class="sr-only">팩 검색</span><input id="pack-search" type="search" autocomplete="off" placeholder="팩 이름 또는 코드로 검색" /></label>
+            <div class="pack-filter-row"><div id="era-filters" class="pill-group" role="group" aria-label="시리즈 선택"></div><div id="pack-status-filters" class="segmented-control" role="group" aria-label="수집 상태 선택"><button class="is-active" type="button" data-status="all">전체</button><button type="button" data-status="owned">수집완료</button><button type="button" data-status="missing">미수집</button></div></div>
           </div>
           <div class="results-bar"><p>검색 결과 <strong id="pack-result-count">—</strong>팩</p></div>
           <div id="pack-groups"></div>
           <div id="pack-empty" class="empty-state" hidden><h3>검색 결과가 없습니다</h3><p>검색어나 필터를 바꿔보세요.</p></div>
         </section>
 
-        <footer class="site-footer">
-          <p>개인 수집 기록을 위한 비공식 팬 사이트입니다. Pokémon 및 관련 명칭은 각 권리자에게 있습니다.</p>
-          <p>수집 현황은 최신 팩 전종수집 파일을 기준으로 합니다.</p>
-        </footer>
+        <footer class="site-footer"><p>개인 수집 기록을 위한 비공식 팬 사이트입니다. Pokémon 및 관련 명칭은 각 권리자에게 있습니다.</p><p>수집 현황은 최신 팩 전종수집 파일을 기준으로 합니다.</p></footer>
       </main>
     </div>
 
     <dialog id="pack-dialog" class="card-dialog pack-dialog">
       <button id="pack-dialog-close" class="dialog-close" type="button" aria-label="닫기">×</button>
-      <div id="pack-dialog-image-wrap" class="dialog-card-image pack-dialog-image-wrap">
-        <span id="pack-dialog-image" class="pack-dialog-image" role="img"></span>
-      </div>
-      <div class="dialog-card-copy">
-        <div class="dialog-badges">
-          <span id="pack-dialog-code" class="number-badge"></span>
-          <span id="pack-dialog-status" class="status-badge"></span>
-        </div>
-        <h2 id="pack-dialog-name"></h2>
-        <p class="dialog-name-en">BOOSTER PACK COLLECTION</p>
-        <dl class="dialog-details">
-          <div><dt>시리즈</dt><dd id="pack-dialog-era"></dd></div>
-          <div><dt>수집 상태</dt><dd id="pack-dialog-ownership"></dd></div>
-        </dl>
-      </div>
+      <div id="pack-dialog-image-wrap" class="dialog-card-image pack-dialog-image-wrap"><span id="pack-dialog-image" class="pack-dialog-image" role="img"></span></div>
+      <div class="dialog-card-copy"><div class="dialog-badges"><span id="pack-dialog-code" class="number-badge"></span><span id="pack-dialog-status" class="status-badge"></span></div><h2 id="pack-dialog-name"></h2><p class="dialog-name-en">BOOSTER PACK COLLECTION</p><dl class="dialog-details"><div><dt>시리즈</dt><dd id="pack-dialog-era"></dd></div><div><dt>수집 상태</dt><dd id="pack-dialog-ownership"></dd></div></dl></div>
     </dialog>
   </body>
 </html>
