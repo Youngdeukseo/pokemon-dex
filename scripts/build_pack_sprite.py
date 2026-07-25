@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+# Source: the public [최종]팩전종수집 Google Sheet exported as XLSX.
 import argparse
 import math
 import statistics
