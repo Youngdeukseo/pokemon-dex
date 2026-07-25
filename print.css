@@ -1,0 +1,73 @@
+.catalog-actions{display:flex;align-items:flex-end;flex-direction:column;gap:10px}
+.print-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:1px solid #dfe3ec;border-radius:11px;background:#fff;color:var(--navy);cursor:pointer;font-size:.72rem;font-weight:800;padding:9px 14px;box-shadow:0 5px 16px rgba(23,35,63,.06);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.print-button::before{content:"";width:14px;height:12px;border:2px solid currentColor;border-radius:2px;box-shadow:inset 0 -4px 0 #fff;background:linear-gradient(to bottom,currentColor 0 3px,transparent 3px)}
+.print-button:hover{transform:translateY(-2px);border-color:#c9ceda;box-shadow:0 9px 22px rgba(23,35,63,.11)}
+.print-button:focus-visible{outline:3px solid rgba(42,117,187,.28);outline-offset:3px}
+.print-button:disabled{cursor:wait;opacity:.65;transform:none}
+@media(max-width:690px){.catalog-actions{align-items:flex-end}.print-button{min-height:36px;font-size:.66rem;padding:7px 10px}}
+
+@media print{
+  @page{size:A4 portrait;margin:9mm}
+  *,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;animation:none!important;transition:none!important}
+  html,body{min-width:0!important;background:#fff!important;color:#111!important}
+  body{font-family:"Noto Sans KR",Arial,sans-serif!important}
+  .site-header,.sidebar,.filter-panel,.pack-filter-panel,.artist-filter-panel,.print-button,.load-more-wrap,.site-footer,.card-dialog,.app-error,.empty-state,.skip-link{display:none!important}
+  .site-layout{display:block!important;max-width:none!important;min-height:0!important}
+  .main-content{width:100%!important;max-width:none!important;padding:0!important}
+  .hero{min-height:0!important;grid-template-columns:1fr auto!important;gap:8mm!important;border-radius:4mm!important;box-shadow:none!important;padding:7mm 8mm!important;page-break-inside:avoid;break-inside:avoid}
+  .hero::before,.hero-glow{display:none!important}
+  .hero h1{font-size:23pt!important}
+  .hero-description{margin-top:3mm!important;font-size:8pt!important;line-height:1.45!important}
+  .eyebrow{margin-bottom:2mm!important;font-size:6pt!important}
+  .hero-progress{gap:4mm!important;min-width:0!important;margin-left:0!important}
+  .progress-ring{width:24mm!important;height:24mm!important}
+  .progress-ring::before{inset:2mm!important}
+  .progress-ring strong{font-size:11pt!important}
+  .progress-ring span{font-size:4.5pt!important}
+  .hero-progress-copy>span,.hero-progress-copy p{font-size:6pt!important}
+  .hero-progress-copy>strong b{font-size:14pt!important}
+  .hero-progress-copy>strong small{font-size:6pt!important}
+  .stats-grid{grid-template-columns:repeat(3,1fr)!important;gap:3mm!important;margin:4mm 0 5mm!important;page-break-inside:avoid;break-inside:avoid}
+  .stat-card{min-height:0!important;border-radius:3mm!important;padding:3mm!important;box-shadow:none!important}
+  .stat-icon{width:9mm!important;height:9mm!important;border-radius:2.5mm!important;font-size:9pt!important}
+  .stat-card>div>span{font-size:6pt!important}
+  .stat-card strong{margin-top:1mm!important}
+  .stat-card strong b{font-size:11pt!important}
+  .stat-card strong small{font-size:6pt!important}
+  .catalog-panel{border:0!important;border-radius:0!important;background:#fff!important;padding:0!important;box-shadow:none!important}
+  .catalog-heading{margin:0 0 3mm!important;page-break-after:avoid;break-after:avoid}
+  .catalog-heading h2{font-size:14pt!important}
+  .section-kicker{margin-bottom:1mm!important;font-size:6pt!important}
+  .catalog-caption{font-size:6pt!important}
+  .catalog-actions{display:block!important;text-align:right!important}
+  .results-bar{min-height:8mm!important;border-bottom:1px solid #bbb!important;page-break-after:avoid;break-after:avoid}
+  .results-bar p{font-size:6.5pt!important}
+  .results-bar .text-button{display:none!important}
+  .artist-selection-summary{margin:0 0 3mm!important;border-radius:2mm!important;padding:2.5mm 3mm!important;page-break-inside:avoid;break-inside:avoid}
+  .artist-selection-summary span,.artist-selection-summary p{font-size:6pt!important}
+  .artist-selection-summary strong{font-size:9pt!important}
+  .card-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:2.2mm!important;min-height:0!important;padding:3mm 0 0!important}
+  .pokemon-card{page-break-inside:avoid!important;break-inside:avoid!important}
+  .pokemon-card-button{border-radius:2.5mm!important;box-shadow:none!important}
+  .card-image-wrap{padding:1.5mm!important}
+  .missing-overlay{top:2mm!important;left:2mm!important;font-size:4.5pt!important;padding:1mm 1.5mm!important}
+  .card-body{min-height:16mm!important;padding:1.8mm!important}
+  .number-badge{font-size:5pt!important}
+  .status-badge{font-size:4.5pt!important;padding:.8mm 1.2mm!important}
+  .card-name-ko{margin-top:1.5mm!important;font-size:6.5pt!important}
+  .card-name-en{margin-top:.6mm!important;font-size:4.5pt!important}
+  .card-meta{font-size:4.3pt!important}
+  .pack-series{margin-top:5mm!important}
+  .pack-series:first-child{margin-top:2mm!important}
+  .pack-series-heading{margin-bottom:2mm!important;page-break-after:avoid;break-after:avoid}
+  .pack-series-heading h3{font-size:11pt!important}
+  .pack-series-heading p{font-size:6pt!important}
+  .pack-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:2.5mm!important}
+  .pack-card{border-radius:3mm!important;box-shadow:none!important;page-break-inside:avoid!important;break-inside:avoid!important}
+  .pack-art{height:42mm!important}
+  .pack-image{width:27mm!important;height:34.5mm!important}
+  .pack-card-body{padding:2mm!important}
+  .pack-code,.pack-status{font-size:5pt!important}
+  .pack-status{padding:.8mm 1.2mm!important}
+  .pack-name{font-size:6.5pt!important}
+}
