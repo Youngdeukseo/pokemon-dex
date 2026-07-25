@@ -18,7 +18,7 @@ function drawSummary(){
   const owned=packs.filter(p=>p.owned).length,total=packs.length,rate=pct(owned,total);
   $("pack-owned").textContent=owned;$("pack-total").textContent=total;$("pack-missing").textContent=total-owned;$("pack-rate").textContent=`${rate}%`;
   $("stat-pack-owned").textContent=owned;$("stat-pack-missing").textContent=total-owned;$("stat-pack-rate").textContent=rate;
-  $("pack-progress-ring").style.setProperty("--progress",`${rate*3.6}deg`);
+  $("pack-progress-ring").style.setProperty("--progress",rate);
 }
 
 function spritePosition(index){
