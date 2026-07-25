@@ -105,5 +105,24 @@
         </footer>
       </main>
     </div>
+
+    <dialog id="pack-dialog" class="card-dialog pack-dialog">
+      <button id="pack-dialog-close" class="dialog-close" type="button" aria-label="닫기">×</button>
+      <div id="pack-dialog-image-wrap" class="dialog-card-image pack-dialog-image-wrap">
+        <span id="pack-dialog-image" class="pack-dialog-image" role="img"></span>
+      </div>
+      <div class="dialog-card-copy">
+        <div class="dialog-badges">
+          <span id="pack-dialog-code" class="number-badge"></span>
+          <span id="pack-dialog-status" class="status-badge"></span>
+        </div>
+        <h2 id="pack-dialog-name"></h2>
+        <p class="dialog-name-en">BOOSTER PACK COLLECTION</p>
+        <dl class="dialog-details">
+          <div><dt>시리즈</dt><dd id="pack-dialog-era"></dd></div>
+          <div><dt>수집 상태</dt><dd id="pack-dialog-ownership"></dd></div>
+        </dl>
+      </div>
+    </dialog>
   </body>
 </html>
