@@ -29,11 +29,44 @@ function spritePosition(index){
   };
 }
 
+function openPackDialog(p){
+  const dialog=$("pack-dialog");
+  const image=$("pack-dialog-image");
+  const imageWrap=$("pack-dialog-image-wrap");
+  const pos=spritePosition(p.i);
+
+  image.style.setProperty("--sprite-x",`${pos.x}%`);
+  image.style.setProperty("--sprite-y",`${pos.y}%`);
+  image.style.setProperty("--pack-a",palettes[p.era][0]);
+  image.style.setProperty("--pack-b",palettes[p.era][1]);
+  image.setAttribute("aria-label",`${p.name} 팩 이미지`);
+  imageWrap.classList.toggle("is-missing",!p.owned);
+
+  $("pack-dialog-code").textContent=p.code;
+  $("pack-dialog-status").textContent=p.owned?"수집완료":"미수집";
+  $("pack-dialog-status").className=`status-badge ${p.owned?"is-owned":"is-missing"}`;
+  $("pack-dialog-name").textContent=p.name;
+  $("pack-dialog-era").textContent=`${p.era} 시리즈`;
+  $("pack-dialog-ownership").textContent=p.owned?"보유 중":"아직 미수집";
+
+  if(typeof dialog.showModal==="function")dialog.showModal();
+  else dialog.setAttribute("open","");
+}
+
+function closePackDialog(){
+  const dialog=$("pack-dialog");
+  if(typeof dialog.close==="function")dialog.close();
+  else dialog.removeAttribute("open");
+}
+
 function createCard(p){
   const el=document.createElement("article");
   el.className=`pack-card${p.owned?"":" is-missing"}`;
   el.style.setProperty("--pack-a",palettes[p.era][0]);
   el.style.setProperty("--pack-b",palettes[p.era][1]);
+  el.tabIndex=0;
+  el.setAttribute("role","button");
+  el.setAttribute("aria-label",`${p.name} 상세 보기`);
 
   const art=document.createElement("div");
   art.className="pack-art";
@@ -59,6 +92,13 @@ function createCard(p){
   name.className="pack-name";name.textContent=p.name;
   body.append(top,name);
   el.append(art,body);
+
+  el.addEventListener("click",()=>openPackDialog(p));
+  el.addEventListener("keydown",event=>{
+    if(event.key!=="Enter"&&event.key!==" ")return;
+    event.preventDefault();
+    openPackDialog(p);
+  });
   return el;
 }
 
@@ -90,4 +130,12 @@ function initFilters(){
   $("pack-search").addEventListener("input",e=>{query=e.target.value;render()});
 }
 
-drawSummary();initFilters();render();
+function initDialog(){
+  const dialog=$("pack-dialog");
+  $("pack-dialog-close").addEventListener("click",closePackDialog);
+  dialog.addEventListener("click",event=>{
+    if(event.target===dialog)closePackDialog();
+  });
+}
+
+drawSummary();initFilters();initDialog();render();
