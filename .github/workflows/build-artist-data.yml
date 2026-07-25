@@ -22,32 +22,67 @@ jobs:
           python-version: "3.12"
       - name: Build artist data from public Google Sheet
         run: python scripts/build_artist_data.py data/artists.json
-      - name: Publish generated artist data
+      - name: Enable artist menu links
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+
+          replacement = '''<a class="collection-link" href="./artists.html">
+            <span class="collection-icon" aria-hidden="true">03</span>
+            <span><strong>작가 도감</strong><small>29 ARTISTS</small></span>
+          </a>'''
+          pattern = re.compile(
+              r'<span class="collection-link is-upcoming" aria-disabled="true">\s*'
+              r'<span class="collection-icon" aria-hidden="true">03</span>\s*'
+              r'<span>\s*<strong>작가 도감</strong>\s*<small>준비 중</small>\s*</span>\s*'
+              r'</span>',
+              re.S,
+          )
+
+          for file_name in ("index.html", "packs.html"):
+              path = Path(file_name)
+              text = path.read_text(encoding="utf-8")
+              updated, count = pattern.subn(replacement, text, count=1)
+              if count != 1:
+                  raise RuntimeError(f"Could not enable artist menu in {file_name}")
+              path.write_text(updated, encoding="utf-8")
+          PY
+      - name: Publish artist data and menu links
         env:
           GH_TOKEN: ${{ github.token }}
           TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
-          ENDPOINT="repos/${GITHUB_REPOSITORY}/contents/data/artists.json"
-          EXISTING_SHA="$(gh api --method GET "${ENDPOINT}" -f ref="${TARGET_BRANCH}" --jq .sha 2>/dev/null || true)"
-          LOCAL_SHA="$(git hash-object data/artists.json)"
-          if [ "${EXISTING_SHA}" = "${LOCAL_SHA}" ]; then
-            echo "Artist data is already current."
-            exit 0
-          fi
-          python - "${TARGET_BRANCH}" "${EXISTING_SHA}" <<'PY'
+          publish_file() {
+            FILE_PATH="$1"
+            COMMIT_MESSAGE="$2"
+            SAFE_NAME="$(echo "${FILE_PATH}" | tr '/.' '--')"
+            ENDPOINT="repos/${GITHUB_REPOSITORY}/contents/${FILE_PATH}"
+            EXISTING_SHA="$(gh api --method GET "${ENDPOINT}" -f ref="${TARGET_BRANCH}" --jq .sha 2>/dev/null || true)"
+            LOCAL_SHA="$(git hash-object "${FILE_PATH}")"
+            if [ "${EXISTING_SHA}" = "${LOCAL_SHA}" ]; then
+              echo "${FILE_PATH} is already current."
+              return
+            fi
+            python - "${TARGET_BRANCH}" "${EXISTING_SHA}" "${FILE_PATH}" "${COMMIT_MESSAGE}" "/tmp/${SAFE_NAME}.json" <<'PY'
           import base64
           import json
           import sys
           from pathlib import Path
 
-          branch, existing_sha = sys.argv[1:3]
+          branch, existing_sha, file_path, message, payload_path = sys.argv[1:6]
           payload = {
-              "message": "Update artist dex data",
+              "message": message,
               "branch": branch,
-              "content": base64.b64encode(Path("data/artists.json").read_bytes()).decode("ascii"),
+              "content": base64.b64encode(Path(file_path).read_bytes()).decode("ascii"),
           }
           if existing_sha:
               payload["sha"] = existing_sha
-          Path("/tmp/artist-data-payload.json").write_text(json.dumps(payload), encoding="utf-8")
+          Path(payload_path).write_text(json.dumps(payload), encoding="utf-8")
           PY
-          gh api --method PUT "${ENDPOINT}" --input /tmp/artist-data-payload.json
+            gh api --method PUT "${ENDPOINT}" --input "/tmp/${SAFE_NAME}.json"
+          }
+
+          publish_file "data/artists.json" "Update artist dex data"
+          publish_file "index.html" "Enable artist dex menu"
+          publish_file "packs.html" "Enable artist dex menu"
