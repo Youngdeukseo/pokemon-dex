@@ -1,12 +1,12 @@
 .firebase-auth-panel{display:flex;align-items:center;gap:8px;min-width:0;border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 7px 6px 10px;box-shadow:0 5px 16px rgba(23,35,63,.05)}
 .firebase-auth-dot{width:8px;height:8px;flex:0 0 auto;border-radius:50%;background:#a8adba;box-shadow:0 0 0 3px rgba(168,173,186,.13)}
-.firebase-auth-panel.is-admin .firebase-auth-dot{background:#21a179;box-shadow:0 0 0 3px rgba(33,161,121,.13)}
-.firebase-auth-panel.is-readonly .firebase-auth-dot{background:#ffad2f;box-shadow:0 0 0 3px rgba(255,173,47,.14)}
-#firebase-auth-status{max-width:210px;overflow:hidden;color:#73798a;font-size:.65rem;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
+.firebase-auth-panel.is-account .firebase-auth-dot{background:#21a179;box-shadow:0 0 0 3px rgba(33,161,121,.13)}
+.firebase-auth-panel.is-owner .firebase-auth-dot{background:#2a75bb;box-shadow:0 0 0 3px rgba(42,117,187,.14)}
+#firebase-auth-status{max-width:230px;overflow:hidden;color:#73798a;font-size:.65rem;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
 .firebase-auth-panel button{min-height:30px;border:0;border-radius:999px;background:#17233f;color:#fff;cursor:pointer;font-size:.62rem;font-weight:800;padding:6px 10px}
 .firebase-auth-panel button:hover{background:#26365b}
 .firebase-auth-panel button:focus-visible{outline:3px solid rgba(42,117,187,.25);outline-offset:2px}
-.firebase-auth-panel button[hidden],.admin-only-control[hidden]{display:none!important}
+.firebase-auth-panel button[hidden],.account-only-control[hidden]{display:none!important}
 .catalog-actions{display:flex;align-items:flex-end;flex-direction:column;gap:10px}
 .collection-manager-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}
 .manager-button{min-height:34px;border:1px solid #dfe3ec;border-radius:9px;background:#fff;color:#596078;cursor:pointer;font-size:.66rem;font-weight:800;padding:7px 10px;transition:border-color .18s ease,transform .18s ease,background .18s ease}
@@ -44,6 +44,6 @@
 .has-collection-record .pokemon-card-button{border-color:#ccd9e8}
 .collection-manager-hidden{display:none!important}
 .collection-detail-row dd{overflow-wrap:anywhere}
-@media(max-width:1080px){#firebase-auth-status{max-width:145px}.header-chip{display:none}}
+@media(max-width:1080px){#firebase-auth-status{max-width:155px}.header-chip{display:none}}
 @media(max-width:690px){.site-header{gap:10px}.firebase-auth-panel{margin-left:auto;padding-left:8px}.firebase-auth-dot,#firebase-auth-status{display:none}.firebase-auth-panel button{font-size:.58rem;padding:6px 8px}.catalog-actions{gap:8px}.collection-manager-actions{justify-content:flex-end}.manager-button{font-size:.6rem;padding:6px 8px}.collection-manager-notice{align-items:flex-start;flex-direction:column;gap:4px;margin-top:14px}.collection-editor-grid{grid-template-columns:1fr}.collection-editor-wide{grid-column:auto}.collection-editor-actions{align-items:stretch;flex-direction:column-reverse}.collection-editor-actions button{width:100%}.collection-mini-badge--trade{display:none}}
 @media print{.firebase-auth-panel,.collection-manager-actions,.collection-manager-notice,.collection-editor{display:none!important}}
