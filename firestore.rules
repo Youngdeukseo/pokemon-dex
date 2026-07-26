@@ -2,20 +2,14 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isDexAdmin() {
-      return request.auth != null
-        && request.auth.token.email_verified == true
-        && request.auth.token.email == "REPLACE_WITH_ADMIN_GOOGLE_EMAIL";
+    // 각 사용자는 자신의 전국도감 문서만 읽고 수정할 수 있습니다.
+    // 소유자 계정과 신규 계정의 시작 상태는 문서의 baseMode로 구분합니다.
+    match /users/{userId}/collections/nationalDex {
+      allow read, create, update, delete: if request.auth != null
+        && request.auth.uid == userId;
     }
 
-    // 공개 도감 데이터는 누구나 읽을 수 있지만 지정된 관리자만 수정할 수 있습니다.
-    match /collections/nationalDex {
-      allow read: if true;
-      allow create, update: if isDexAdmin();
-      allow delete: if false;
-    }
-
-    // 그 외 모든 Firestore 경로는 기본적으로 차단합니다.
+    // 그 외 모든 Firestore 경로는 차단합니다.
     match /{document=**} {
       allow read, write: if false;
     }
