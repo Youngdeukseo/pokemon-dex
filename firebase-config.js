@@ -1,8 +1,8 @@
 "use strict";
 
 // Firebase 콘솔에서 웹 앱을 등록한 뒤 아래 값을 채우세요.
-// 이 설정 객체는 웹 앱에서 공개되는 식별 정보이며, 실제 쓰기 권한은
-// Firestore Security Rules와 adminEmails로 제한합니다.
+// ownerEmail 계정은 기존 전국도감 상태를 그대로 이어서 사용합니다.
+// 그 외 새 Google 계정은 보유 0종 상태로 개인 도감이 생성됩니다.
 window.POKEMON_DEX_FIREBASE = {
   enabled: false,
   config: {
@@ -13,6 +13,7 @@ window.POKEMON_DEX_FIREBASE = {
     messagingSenderId: "",
     appId: "",
   },
-  adminEmails: [],
-  documentPath: ["collections", "nationalDex"],
+  ownerEmail: "",
+  userCollection: "collections",
+  userDocument: "nationalDex",
 };
