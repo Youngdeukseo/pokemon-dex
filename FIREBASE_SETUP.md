@@ -1,6 +1,11 @@
-# Firebase 연결 절차
+# Firebase 계정별 도감 연결 절차
 
-전국도감 사이트 코드는 Google 로그인과 Firestore 동기화를 사용할 준비가 되어 있습니다. 아래 설정을 한 번 완료하면 방문자는 열람만 가능하고, 지정한 Google 계정만 카드를 수정할 수 있습니다.
+전국도감은 Google 계정마다 별도의 개인 수집 데이터를 사용하도록 구현되어 있습니다.
+
+- `ownerEmail`로 지정한 기존 소유자 계정: 현재 사이트의 전국도감 보유 상태를 그대로 이어서 시작
+- 그 외 새 Google 계정: 1,025종 전부 미보유 상태로 시작
+- 각 사용자는 자신의 Firestore 문서만 읽고 수정 가능
+- 로그인하지 않은 방문자: 현재 공개 도감 열람만 가능
 
 ## 1. Firebase 프로젝트와 웹 앱 만들기
 
@@ -19,12 +24,19 @@
 
 1. Firebase Console → Firestore Database에서 데이터베이스를 만듭니다.
 2. 위치는 가까운 리전을 선택합니다.
-3. Rules 탭에 저장소의 `firestore.rules` 내용을 붙여 넣습니다.
-4. `REPLACE_WITH_ADMIN_GOOGLE_EMAIL`을 실제 관리자 Google 이메일로 바꾼 뒤 게시합니다.
+3. Rules 탭에 저장소의 `firestore.rules` 전체 내용을 붙여 넣고 게시합니다.
+
+보안 규칙은 다음 계정별 경로만 허용합니다.
+
+```text
+users/{로그인 UID}/collections/nationalDex
+```
+
+사용자는 자신의 UID 경로에만 접근할 수 있으므로 다른 사용자의 보유 카드 데이터를 읽거나 수정할 수 없습니다.
 
 ## 4. 사이트 설정값 넣기
 
-`firebase-config.js`를 다음 원칙으로 수정합니다.
+`firebase-config.js`를 아래 원칙으로 수정합니다.
 
 ```javascript
 window.POKEMON_DEX_FIREBASE = {
@@ -37,23 +49,32 @@ window.POKEMON_DEX_FIREBASE = {
     messagingSenderId: "Firebase에서 받은 값",
     appId: "Firebase에서 받은 값",
   },
-  adminEmails: ["관리자 Google 이메일"],
-  documentPath: ["collections", "nationalDex"],
+  ownerEmail: "현재 도감 상태를 유지할 Google 이메일",
+  userCollection: "collections",
+  userDocument: "nationalDex",
 };
 ```
+
+`ownerEmail`은 반드시 기존 전국도감 994종 보유 상태를 이어서 사용할 Google 계정으로 지정합니다. 다른 계정은 최초 로그인 시 `baseMode: empty`로 생성되어 보유 0종으로 시작합니다.
 
 서비스 계정 JSON이나 비공개 키는 필요하지 않으며 저장소에 올리면 안 됩니다.
 
 ## 5. 기존 브라우저 기록 이전
 
-관리자 Google 계정으로 로그인한 뒤 전국도감의 `기존 기록 이전` 버튼을 누르면 이전 localStorage 기록을 Firestore로 옮길 수 있습니다.
+Google 로그인 후 전국도감의 `기존 기록 이전` 버튼을 누르면 해당 브라우저의 예전 localStorage 기록을 현재 로그인 계정의 Firestore 문서로 옮길 수 있습니다.
 
-## 데이터 구조
-
-Firestore 문서 경로는 다음 하나를 사용합니다.
+## 계정별 데이터 구조
 
 ```text
-collections/nationalDex
+users
+└─ {uid}
+   └─ collections
+      └─ nationalDex
+         ├─ baseMode: "legacy" 또는 "empty"
+         ├─ email
+         ├─ displayName
+         └─ overrides
 ```
 
-이 문서의 `overrides` 맵 안에 전국도감 번호별 실제 보유 카드 정보가 저장됩니다. 공개 페이지에서는 한 문서만 읽기 때문에 카드마다 별도 문서를 읽는 구조보다 비용과 로딩 부담이 작습니다.
+- `legacy`: 공개 전국도감의 현재 보유 상태를 기본값으로 사용하며 변경된 카드만 `overrides`에 저장
+- `empty`: 모든 카드를 미보유로 시작하며 사용자가 등록한 카드만 `overrides`에 저장
