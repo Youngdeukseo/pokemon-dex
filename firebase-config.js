@@ -13,7 +13,7 @@ window.POKEMON_DEX_FIREBASE = {
     messagingSenderId: "",
     appId: "",
   },
-  ownerEmail: "",
+  ownerEmail: "onesmemory@gmail.com",
   userCollection: "collections",
   userDocument: "nationalDex",
 };
