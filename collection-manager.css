@@ -7,6 +7,7 @@
 .collection-manager-notice{display:flex;align-items:center;gap:13px;margin-top:18px;border:1px solid #dfe8f4;border-radius:14px;background:#f7fbff;padding:12px 14px}
 .collection-manager-notice strong{flex:0 0 auto;color:#2a75bb;font-size:.72rem}
 .collection-manager-notice span{color:#747b8f;font-size:.68rem;line-height:1.55}
+#card-dialog{overflow-y:auto}
 .collection-editor{margin-top:22px;border-top:1px solid #e7e9f1;padding-top:22px}
 .collection-editor-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .collection-editor-heading>div{display:grid;gap:4px}
