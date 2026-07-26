@@ -3,19 +3,20 @@
 (function () {
   const SDK_VERSION = "12.16.0";
   const CONFIG = window.POKEMON_DEX_FIREBASE || {};
-  const COLLECTION_DOC = CONFIG.documentPath || ["collections", "nationalDex"];
   const LOCAL_STORAGE_KEY = "pokemonDexCollectionOverridesV1";
-  const EXPORT_FORMAT = "pokemon-dex-collection-v2";
+  const EXPORT_FORMAT = "pokemon-dex-user-collection-v1";
   const originalFetch = window.fetch.bind(window);
 
   let firebase = null;
-  let collectionRef = null;
+  let userDocumentRef = null;
+  let currentUser = null;
+  let accountProfile = null;
   let remoteOverrides = {};
   let currentNumber = null;
-  let currentUser = null;
-  let isAdmin = false;
-  let initialSnapshotLoaded = false;
+  let tradeMode = false;
+  let snapshotStarted = false;
   let resolveReady;
+
   const firebaseReady = new Promise((resolve) => {
     resolveReady = resolve;
   });
@@ -32,6 +33,14 @@
     return String(value || "").trim().toLowerCase();
   }
 
+  function isOwnerAccount(user) {
+    return Boolean(
+      user &&
+        normalizeEmail(CONFIG.ownerEmail) &&
+        normalizeEmail(user.email) === normalizeEmail(CONFIG.ownerEmail),
+    );
+  }
+
   function configured() {
     const config = CONFIG.config || {};
     return Boolean(
@@ -39,16 +48,23 @@
         config.apiKey &&
         config.authDomain &&
         config.projectId &&
-        Array.isArray(CONFIG.adminEmails) &&
-        CONFIG.adminEmails.length,
+        normalizeEmail(CONFIG.ownerEmail),
     );
+  }
+
+  function canEdit() {
+    return Boolean(currentUser && firebase && userDocumentRef);
   }
 
   function normalizeOverride(value) {
     if (!value || typeof value !== "object" || Array.isArray(value)) return null;
-    const tradeStatus = Object.hasOwn(tradeLabels, value.tradeStatus)
+    const tradeStatus = Object.prototype.hasOwnProperty.call(
+      tradeLabels,
+      value.tradeStatus,
+    )
       ? value.tradeStatus
       : "none";
+
     return {
       owned: Boolean(value.owned),
       setCode: String(value.setCode || "").trim(),
@@ -65,7 +81,10 @@
 
   function sanitizeOverrides(source) {
     const cleaned = {};
-    if (!source || typeof source !== "object" || Array.isArray(source)) return cleaned;
+    if (!source || typeof source !== "object" || Array.isArray(source)) {
+      return cleaned;
+    }
+
     for (const [key, value] of Object.entries(source)) {
       const number = Number(key);
       const item = normalizeOverride(value);
@@ -77,9 +96,10 @@
   }
 
   function applyOverrides(data) {
-    const overrides = sanitizeOverrides(remoteOverrides);
-    for (const record of data.records || []) {
-      const item = overrides[String(record.number)];
+    const records = data.records || [];
+    const baseMode = currentUser ? accountProfile?.baseMode || "empty" : "public";
+
+    for (const record of records) {
       record.originalImageUrl = record.imageUrl;
       record.actualSet = "";
       record.actualCardNumber = "";
@@ -87,7 +107,15 @@
       record.quantity = record.owned ? 1 : 0;
       record.tradeStatus = "none";
       record.collectionNote = "";
+
+      if (baseMode === "empty") {
+        record.owned = false;
+        record.quantity = 0;
+      }
+
+      const item = normalizeOverride(remoteOverrides[String(record.number)]);
       if (!item) continue;
+
       record.owned = item.owned;
       record.actualSet = item.setCode;
       record.actualCardNumber = item.cardNumber;
@@ -98,7 +126,6 @@
       if (item.imageUrl) record.imageUrl = item.imageUrl;
     }
 
-    const records = data.records || [];
     const owned = records.filter((record) => record.owned).length;
     data.meta.owned = owned;
     data.meta.missing = records.length - owned;
@@ -116,12 +143,14 @@
         ? Number(((generation.owned / generationRecords.length) * 100).toFixed(1))
         : 0;
     }
+
     return data;
   }
 
-  window.fetch = async function firebaseManagedFetch(input, init) {
+  window.fetch = async function accountManagedFetch(input, init) {
     const response = await originalFetch(input, init);
     const url = typeof input === "string" ? input : input?.url || "";
+
     if (!response.ok || !/data\/pokedex\.json(?:$|[?#])/.test(url)) {
       return response;
     }
@@ -129,7 +158,7 @@
     try {
       await Promise.race([
         firebaseReady,
-        new Promise((resolve) => window.setTimeout(resolve, 7000)),
+        new Promise((resolve) => window.setTimeout(resolve, 8000)),
       ]);
       const data = applyOverrides(await response.clone().json());
       const headers = new Headers(response.headers);
@@ -141,15 +170,95 @@
         headers,
       });
     } catch (error) {
-      console.warn("Firebase 도감 데이터를 적용하지 못했습니다.", error);
+      console.warn("계정별 도감 데이터를 적용하지 못했습니다.", error);
       return response;
     }
   };
 
+  async function firstAuthUser(auth, authModule) {
+    return new Promise((resolve, reject) => {
+      let unsubscribe = () => {};
+      unsubscribe = authModule.onAuthStateChanged(
+        auth,
+        (user) => {
+          unsubscribe();
+          resolve(user);
+        },
+        reject,
+      );
+    });
+  }
+
+  async function loadAccountDocument(user) {
+    const { firestoreModule, db } = firebase;
+    userDocumentRef = firestoreModule.doc(
+      db,
+      "users",
+      user.uid,
+      CONFIG.userCollection || "collections",
+      CONFIG.userDocument || "nationalDex",
+    );
+
+    const snapshot = await firestoreModule.getDoc(userDocumentRef);
+    if (snapshot.exists()) {
+      const data = snapshot.data() || {};
+      accountProfile = {
+        baseMode: data.baseMode === "legacy" ? "legacy" : "empty",
+        email: data.email || user.email || "",
+      };
+      remoteOverrides = sanitizeOverrides(data.overrides || {});
+      return;
+    }
+
+    const baseMode = isOwnerAccount(user) ? "legacy" : "empty";
+    accountProfile = { baseMode, email: user.email || "" };
+    remoteOverrides = {};
+
+    await firestoreModule.setDoc(userDocumentRef, {
+      baseMode,
+      email: user.email || "",
+      displayName: user.displayName || "",
+      overrides: {},
+      createdAt: firestoreModule.serverTimestamp(),
+      updatedAt: firestoreModule.serverTimestamp(),
+    });
+  }
+
+  function subscribeToAccountDocument() {
+    if (!userDocumentRef || snapshotStarted) return;
+    snapshotStarted = true;
+    let firstSnapshot = true;
+
+    firebase.firestoreModule.onSnapshot(
+      userDocumentRef,
+      (snapshot) => {
+        const data = snapshot.data() || {};
+        const nextProfile = {
+          baseMode: data.baseMode === "legacy" ? "legacy" : "empty",
+          email: data.email || currentUser?.email || "",
+        };
+        const nextOverrides = sanitizeOverrides(data.overrides || {});
+        const changed =
+          JSON.stringify(nextProfile) !== JSON.stringify(accountProfile) ||
+          JSON.stringify(nextOverrides) !== JSON.stringify(remoteOverrides);
+
+        accountProfile = nextProfile;
+        remoteOverrides = nextOverrides;
+
+        if (!firstSnapshot && changed) window.location.reload();
+        firstSnapshot = false;
+      },
+      (error) => {
+        console.warn("개인 도감 실시간 동기화에 실패했습니다.", error);
+      },
+    );
+  }
+
   async function initializeFirebase() {
     if (!configured()) {
-      resolveReady();
       document.documentElement.classList.add("firebase-not-configured");
+      resolveReady();
+      updateAuthUi();
       return;
     }
 
@@ -166,45 +275,24 @@
       auth.useDeviceLanguage();
       await authModule.setPersistence(auth, authModule.browserLocalPersistence);
 
-      collectionRef = firestoreModule.doc(db, ...COLLECTION_DOC);
-      firebase = { auth, authModule, firestoreModule };
+      firebase = { auth, db, authModule, firestoreModule };
 
       try {
         await authModule.getRedirectResult(auth);
       } catch (error) {
-        console.warn("Google 로그인 결과를 확인하지 못했습니다.", error);
+        console.warn("Google 로그인 리디렉션 결과를 확인하지 못했습니다.", error);
       }
 
-      const snapshot = await firestoreModule.getDoc(collectionRef);
-      remoteOverrides = sanitizeOverrides(snapshot.data()?.overrides || {});
-      initialSnapshotLoaded = true;
+      currentUser = await firstAuthUser(auth, authModule);
+      if (currentUser) {
+        await loadAccountDocument(currentUser);
+        subscribeToAccountDocument();
+      }
+
       resolveReady();
-
-      authModule.onAuthStateChanged(auth, (user) => {
-        currentUser = user;
-        const adminEmails = CONFIG.adminEmails.map(normalizeEmail);
-        isAdmin = Boolean(
-          user && user.emailVerified && adminEmails.includes(normalizeEmail(user.email)),
-        );
-        updateAuthUi();
-        updateEditorAccess();
-      });
-
-      firestoreModule.onSnapshot(
-        collectionRef,
-        (nextSnapshot) => {
-          const next = sanitizeOverrides(nextSnapshot.data()?.overrides || {});
-          const changed = JSON.stringify(next) !== JSON.stringify(remoteOverrides);
-          remoteOverrides = next;
-          if (initialSnapshotLoaded && changed) {
-            window.location.reload();
-          }
-          initialSnapshotLoaded = true;
-        },
-        (error) => {
-          console.warn("Firestore 실시간 동기화에 실패했습니다.", error);
-        },
-      );
+      updateAuthUi();
+      updateAccountAccess();
+      updateNotice();
     } catch (error) {
       console.error("Firebase 초기화에 실패했습니다.", error);
       document.documentElement.classList.add("firebase-error");
@@ -224,6 +312,7 @@
 
   function createAuthUi() {
     if (document.querySelector("#firebase-auth-panel")) return;
+
     const panel = document.createElement("div");
     panel.id = "firebase-auth-panel";
     panel.className = "firebase-auth-panel";
@@ -233,6 +322,7 @@
       <button id="firebase-login" type="button">Google 로그인</button>
       <button id="firebase-logout" type="button" hidden>로그아웃</button>
     `;
+
     document.querySelector(".site-header")?.append(panel);
     panel.querySelector("#firebase-login")?.addEventListener("click", signIn);
     panel.querySelector("#firebase-logout")?.addEventListener("click", signOutUser);
@@ -242,35 +332,37 @@
   function updateAuthUi(error) {
     const panel = document.querySelector("#firebase-auth-panel");
     if (!panel) return;
+
     const status = panel.querySelector("#firebase-auth-status");
     const login = panel.querySelector("#firebase-login");
     const logout = panel.querySelector("#firebase-logout");
-    panel.classList.toggle("is-admin", isAdmin);
-    panel.classList.toggle("is-readonly", Boolean(currentUser && !isAdmin));
+    panel.classList.toggle("is-account", Boolean(currentUser));
+    panel.classList.toggle("is-owner", isOwnerAccount(currentUser));
 
     if (!configured()) {
-      status.textContent = "Firebase 설정 필요 · 읽기 전용";
+      status.textContent = "Firebase 설정 필요 · 공개 도감";
       login.hidden = true;
       logout.hidden = true;
       return;
     }
+
     if (error || document.documentElement.classList.contains("firebase-error")) {
-      status.textContent = "Firebase 연결 오류 · 읽기 전용";
+      status.textContent = "Firebase 연결 오류 · 공개 도감";
       login.hidden = false;
       logout.hidden = true;
       return;
     }
+
     if (!currentUser) {
-      status.textContent = "방문자 · 읽기 전용";
+      status.textContent = "방문자 · 공개 도감";
       login.hidden = false;
       logout.hidden = true;
       return;
     }
-    if (isAdmin) {
-      status.textContent = `${currentUser.displayName || currentUser.email} · 관리자`;
-    } else {
-      status.textContent = `${currentUser.displayName || currentUser.email} · 열람 전용`;
-    }
+
+    const name = currentUser.displayName || currentUser.email || "내 계정";
+    const startLabel = accountProfile?.baseMode === "legacy" ? "기존 도감 유지" : "0종부터 시작";
+    status.textContent = `${name} · ${startLabel}`;
     login.hidden = true;
     logout.hidden = false;
   }
@@ -280,12 +372,14 @@
     const { auth, authModule } = firebase;
     const provider = new authModule.GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
+
     try {
       const mobile = window.matchMedia("(max-width: 690px), (pointer: coarse)").matches;
       if (mobile) {
         await authModule.signInWithRedirect(auth, provider);
       } else {
         await authModule.signInWithPopup(auth, provider);
+        window.location.reload();
       }
     } catch (error) {
       if (error.code !== "auth/popup-closed-by-user") {
@@ -297,26 +391,50 @@
   async function signOutUser() {
     if (!firebase) return;
     await firebase.authModule.signOut(firebase.auth);
+    window.location.reload();
   }
 
   function createManagementControls() {
     const actions = document.querySelector(".catalog-actions");
     if (!actions || actions.querySelector(".collection-manager-actions")) return;
+
     const wrap = document.createElement("div");
     wrap.className = "collection-manager-actions";
     wrap.append(
       makeButton("미보유 목록", "manager-button", showMissing),
       makeButton("교환 가능", "manager-button", showTradeable),
-      makeButton("백업 내보내기", "manager-button admin-only-control", exportData),
-      makeButton("기존 기록 이전", "manager-button admin-only-control", migrateLocalData),
+      makeButton("내 도감 백업", "manager-button account-only-control", exportData),
+      makeButton("기존 기록 이전", "manager-button account-only-control", migrateLocalData),
     );
     actions.append(wrap);
 
     const notice = document.createElement("div");
+    notice.id = "collection-account-notice";
     notice.className = "collection-manager-notice";
-    notice.innerHTML =
-      "<strong>Firebase 동기화</strong><span>방문자는 열람만 가능하며, 지정된 Google 관리자 계정으로 로그인한 경우에만 실제 보유 카드를 수정할 수 있습니다.</span>";
     document.querySelector(".filter-panel")?.before(notice);
+    updateNotice();
+  }
+
+  function updateNotice() {
+    const notice = document.querySelector("#collection-account-notice");
+    if (!notice) return;
+
+    if (!configured()) {
+      notice.innerHTML =
+        "<strong>Firebase 연결 대기</strong><span>설정값을 연결하면 Google 계정별 개인 도감이 활성화됩니다.</span>";
+      return;
+    }
+
+    if (!currentUser) {
+      notice.innerHTML =
+        "<strong>계정별 개인 도감</strong><span>Google 로그인 후 자신의 보유 카드만 수정할 수 있습니다. 다른 사용자의 데이터에는 접근할 수 없습니다.</span>";
+      return;
+    }
+
+    const description = accountProfile?.baseMode === "legacy"
+      ? "현재 전국도감 보유 상태를 그대로 이어서 사용하는 소유자 계정입니다."
+      : "새 계정으로 생성되어 모든 포켓몬이 미보유 상태에서 시작합니다.";
+    notice.innerHTML = `<strong>내 개인 도감</strong><span>${description}</span>`;
   }
 
   function createDialogEditor() {
@@ -324,14 +442,15 @@
     const details = dialog?.querySelector(".dialog-details");
     if (!dialog || !details || dialog.querySelector("#collection-editor")) return;
 
-    const extraRows = [
+    const rows = [
       ["실제 세트", "dialog-actual-set"],
       ["실제 카드번호", "dialog-actual-number"],
       ["레어도", "dialog-actual-rarity"],
       ["수량", "dialog-actual-quantity"],
       ["교환 상태", "dialog-trade-status"],
     ];
-    for (const [label, id] of extraRows) {
+
+    for (const [label, id] of rows) {
       const row = document.createElement("div");
       row.className = "collection-detail-row";
       row.innerHTML = `<dt>${label}</dt><dd id="${id}">—</dd>`;
@@ -340,10 +459,10 @@
 
     const editor = document.createElement("section");
     editor.id = "collection-editor";
-    editor.className = "collection-editor admin-only-control";
+    editor.className = "collection-editor account-only-control";
     editor.innerHTML = `
       <div class="collection-editor-heading">
-        <div><span>MY CARD RECORD</span><strong>실제 보유 카드 입력</strong></div>
+        <div><span>MY CARD RECORD</span><strong>내 실제 보유 카드 입력</strong></div>
         <label class="owned-switch"><input id="edit-owned" type="checkbox" /><span>보유</span></label>
       </div>
       <div class="collection-editor-grid">
@@ -357,10 +476,11 @@
       </div>
       <div class="collection-editor-actions">
         <button id="collection-reset-card" class="manager-button manager-button--danger" type="button">이 카드 입력 초기화</button>
-        <button id="collection-save-card" class="primary-button" type="button">Firebase에 저장</button>
+        <button id="collection-save-card" class="primary-button" type="button">내 계정에 저장</button>
       </div>
-      <p class="collection-save-hint">저장 내용은 Firestore에 기록되어 휴대전화와 PC에서 동일하게 표시됩니다.</p>
+      <p class="collection-save-hint">저장 내용은 로그인한 Google 계정의 Firestore 문서에만 기록됩니다.</p>
     `;
+
     details.after(editor);
     editor.querySelector("#collection-save-card")?.addEventListener("click", saveCurrent);
     editor.querySelector("#collection-reset-card")?.addEventListener("click", resetCurrent);
@@ -369,12 +489,12 @@
       if (event.currentTarget.checked && Number(quantity.value) < 1) quantity.value = "1";
       if (!event.currentTarget.checked) quantity.value = "0";
     });
-    updateEditorAccess();
+    updateAccountAccess();
   }
 
-  function updateEditorAccess() {
-    document.querySelectorAll(".admin-only-control").forEach((element) => {
-      element.hidden = !isAdmin;
+  function updateAccountAccess() {
+    document.querySelectorAll(".account-only-control").forEach((element) => {
+      element.hidden = !canEdit();
     });
   }
 
@@ -387,9 +507,11 @@
   function fillEditor(number) {
     if (!number) return;
     currentNumber = number;
+
     const item = normalizeOverride(remoteOverrides[String(number)]);
     const dialog = document.querySelector("#card-dialog");
     if (!dialog) return;
+
     const owned = item?.owned ?? dialog.querySelector("#dialog-status")?.classList.contains("is-owned");
     const setValue = (selector, value) => {
       const element = dialog.querySelector(selector);
@@ -416,22 +538,38 @@
     setText("#dialog-trade-status", tradeLabels[item?.tradeStatus || "none"]);
   }
 
-  function requireAdmin() {
-    if (!isAdmin || !firebase || !collectionRef) {
-      alert("지정된 Google 관리자 계정으로 로그인해야 수정할 수 있습니다.");
+  function requireAccount() {
+    if (!canEdit()) {
+      alert("Google 계정으로 로그인해야 내 도감을 수정할 수 있습니다.");
       return false;
     }
     return true;
   }
 
+  async function writeAccountOverrides(nextOverrides) {
+    await firebase.firestoreModule.setDoc(
+      userDocumentRef,
+      {
+        baseMode: accountProfile?.baseMode || "empty",
+        email: currentUser.email || "",
+        displayName: currentUser.displayName || "",
+        overrides: nextOverrides,
+        updatedAt: firebase.firestoreModule.serverTimestamp(),
+      },
+      { merge: true },
+    );
+  }
+
   async function saveCurrent() {
-    if (!currentNumber || !requireAdmin()) return;
+    if (!currentNumber || !requireAccount()) return;
+
     const dialog = document.querySelector("#card-dialog");
     const saveButton = dialog.querySelector("#collection-save-card");
     const owned = dialog.querySelector("#edit-owned").checked;
     let quantity = Math.max(0, Number(dialog.querySelector("#edit-quantity").value) || 0);
     if (owned && quantity < 1) quantity = 1;
     if (!owned) quantity = 0;
+
     const item = {
       owned,
       setCode: dialog.querySelector("#edit-set-code").value.trim(),
@@ -444,33 +582,34 @@
       updatedAt: new Date().toISOString(),
       updatedBy: currentUser.email || currentUser.uid,
     };
+
     saveButton.disabled = true;
     saveButton.textContent = "저장 중…";
+
     try {
-      const { firestoreModule } = firebase;
-      await firestoreModule.setDoc(collectionRef, { overrides: {} }, { merge: true });
-      await firestoreModule.updateDoc(collectionRef, {
-        [`overrides.${currentNumber}`]: item,
-        updatedAt: firestoreModule.serverTimestamp(),
+      await writeAccountOverrides({
+        ...remoteOverrides,
+        [String(currentNumber)]: item,
       });
       window.location.reload();
     } catch (error) {
       console.error(error);
       alert(`저장하지 못했습니다.\n${error.message}`);
       saveButton.disabled = false;
-      saveButton.textContent = "Firebase에 저장";
+      saveButton.textContent = "내 계정에 저장";
     }
   }
 
   async function resetCurrent() {
-    if (!currentNumber || !requireAdmin()) return;
+    if (!currentNumber || !requireAccount()) return;
     if (!remoteOverrides[String(currentNumber)]) return;
-    if (!confirm("이 포켓몬의 실제 카드 입력을 초기화할까요?")) return;
+    if (!confirm("이 포켓몬에 입력한 내 카드 정보를 초기화할까요?")) return;
+
+    const next = { ...remoteOverrides };
+    delete next[String(currentNumber)];
+
     try {
-      await firebase.firestoreModule.updateDoc(collectionRef, {
-        [`overrides.${currentNumber}`]: firebase.firestoreModule.deleteField(),
-        updatedAt: firebase.firestoreModule.serverTimestamp(),
-      });
+      await writeAccountOverrides(next);
       window.location.reload();
     } catch (error) {
       alert(`초기화하지 못했습니다.\n${error.message}`);
@@ -478,11 +617,14 @@
   }
 
   function showMissing() {
+    tradeMode = false;
+    clearTradeFilter();
     document.querySelector('#status-filters button[data-status="missing"]')?.click();
     document.querySelector("#card-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function showTradeable() {
+    tradeMode = true;
     document.querySelector('#status-filters button[data-status="all"]')?.click();
     const loadMore = document.querySelector("#load-more");
     let guard = 0;
@@ -490,17 +632,7 @@
       loadMore.click();
       guard += 1;
     }
-    let count = 0;
-    for (const card of document.querySelectorAll("#card-grid .pokemon-card")) {
-      const item = remoteOverrides[String(parseNumber(card))];
-      const visible = item && ["trade", "sale"].includes(item.tradeStatus);
-      card.classList.toggle("collection-manager-hidden", !visible);
-      if (visible) count += 1;
-    }
-    const result = document.querySelector("#result-count");
-    const label = document.querySelector("#active-filter-label");
-    if (result) result.textContent = String(count);
-    if (label) label.textContent = "· 교환·판매 가능";
+    applyCardEnhancements();
     document.querySelector("#card-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -511,77 +643,95 @@
   }
 
   function exportData() {
-    if (!requireAdmin()) return;
+    if (!requireAccount()) return;
+
     const payload = {
       format: EXPORT_FORMAT,
       exportedAt: new Date().toISOString(),
+      accountEmail: currentUser.email || "",
+      baseMode: accountProfile?.baseMode || "empty",
       recordCount: Object.keys(remoteOverrides).length,
       overrides: remoteOverrides,
     };
+
     const blob = new Blob([JSON.stringify(payload, null, 2)], {
       type: "application/json;charset=utf-8",
     });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `pokemon-dex-firebase-${new Date().toISOString().slice(0, 10)}.json`;
+    anchor.download = `pokemon-dex-${new Date().toISOString().slice(0, 10)}.json`;
     anchor.click();
     URL.revokeObjectURL(url);
   }
 
   function readLocalOverrides() {
     try {
-      return sanitizeOverrides(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || "{}"));
+      return sanitizeOverrides(
+        JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || "{}"),
+      );
     } catch {
       return {};
     }
   }
 
   async function migrateLocalData() {
-    if (!requireAdmin()) return;
+    if (!requireAccount()) return;
+
     const local = readLocalOverrides();
     const count = Object.keys(local).length;
     if (!count) {
       alert("이 브라우저에 이전할 기존 기록이 없습니다.");
       return;
     }
-    if (!confirm(`이 브라우저에 저장된 ${count}개의 기록을 Firebase로 이전할까요?`)) return;
+
+    if (!confirm(`이 브라우저의 기존 기록 ${count}개를 현재 Google 계정으로 이전할까요?`)) {
+      return;
+    }
+
     try {
-      const merged = { ...remoteOverrides, ...local };
-      await firebase.firestoreModule.setDoc(
-        collectionRef,
-        {
-          overrides: merged,
-          updatedAt: firebase.firestoreModule.serverTimestamp(),
-        },
-        { merge: true },
-      );
+      await writeAccountOverrides({ ...remoteOverrides, ...local });
       localStorage.removeItem(LOCAL_STORAGE_KEY);
-      alert("기존 기록을 Firebase로 이전했습니다.");
+      alert("기존 기록을 현재 계정의 개인 도감으로 이전했습니다.");
       window.location.reload();
     } catch (error) {
       alert(`기존 기록을 이전하지 못했습니다.\n${error.message}`);
     }
   }
 
-  function addCardBadges() {
+  function applyCardEnhancements() {
+    let tradeCount = 0;
+
     for (const card of document.querySelectorAll("#card-grid .pokemon-card")) {
       const item = normalizeOverride(remoteOverrides[String(parseNumber(card))]);
       const top = card.querySelector(".card-topline");
       card.querySelectorAll(".collection-mini-badge").forEach((node) => node.remove());
-      card.classList.toggle("has-collection-record", Boolean(item));
-      if (item?.quantity > 1) {
+
+      if (item && item.quantity > 1) {
         const badge = document.createElement("span");
         badge.className = "collection-mini-badge";
         badge.textContent = `×${item.quantity}`;
         top?.append(badge);
       }
+
       if (item && ["trade", "sale"].includes(item.tradeStatus)) {
+        tradeCount += 1;
         const badge = document.createElement("span");
         badge.className = "collection-mini-badge collection-mini-badge--trade";
         badge.textContent = tradeLabels[item.tradeStatus];
         top?.append(badge);
       }
+
+      const tradeable = item && ["trade", "sale"].includes(item.tradeStatus);
+      card.classList.toggle("collection-manager-hidden", tradeMode && !tradeable);
+      card.classList.toggle("has-collection-record", Boolean(item));
+    }
+
+    if (tradeMode) {
+      const result = document.querySelector("#result-count");
+      const label = document.querySelector("#active-filter-label");
+      if (result) result.textContent = String(tradeCount);
+      if (label) label.textContent = "· 내 교환·판매 가능";
     }
   }
 
@@ -592,19 +742,31 @@
         const number = parseNumber(cardButton);
         queueMicrotask(() => fillEditor(number));
       }
+
       if (
         event.target.closest(
           "#status-filters, #generation-filters, #reset-filters, [data-reset]",
         )
       ) {
+        tradeMode = false;
         clearTradeFilter();
       }
     });
-    document.querySelector("#search-input")?.addEventListener("input", clearTradeFilter);
-    document.querySelector("#sort-select")?.addEventListener("change", clearTradeFilter);
+
+    document.querySelector("#search-input")?.addEventListener("input", () => {
+      tradeMode = false;
+      clearTradeFilter();
+    });
+    document.querySelector("#sort-select")?.addEventListener("change", () => {
+      tradeMode = false;
+      clearTradeFilter();
+    });
+
     const grid = document.querySelector("#card-grid");
     if (grid) {
-      new MutationObserver(addCardBadges).observe(grid, { childList: true });
+      new MutationObserver(() => {
+        window.setTimeout(applyCardEnhancements, 0);
+      }).observe(grid, { childList: true });
     }
   }
 
@@ -613,8 +775,10 @@
     createManagementControls();
     createDialogEditor();
     bindPageEvents();
-    addCardBadges();
     updateAuthUi();
+    updateAccountAccess();
+    updateNotice();
+    applyCardEnhancements();
   });
 
   initializeFirebase();
