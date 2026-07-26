@@ -9,6 +9,7 @@
 .firebase-auth-panel button[hidden],.account-only-control[hidden]{display:none!important}
 .catalog-actions{display:flex;align-items:flex-end;flex-direction:column;gap:10px}
 .collection-manager-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}
+.collection-manager-actions>.manager-button:nth-child(2){display:none!important}
 .manager-button{min-height:34px;border:1px solid #dfe3ec;border-radius:9px;background:#fff;color:#596078;cursor:pointer;font-size:.66rem;font-weight:800;padding:7px 10px;transition:border-color .18s ease,transform .18s ease,background .18s ease}
 .manager-button:hover{transform:translateY(-1px);border-color:#bcc3d1;background:#f9fafc;color:#17233f}
 .manager-button:focus-visible{outline:3px solid rgba(42,117,187,.24);outline-offset:2px}
