@@ -15,6 +15,7 @@
 
   let firebase = null;
   let currentUser = null;
+  let userDocumentRef = null;
   let accountProfile = { baseMode: "empty" };
   let remoteOverrides = {};
   let resolveReady;
@@ -49,7 +50,15 @@
   function normalizeOverride(value) {
     if (typeof value === "boolean") return { owned: value };
     if (!value || typeof value !== "object" || Array.isArray(value)) return null;
-    return { owned: Boolean(value.owned) };
+    return {
+      owned: Boolean(value.owned),
+      setCode: String(value.setCode || "").trim(),
+      cardNumber: String(value.cardNumber || "").trim(),
+      cardName: String(value.cardName || "").trim(),
+      imageUrl: String(value.imageUrl || "").trim(),
+      updatedAt: value.updatedAt || null,
+      updatedBy: String(value.updatedBy || "").trim(),
+    };
   }
 
   function sanitizeOverrides(source) {
@@ -102,11 +111,19 @@
         if (!Object.prototype.hasOwnProperty.call(card, "legacyOwned")) {
           card.legacyOwned = Boolean(card.owned);
         }
+        if (!Object.prototype.hasOwnProperty.call(card, "originalImage")) {
+          card.originalImage = card.image || "";
+        }
 
         const key = cardIdentity(group, card, groupIndex, cardIndex);
         const override = normalizeOverride(remoteOverrides[key]);
         card.owned = override ? override.owned : useLegacy && card.legacyOwned;
         card.accountKey = key;
+        card.actualSetCode = override?.setCode || "";
+        card.actualCardNumber = override?.cardNumber || "";
+        card.actualName = override?.cardName || "";
+        card.actualImage = override?.imageUrl || "";
+        card.image = card.actualImage || card.originalImage;
       });
     });
 
@@ -205,6 +222,7 @@
       CONFIG.userCollection || "collections",
       page.documentId,
     );
+    userDocumentRef = documentRef;
 
     try {
       const snapshot = await firestoreModule.getDoc(documentRef);
@@ -319,9 +337,50 @@
     window.location.reload();
   }
 
+  function canEdit() {
+    return Boolean(currentUser && firebase && userDocumentRef);
+  }
+
+  async function saveOverride(key, value) {
+    if (!canEdit()) {
+      throw new Error("Google 로그인 후 내 도감을 수정할 수 있습니다.");
+    }
+
+    const item = normalizeOverride(value);
+    if (!key || !item) {
+      throw new Error("저장할 카드 정보가 올바르지 않습니다.");
+    }
+
+    const nextOverrides = {
+      ...remoteOverrides,
+      [key]: {
+        ...item,
+        updatedAt: new Date().toISOString(),
+        updatedBy: currentUser.email || currentUser.uid,
+      },
+    };
+
+    await firebase.firestoreModule.setDoc(
+      userDocumentRef,
+      {
+        baseMode: accountProfile.baseMode,
+        email: currentUser.email || "",
+        displayName: currentUser.displayName || "",
+        overrides: nextOverrides,
+        updatedAt: firebase.firestoreModule.serverTimestamp(),
+      },
+      { merge: true },
+    );
+
+    remoteOverrides = nextOverrides;
+    return remoteOverrides[key];
+  }
+
   window.PokemonDexPageAccount = {
     ready,
     applyGroups,
+    canEdit,
+    saveOverride,
     get currentUser() {
       return currentUser;
     },
