@@ -76,36 +76,54 @@ function ensurePackAuthControls() {
   header.append(controls);
 
   const style = document.createElement("style");
-  style.textContent = `
+    style.textContent = `
     #pack-auth-controls {
       margin-left: auto;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      padding: 5px 6px 5px 12px;
+      border: 1px solid #dce3ef;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(23, 35, 63, 0.08);
+      color: #6f7c95;
       font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    #pack-auth-controls::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4b9ee8;
+      box-shadow: 0 0 0 4px rgba(75, 158, 232, 0.14);
     }
 
     #pack-auth-label {
-      max-width: 220px;
+      max-width: 260px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: rgba(255, 255, 255, 0.78);
+      color: #6f7c95;
     }
 
     #pack-auth-button {
-      border: 1px solid rgba(255, 255, 255, 0.24);
+      border: 0;
       border-radius: 999px;
-      padding: 8px 13px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
+      padding: 9px 13px;
+      background: #17233f;
+      color: #ffffff;
       font: inherit;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
     }
 
     #pack-auth-button:hover {
-      background: rgba(255, 255, 255, 0.18);
+      background: #253657;
     }
 
     #pack-auth-button:disabled {
@@ -114,18 +132,18 @@ function ensurePackAuthControls() {
     }
 
     @media (max-width: 760px) {
-      .site-header {
-        flex-wrap: wrap;
-      }
-
       #pack-auth-controls {
-        width: 100%;
-        justify-content: flex-end;
-        margin-left: 0;
+        margin-left: auto;
+        padding-left: 10px;
+        font-size: 11px;
       }
 
       #pack-auth-label {
-        max-width: 170px;
+        max-width: 150px;
+      }
+
+      #pack-auth-button {
+        padding: 8px 11px;
       }
     }
   `;
@@ -161,15 +179,31 @@ if (headerChip) {
     : "GUEST · PUBLIC VIEW";
 }
   
-  if (user) {
+    if (user) {
     const account =
       user.displayName ||
       user.email ||
       "로그인 사용자";
 
+    const ownerEmail = String(
+      window.POKEMON_DEX_FIREBASE?.ownerEmail ||
+      "onesmemory@gmail.com"
+    )
+      .trim()
+      .toLowerCase();
+
+    const userEmail = String(user.email || "")
+      .trim()
+      .toLowerCase();
+
+    const modeText =
+      userEmail === ownerEmail
+        ? "기존 도감 유지"
+        : "개인 도감";
+
     label.textContent = message
       ? `${account} · ${message}`
-      : account;
+      : `${account} · ${modeText}`;
 
     button.textContent = "로그아웃";
   } else {
