@@ -716,7 +716,6 @@
       ["실제 카드명", "dialog-actual-name"],
       ["레어도", "dialog-actual-rarity"],
       ["수량", "dialog-actual-quantity"],
-      ["교환 상태", "dialog-trade-status"],
     ];
 
     for (const [label, id] of rows) {
@@ -740,7 +739,6 @@
         <label class="collection-editor-wide"><span>카드명</span><input id="edit-card-name" data-owned-card-field type="text" placeholder="예: 피카츄" /></label>
         <label><span>레어도</span><input id="edit-rarity" data-owned-card-field type="text" placeholder="예: C, AR, SAR" /></label>
         <label><span>수량</span><input id="edit-quantity" data-owned-card-field type="number" min="0" max="999" inputmode="numeric" /></label>
-        <label class="collection-editor-wide"><span>교환 상태</span><select id="edit-trade-status" data-owned-card-field><option value="none">없음</option><option value="duplicate">중복 보유</option><option value="trade">교환 가능</option><option value="sale">판매 가능</option><option value="reserved">예약 중</option></select></label>
         <details class="manual-image-fallback collection-editor-wide">
           <summary>자동 검색이 안 될 때 이미지 URL 직접 입력</summary>
           <label><span>실제 카드 이미지 URL</span><input id="edit-image-url" data-owned-card-field type="url" inputmode="url" placeholder="https://..." /></label>
@@ -809,7 +807,6 @@
     );
     setValue("#edit-rarity", item?.rarity || "");
     setValue("#edit-quantity", item ? item.quantity : owned ? 1 : 0);
-    setValue("#edit-trade-status", item?.tradeStatus || "none");
     setValue(
       "#edit-image-url",
       item?.imageSource === "manual" ? item.imageUrl : "",
@@ -820,7 +817,6 @@
     setText("#dialog-actual-name", item?.cardName);
     setText("#dialog-actual-rarity", item?.rarity);
     setText("#dialog-actual-quantity", item ? `${item.quantity}장` : owned ? "1장" : "0장");
-    setText("#dialog-trade-status", tradeLabels[item?.tradeStatus || "none"]);
     const manualDetails = dialog.querySelector(".manual-image-fallback");
     if (manualDetails) {
       manualDetails.open = Boolean(
@@ -889,7 +885,8 @@
       rarity: owned ? dialog.querySelector("#edit-rarity").value.trim() : "",
       quantity,
       tradeStatus: owned
-        ? dialog.querySelector("#edit-trade-status").value
+        ? normalizeOverride(remoteOverrides[String(currentNumber)])?.tradeStatus ||
+          "none"
         : "none",
       imageUrl,
       imageSource,
