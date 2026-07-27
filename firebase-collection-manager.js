@@ -367,24 +367,48 @@
     logout.hidden = false;
   }
 
-  async function signIn() {
+    async function signIn() {
     if (!firebase) return;
+
     const { auth, authModule } = firebase;
     const provider = new authModule.GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: "select_account" });
+
+    provider.setCustomParameters({
+      prompt: "select_account",
+    });
 
     try {
-      const mobile = window.matchMedia("(max-width: 690px), (pointer: coarse)").matches;
-      if (mobile) {
-        await authModule.signInWithRedirect(auth, provider);
-      } else {
-        await authModule.signInWithPopup(auth, provider);
-        window.location.reload();
-      }
+      await authModule.setPersistence(
+        auth,
+        authModule.browserLocalPersistence
+      );
+
+      await authModule.signInWithPopup(auth, provider);
+
+      window.location.reload();
     } catch (error) {
-      if (error.code !== "auth/popup-closed-by-user") {
-        alert(`Google 로그인에 실패했습니다.\n${error.message}`);
+      console.error("Google 로그인 오류:", error);
+
+      if (error.code === "auth/popup-closed-by-user") {
+        return;
       }
+
+      let message = "Google 로그인에 실패했습니다.";
+
+      if (error.code === "auth/popup-blocked") {
+        message =
+          "로그인 팝업이 차단되었습니다.\nChrome 또는 Safari에서 사이트를 직접 열고 팝업을 허용한 뒤 다시 시도하세요.";
+      } else if (error.code === "auth/unauthorized-domain") {
+        message =
+          "Firebase 승인 도메인에 pokemon-dogam.github.io가 등록되지 않았습니다.";
+      } else if (error.code === "auth/cancelled-popup-request") {
+        message =
+          "로그인 창이 이미 열려 있습니다. 열려 있는 Google 로그인 창을 확인하세요.";
+      } else if (error.message) {
+        message += `\n${error.message}`;
+      }
+
+      alert(message);
     }
   }
 
