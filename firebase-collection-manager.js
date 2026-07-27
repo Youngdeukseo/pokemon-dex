@@ -15,6 +15,7 @@
   let currentNumber = null;
   let tradeMode = false;
   let snapshotStarted = false;
+  let seriesCatalogPromise = null;
   let resolveReady;
 
   const firebaseReady = new Promise((resolve) => {
@@ -52,6 +53,240 @@
     );
   }
 
+  function normalizeSetCode(value) {
+    return String(value || "")
+      .trim()
+      .replace(/\s+/g, "")
+      .replace(/[^a-z0-9-]/gi, "")
+      .toUpperCase();
+  }
+
+  function normalizedCardNumber(value) {
+    const numerator = String(value || "")
+      .split("/")[0]
+      .match(/\d{1,4}/)?.[0];
+    return numerator ? numerator.padStart(3, "0") : "";
+  }
+
+  function normalizeCardName(value) {
+    return String(value || "")
+      .trim()
+      .toLocaleLowerCase("ko-KR")
+      .replace(/[\s·._()\-]+/g, "");
+  }
+
+  function namesAreCompatible(inputName, catalogName) {
+    const input = normalizeCardName(inputName);
+    const catalog = normalizeCardName(catalogName);
+    return (
+      !input ||
+      !catalog ||
+      input === catalog ||
+      input.includes(catalog) ||
+      catalog.includes(input)
+    );
+  }
+
+  function catalogCardNumber(card) {
+    const value = String(card?.cardNumber || card?.code || card?.meta || "");
+    const separator = value.lastIndexOf("_");
+    return separator >= 0 ? value.slice(separator + 1) : value;
+  }
+
+  async function loadSeriesCatalog() {
+    if (!seriesCatalogPromise) {
+      seriesCatalogPromise = originalFetch("./data/series.json", {
+        cache: "no-store",
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error(`series.json ${response.status}`);
+          return response.json();
+        })
+        .catch((error) => {
+          console.warn("시리즈 카드 목록을 불러오지 못했습니다.", error);
+          return [];
+        });
+    }
+    return seriesCatalogPromise;
+  }
+
+  async function lookupSeriesCard(setCode, cardNumber, cardName) {
+    const normalizedSet = normalizeSetCode(setCode);
+    const normalizedNumber = normalizedCardNumber(cardNumber);
+    if (!normalizedSet || !normalizedNumber) return null;
+
+    const groups = await loadSeriesCatalog();
+    const group = groups.find(
+      (candidate) =>
+        normalizeSetCode(candidate.code || candidate.name) === normalizedSet,
+    );
+    if (!group) return null;
+
+    const numberMatches = (group.cards || []).filter((card) => {
+      const code = String(card.code || card.meta || "");
+      const codeSet = code.includes("_") ? code.split("_")[0] : group.code;
+      return (
+        normalizeSetCode(codeSet) === normalizedSet &&
+        normalizedCardNumber(catalogCardNumber(card)) === normalizedNumber
+      );
+    });
+    if (!numberMatches.length) return null;
+
+    const matched =
+      numberMatches.find((card) => namesAreCompatible(cardName, card.name)) ||
+      numberMatches[0];
+
+    if (
+      matched.name &&
+      cardName &&
+      !namesAreCompatible(cardName, matched.name)
+    ) {
+      throw new Error(
+        `입력한 카드명(${cardName})과 검색된 카드명(${matched.name})이 다릅니다. 카드번호를 확인해주세요.`,
+      );
+    }
+
+    return {
+      imageUrl: matched.originalImage || matched.image || "",
+      cardName: matched.name || cardName,
+    };
+  }
+
+  function officialImageCandidates(setCode, cardNumber) {
+    const code = normalizeSetCode(setCode);
+    const number = normalizedCardNumber(cardNumber);
+    if (!code || !number) return [];
+    const typedCode = String(setCode || "")
+      .trim()
+      .replace(/\s+/g, "")
+      .replace(/[^a-z0-9-]/gi, "");
+    const canonicalCode = typedCode
+      .replace(/^sv/i, "SV")
+      .replace(/^sm/i, "SM")
+      .replace(/^xy/i, "XY")
+      .replace(/^bw/i, "BW")
+      .replace(/^m/i, "M")
+      .replace(/^s/i, "S");
+    const codeVariants = [canonicalCode, code].filter(
+      (value, index, values) =>
+        value && values.indexOf(value) === index,
+    );
+
+    let primaryRoot = "";
+    if (code.startsWith("SV")) primaryRoot = "SV";
+    else if (code.startsWith("SM")) primaryRoot = "SM";
+    else if (code.startsWith("XY")) primaryRoot = "XY";
+    else if (code.startsWith("BW")) primaryRoot = "BW";
+    else if (/^M\d/.test(code)) primaryRoot = "MEGA";
+    else if (code.startsWith("S")) primaryRoot = "S";
+
+    const roots = [
+      primaryRoot,
+      "SV",
+      "S",
+      "MEGA",
+      "SM",
+      "XY",
+      "BW",
+    ].filter((root, index, values) => root && values.indexOf(root) === index);
+    const base = "https://cards.image.pokemonkorea.co.kr/data/wmimages";
+
+    return roots.flatMap((root) =>
+      codeVariants.flatMap((candidateCode) => [
+        `${base}/${root}/${candidateCode}/${candidateCode}_${number}.png`,
+        `${base}/${root}/${candidateCode}/${candidateCode}_${number}.jpg`,
+      ]),
+    );
+  }
+
+  function imageLoads(url, timeout = 5000) {
+    return new Promise((resolve) => {
+      if (!url) {
+        resolve(false);
+        return;
+      }
+
+      let parsed;
+      try {
+        parsed = new URL(url, window.location.href);
+      } catch {
+        resolve(false);
+        return;
+      }
+      if (!["http:", "https:"].includes(parsed.protocol)) {
+        resolve(false);
+        return;
+      }
+
+      const probe = new Image();
+      let settled = false;
+      const finish = (success) => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
+        probe.onload = null;
+        probe.onerror = null;
+        resolve(success);
+      };
+      const timer = window.setTimeout(() => finish(false), timeout);
+      probe.onload = () => finish(probe.naturalWidth > 0);
+      probe.onerror = () => finish(false);
+      probe.src = parsed.href;
+    });
+  }
+
+  async function findOwnedCardImage(setCode, cardNumber, cardName) {
+    const catalogMatch = await lookupSeriesCard(
+      setCode,
+      cardNumber,
+      cardName,
+    );
+    if (
+      catalogMatch?.imageUrl &&
+      (await imageLoads(catalogMatch.imageUrl))
+    ) {
+      return catalogMatch;
+    }
+
+    const candidates = officialImageCandidates(setCode, cardNumber);
+    const results = await Promise.all(
+      candidates.map(async (imageUrl) => ({
+        imageUrl,
+        loaded: await imageLoads(imageUrl),
+      })),
+    );
+    const match = results.find((result) => result.loaded);
+    return match ? { imageUrl: match.imageUrl, cardName } : null;
+  }
+
+  function setEditorMessage(message, state = "") {
+    const element = document.querySelector("#collection-editor-message");
+    if (!element) return;
+    element.textContent = message;
+    element.dataset.state = state;
+  }
+
+  function updateOwnedCardFields() {
+    const editor = document.querySelector("#collection-editor");
+    if (!editor) return;
+
+    const owned = Boolean(editor.querySelector("#edit-owned")?.checked);
+    editor.querySelectorAll("[data-owned-card-field]").forEach((field) => {
+      field.disabled = !owned;
+    });
+
+    const save = editor.querySelector("#collection-save-card");
+    if (save && !save.disabled) {
+      save.textContent = owned ? "이미지 찾아 저장" : "미보유로 저장";
+    }
+
+    setEditorMessage(
+      owned
+        ? "세트 코드와 카드번호로 이미지를 자동 검색합니다."
+        : "미보유로 저장하면 전국도감의 기본 대표 이미지로 돌아갑니다.",
+    );
+  }
+
   function canEdit() {
     return Boolean(currentUser && firebase && userDocumentRef);
   }
@@ -69,10 +304,17 @@
       owned: Boolean(value.owned),
       setCode: String(value.setCode || "").trim(),
       cardNumber: String(value.cardNumber || "").trim(),
+      cardName: String(value.cardName || "").trim(),
       rarity: String(value.rarity || "").trim(),
       quantity: Math.max(0, Number(value.quantity) || 0),
       tradeStatus,
       imageUrl: String(value.imageUrl || "").trim(),
+      imageSource:
+        value.imageSource === "auto" || value.imageSource === "manual"
+          ? value.imageSource
+          : value.imageUrl
+            ? "manual"
+            : "",
       note: String(value.note || "").trim(),
       updatedAt: value.updatedAt || null,
       updatedBy: String(value.updatedBy || "").trim(),
@@ -103,6 +345,7 @@
       record.originalImageUrl = record.imageUrl;
       record.actualSet = "";
       record.actualCardNumber = "";
+      record.actualCardName = "";
       record.actualRarity = "";
       record.quantity = record.owned ? 1 : 0;
       record.tradeStatus = "none";
@@ -119,6 +362,7 @@
       record.owned = item.owned;
       record.actualSet = item.setCode;
       record.actualCardNumber = item.cardNumber;
+      record.actualCardName = item.cardName;
       record.actualRarity = item.rarity;
       record.quantity = item.quantity;
       record.tradeStatus = item.tradeStatus;
@@ -469,6 +713,7 @@
     const rows = [
       ["실제 세트", "dialog-actual-set"],
       ["실제 카드번호", "dialog-actual-number"],
+      ["실제 카드명", "dialog-actual-name"],
       ["레어도", "dialog-actual-rarity"],
       ["수량", "dialog-actual-quantity"],
       ["교환 상태", "dialog-trade-status"],
@@ -490,19 +735,25 @@
         <label class="owned-switch"><input id="edit-owned" type="checkbox" /><span>보유</span></label>
       </div>
       <div class="collection-editor-grid">
-        <label><span>세트 코드</span><input id="edit-set-code" type="text" placeholder="예: sv2a" /></label>
-        <label><span>카드번호</span><input id="edit-card-number" type="text" placeholder="예: 025/165" /></label>
-        <label><span>레어도</span><input id="edit-rarity" type="text" placeholder="예: C, AR, SAR" /></label>
-        <label><span>수량</span><input id="edit-quantity" type="number" min="0" max="999" inputmode="numeric" /></label>
-        <label class="collection-editor-wide"><span>교환 상태</span><select id="edit-trade-status"><option value="none">없음</option><option value="duplicate">중복 보유</option><option value="trade">교환 가능</option><option value="sale">판매 가능</option><option value="reserved">예약 중</option></select></label>
-        <label class="collection-editor-wide"><span>실제 카드 이미지 URL</span><input id="edit-image-url" type="url" placeholder="비워두면 현재 대표 이미지 유지" /></label>
+        <label><span>세트 코드</span><input id="edit-set-code" data-owned-card-field type="text" placeholder="예: sv2a" /></label>
+        <label><span>카드번호</span><input id="edit-card-number" data-owned-card-field type="text" placeholder="예: 025/165" /></label>
+        <label class="collection-editor-wide"><span>카드명</span><input id="edit-card-name" data-owned-card-field type="text" placeholder="예: 피카츄" /></label>
+        <label><span>레어도</span><input id="edit-rarity" data-owned-card-field type="text" placeholder="예: C, AR, SAR" /></label>
+        <label><span>수량</span><input id="edit-quantity" data-owned-card-field type="number" min="0" max="999" inputmode="numeric" /></label>
+        <label class="collection-editor-wide"><span>교환 상태</span><select id="edit-trade-status" data-owned-card-field><option value="none">없음</option><option value="duplicate">중복 보유</option><option value="trade">교환 가능</option><option value="sale">판매 가능</option><option value="reserved">예약 중</option></select></label>
+        <details class="manual-image-fallback collection-editor-wide">
+          <summary>자동 검색이 안 될 때 이미지 URL 직접 입력</summary>
+          <label><span>실제 카드 이미지 URL</span><input id="edit-image-url" data-owned-card-field type="url" inputmode="url" placeholder="https://..." /></label>
+          <p>자동 검색을 먼저 시도하며, 카드를 찾지 못했을 때만 이 주소를 사용합니다.</p>
+        </details>
         <label class="collection-editor-wide"><span>메모</span><textarea id="edit-note" rows="2" placeholder="구매처, 카드 상태, 보관 위치 등"></textarea></label>
       </div>
+      <p id="collection-editor-message" class="collection-editor-message"></p>
       <div class="collection-editor-actions">
         <button id="collection-reset-card" class="manager-button manager-button--danger" type="button">이 카드 입력 초기화</button>
-        <button id="collection-save-card" class="primary-button" type="button">내 계정에 저장</button>
+        <button id="collection-save-card" class="primary-button" type="button">이미지 찾아 저장</button>
       </div>
-      <p class="collection-save-hint">저장 내용은 로그인한 Google 계정의 Firestore 문서에만 기록됩니다.</p>
+      <p class="collection-save-hint">자동으로 찾은 이미지와 입력 내용은 로그인한 Google 계정에만 저장됩니다.</p>
     `;
 
     details.after(editor);
@@ -512,7 +763,9 @@
       const quantity = editor.querySelector("#edit-quantity");
       if (event.currentTarget.checked && Number(quantity.value) < 1) quantity.value = "1";
       if (!event.currentTarget.checked) quantity.value = "0";
+      updateOwnedCardFields();
     });
+    updateOwnedCardFields();
     updateAccountAccess();
   }
 
@@ -550,16 +803,31 @@
     if (ownedInput) ownedInput.checked = Boolean(owned);
     setValue("#edit-set-code", item?.setCode || "");
     setValue("#edit-card-number", item?.cardNumber || "");
+    setValue(
+      "#edit-card-name",
+      item?.cardName || dialog.querySelector("#dialog-name-ko")?.textContent || "",
+    );
     setValue("#edit-rarity", item?.rarity || "");
     setValue("#edit-quantity", item ? item.quantity : owned ? 1 : 0);
     setValue("#edit-trade-status", item?.tradeStatus || "none");
-    setValue("#edit-image-url", item?.imageUrl || "");
+    setValue(
+      "#edit-image-url",
+      item?.imageSource === "manual" ? item.imageUrl : "",
+    );
     setValue("#edit-note", item?.note || "");
     setText("#dialog-actual-set", item?.setCode);
     setText("#dialog-actual-number", item?.cardNumber);
+    setText("#dialog-actual-name", item?.cardName);
     setText("#dialog-actual-rarity", item?.rarity);
     setText("#dialog-actual-quantity", item ? `${item.quantity}장` : owned ? "1장" : "0장");
     setText("#dialog-trade-status", tradeLabels[item?.tradeStatus || "none"]);
+    const manualDetails = dialog.querySelector(".manual-image-fallback");
+    if (manualDetails) {
+      manualDetails.open = Boolean(
+        item?.imageSource === "manual" && item.imageUrl,
+      );
+    }
+    updateOwnedCardFields();
   }
 
   function requireAccount() {
@@ -590,27 +858,83 @@
     const dialog = document.querySelector("#card-dialog");
     const saveButton = dialog.querySelector("#collection-save-card");
     const owned = dialog.querySelector("#edit-owned").checked;
+    const setCode = dialog.querySelector("#edit-set-code").value.trim();
+    const cardNumber = dialog.querySelector("#edit-card-number").value.trim();
+    const cardName = dialog.querySelector("#edit-card-name").value.trim();
+    const manualImageUrl = dialog.querySelector("#edit-image-url").value.trim();
     let quantity = Math.max(0, Number(dialog.querySelector("#edit-quantity").value) || 0);
     if (owned && quantity < 1) quantity = 1;
     if (!owned) quantity = 0;
 
+    if (
+      owned &&
+      (!normalizeSetCode(setCode) ||
+        !normalizedCardNumber(cardNumber) ||
+        !cardName)
+    ) {
+      setEditorMessage(
+        "보유 카드의 세트 코드, 카드번호, 카드명을 모두 입력해주세요.",
+        "error",
+      );
+      return;
+    }
+
+    let imageUrl = "";
+    let imageSource = "";
     const item = {
       owned,
-      setCode: dialog.querySelector("#edit-set-code").value.trim(),
-      cardNumber: dialog.querySelector("#edit-card-number").value.trim(),
-      rarity: dialog.querySelector("#edit-rarity").value.trim(),
+      setCode: owned ? setCode : "",
+      cardNumber: owned ? cardNumber : "",
+      cardName: owned ? cardName : "",
+      rarity: owned ? dialog.querySelector("#edit-rarity").value.trim() : "",
       quantity,
-      tradeStatus: dialog.querySelector("#edit-trade-status").value,
-      imageUrl: dialog.querySelector("#edit-image-url").value.trim(),
+      tradeStatus: owned
+        ? dialog.querySelector("#edit-trade-status").value
+        : "none",
+      imageUrl,
+      imageSource,
       note: dialog.querySelector("#edit-note").value.trim(),
       updatedAt: new Date().toISOString(),
       updatedBy: currentUser.email || currentUser.uid,
     };
 
     saveButton.disabled = true;
-    saveButton.textContent = "저장 중…";
+    saveButton.textContent = owned ? "카드 찾는 중…" : "저장 중…";
 
     try {
+      if (owned) {
+        setEditorMessage(
+          "세트 코드와 카드번호로 카드 이미지를 자동 검색하고 있습니다.",
+          "loading",
+        );
+        const found = await findOwnedCardImage(setCode, cardNumber, cardName);
+
+        if (found) {
+          imageUrl = found.imageUrl;
+          imageSource = "auto";
+        } else if (manualImageUrl) {
+          setEditorMessage(
+            "자동 검색 결과가 없어 입력한 이미지 URL을 확인하고 있습니다.",
+            "loading",
+          );
+          if (!(await imageLoads(manualImageUrl))) {
+            throw new Error(
+              "자동 검색과 직접 입력한 URL 모두에서 이미지를 불러오지 못했습니다.",
+            );
+          }
+          imageUrl = manualImageUrl;
+          imageSource = "manual";
+        } else {
+          const manualDetails = dialog.querySelector(".manual-image-fallback");
+          if (manualDetails) manualDetails.open = true;
+          throw new Error(
+            "카드를 자동으로 찾지 못했습니다. 세트 코드와 카드번호를 확인하거나 이미지 URL을 직접 입력해주세요.",
+          );
+        }
+      }
+
+      item.imageUrl = imageUrl;
+      item.imageSource = imageSource;
       await writeAccountOverrides({
         ...remoteOverrides,
         [String(currentNumber)]: item,
@@ -618,9 +942,9 @@
       window.location.reload();
     } catch (error) {
       console.error(error);
-      alert(`저장하지 못했습니다.\n${error.message}`);
+      setEditorMessage(error.message || "저장하지 못했습니다.", "error");
       saveButton.disabled = false;
-      saveButton.textContent = "내 계정에 저장";
+      saveButton.textContent = owned ? "이미지 찾아 저장" : "미보유로 저장";
     }
   }
 
