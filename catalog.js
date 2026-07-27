@@ -62,17 +62,17 @@ function imageFor(card) {
 }
 
 function displayName(card) {
-  return card.actualName || card.name || card.code;
-}
-
-function baseCardNumber(card) {
-  const value = String(card.cardNumber || card.code || card.meta || "");
-  const separator = value.lastIndexOf("_");
-  return separator >= 0 ? value.slice(separator + 1) : value;
+  return mode === "series"
+    ? card.name || card.code
+    : card.actualName || card.name || card.code;
 }
 
 function actualCardCode(card) {
-  if (card.actualSetCode && card.actualCardNumber) {
+  if (
+    mode !== "series" &&
+    card.actualSetCode &&
+    card.actualCardNumber
+  ) {
     return `${card.actualSetCode}_${card.actualCardNumber}`;
   }
   return card.code || card.meta || "";
@@ -116,108 +116,6 @@ function updateSelected() {
   );
 }
 
-function normalizeSetCode(value) {
-  return String(value || "")
-    .trim()
-    .replace(/\s+/g, "")
-    .replace(/[^a-z0-9-]/gi, "")
-    .toUpperCase();
-}
-
-function normalizedCardNumber(value) {
-  const numerator = String(value || "").split("/")[0].match(/\d{1,4}/)?.[0];
-  return numerator ? numerator.padStart(3, "0") : "";
-}
-
-function lookupImageInCatalog(setCode, cardNumber) {
-  const normalizedSet = normalizeSetCode(setCode);
-  const normalizedNumber = normalizedCardNumber(cardNumber);
-  if (!normalizedSet || !normalizedNumber) return "";
-
-  for (const group of groups) {
-    if (normalizeSetCode(group.code || group.name) !== normalizedSet) continue;
-    for (const card of group.cards || []) {
-      const code = String(card.code || card.meta || "");
-      const codeSet = code.includes("_") ? code.split("_")[0] : group.code;
-      if (
-        normalizeSetCode(codeSet) === normalizedSet &&
-        normalizedCardNumber(baseCardNumber(card)) === normalizedNumber
-      ) {
-        return card.originalImage || card.image || "";
-      }
-    }
-  }
-  return "";
-}
-
-function officialImageCandidates(setCode, cardNumber) {
-  const code = normalizeSetCode(setCode);
-  const number = normalizedCardNumber(cardNumber);
-  if (!code || !number) return [];
-
-  let primaryRoot = "";
-  if (code.startsWith("SV")) primaryRoot = "SV";
-  else if (code.startsWith("SM")) primaryRoot = "SM";
-  else if (code.startsWith("XY")) primaryRoot = "XY";
-  else if (code.startsWith("BW")) primaryRoot = "BW";
-  else if (/^M\d/.test(code)) primaryRoot = "MEGA";
-  else if (code.startsWith("S")) primaryRoot = "S";
-
-  const roots = [
-    primaryRoot,
-    "SV",
-    "S",
-    "MEGA",
-    "SM",
-    "XY",
-    "BW",
-  ].filter((root, index, values) => root && values.indexOf(root) === index);
-  const base = "https://cards.image.pokemonkorea.co.kr/data/wmimages";
-  return roots.map((root) => `${base}/${root}/${code}/${code}_${number}.png`);
-}
-
-function imageLoads(url, timeout = 5000) {
-  return new Promise((resolve) => {
-    if (!url) {
-      resolve(false);
-      return;
-    }
-
-    const probe = new Image();
-    let settled = false;
-    const finish = (success) => {
-      if (settled) return;
-      settled = true;
-      window.clearTimeout(timer);
-      probe.onload = null;
-      probe.onerror = null;
-      resolve(success);
-    };
-    const timer = window.setTimeout(() => finish(false), timeout);
-    probe.onload = () => finish(probe.naturalWidth > 0);
-    probe.onerror = () => finish(false);
-    probe.src = url;
-  });
-}
-
-async function findSeriesCardImage(setCode, cardNumber) {
-  const candidates = [
-    lookupImageInCatalog(setCode, cardNumber),
-    ...officialImageCandidates(setCode, cardNumber),
-  ].filter((url, index, values) => url && values.indexOf(url) === index);
-
-  if (!candidates.length) return "";
-  if (await imageLoads(candidates[0])) return candidates[0];
-
-  const results = await Promise.all(
-    candidates.slice(1).map(async (url) => ({
-      url,
-      loaded: await imageLoads(url),
-    })),
-  );
-  return results.find((result) => result.loaded)?.url || "";
-}
-
 function setSeriesEditorMessage(message, state = "") {
   const element = $("series-editor-message");
   if (!element) return;
@@ -238,10 +136,6 @@ function updateSeriesEditorState() {
 
   const account = window.PokemonDexPageAccount;
   const canEdit = Boolean(account?.canEdit?.());
-  const owned = seriesEditorOwned();
-  editor.querySelectorAll("[data-series-card-field]").forEach((field) => {
-    field.disabled = !canEdit || !owned;
-  });
   editor
     .querySelectorAll('input[name="series-owned-status"]')
     .forEach((field) => {
@@ -251,21 +145,17 @@ function updateSeriesEditorState() {
   const save = $("series-card-save");
   if (save) {
     save.disabled = !canEdit;
-    save.textContent = owned ? "이미지 찾아 저장" : "미보유로 저장";
+    save.textContent = "보유 상태 저장";
   }
 
   if (!canEdit) {
     setSeriesEditorMessage(
-      "Google 로그인 후 실제 보유 카드 정보를 입력할 수 있습니다.",
+      "Google 로그인 후 이 카드의 보유 상태를 변경할 수 있습니다.",
       "guest",
-    );
-  } else if (owned) {
-    setSeriesEditorMessage(
-      "세트 코드와 카드번호로 공식 카드 이미지를 자동으로 찾습니다.",
     );
   } else {
     setSeriesEditorMessage(
-      "저장하면 이 카드는 미보유로 표시되고 기본 이미지로 돌아갑니다.",
+      "시리즈와 카드번호는 고정되어 있으며 보유 여부만 저장됩니다.",
     );
   }
 }
@@ -278,24 +168,6 @@ function fillSeriesEditor(card) {
     `input[name="series-owned-status"][value="${ownedValue}"]`,
   );
   if (statusInput) statusInput.checked = true;
-
-  const setValue = (id, value) => {
-    const field = $(id);
-    if (field) field.value = value || "";
-  };
-  setValue("series-edit-set", card.actualSetCode || selected?.code || "");
-  setValue(
-    "series-edit-number",
-    card.actualCardNumber || baseCardNumber(card),
-  );
-  setValue("series-edit-name", card.actualName || card.name || "");
-
-  const actual = card.actualSetCode && card.actualCardNumber
-    ? `${card.actualSetCode} ${card.actualCardNumber}${
-        card.actualName ? ` · ${card.actualName}` : ""
-      }`
-    : "—";
-  setText("dialog-actual-card", actual);
   updateSeriesEditorState();
 }
 
@@ -305,33 +177,23 @@ function createSeriesEditor() {
   const details = document.querySelector("#catalog-dialog .dialog-details");
   if (!details) return;
 
-  const actualRow = document.createElement("div");
-  actualRow.innerHTML =
-    '<dt>실제 보유 카드</dt><dd id="dialog-actual-card">—</dd>';
-  details.append(actualRow);
-
   const editor = document.createElement("section");
   editor.id = "series-card-editor";
   editor.className = "collection-editor series-card-editor";
   editor.innerHTML = `
     <div class="collection-editor-heading">
-      <div><span>MY CARD RECORD</span><strong>내 실제 보유 카드 입력</strong></div>
+      <div><span>MY COLLECTION</span><strong>이 카드의 보유 상태</strong></div>
       <div class="series-status-toggle" role="radiogroup" aria-label="보유 상태">
         <label><input name="series-owned-status" type="radio" value="owned"><span>보유</span></label>
         <label><input name="series-owned-status" type="radio" value="missing"><span>미보유</span></label>
       </div>
     </div>
-    <div class="collection-editor-grid">
-      <label><span>세트 코드</span><input id="series-edit-set" data-series-card-field type="text" placeholder="예: sv2a"></label>
-      <label><span>카드번호</span><input id="series-edit-number" data-series-card-field type="text" placeholder="예: 025/165"></label>
-      <label class="collection-editor-wide"><span>카드명</span><input id="series-edit-name" data-series-card-field type="text" placeholder="예: 피카츄"></label>
-    </div>
     <p id="series-editor-message" class="series-editor-message"></p>
     <div class="collection-editor-actions">
       <span></span>
-      <button id="series-card-save" class="primary-button" type="button">이미지 찾아 저장</button>
+      <button id="series-card-save" class="primary-button" type="button">보유 상태 저장</button>
     </div>
-    <p class="collection-save-hint">이미지 URL은 입력하지 않아도 됩니다. 저장 내용은 로그인한 계정에만 반영됩니다.</p>
+    <p class="collection-save-hint">카드 이미지는 시리즈 원본으로 고정되며, 보유 상태만 로그인한 계정에 반영됩니다.</p>
   `;
   details.after(editor);
 
@@ -355,64 +217,36 @@ async function saveSeriesCard() {
   const account = window.PokemonDexPageAccount;
   if (!activeCard || !account?.canEdit?.()) {
     setSeriesEditorMessage(
-      "Google 로그인 후 실제 보유 카드 정보를 저장할 수 있습니다.",
+      "Google 로그인 후 보유 상태를 저장할 수 있습니다.",
       "error",
     );
     return;
   }
 
   const owned = seriesEditorOwned();
-  const setCode = $("series-edit-set")?.value.trim() || "";
-  const cardNumber = $("series-edit-number")?.value.trim() || "";
-  const cardName = $("series-edit-name")?.value.trim() || "";
   const save = $("series-card-save");
-  let imageUrl = "";
-
-  if (owned && (!normalizeSetCode(setCode) || !normalizedCardNumber(cardNumber))) {
-    setSeriesEditorMessage(
-      "보유 카드의 세트 코드와 카드번호를 입력해주세요.",
-      "error",
-    );
-    return;
-  }
 
   save.disabled = true;
-  save.textContent = owned ? "카드 찾는 중…" : "저장 중…";
+  save.textContent = "저장 중…";
 
   try {
-    if (owned) {
-      setSeriesEditorMessage("공식 카드 이미지를 찾고 있습니다.", "loading");
-      imageUrl = await findSeriesCardImage(setCode, cardNumber);
-      if (!imageUrl) {
-        throw new Error(
-          "해당 카드를 찾지 못했습니다. 세트 코드와 카드번호를 다시 확인해주세요.",
-        );
-      }
-    }
-
     const saved = await account.saveOverride(activeCard.accountKey, {
       owned,
-      setCode: owned ? setCode : "",
-      cardNumber: owned ? cardNumber : "",
-      cardName: owned ? cardName : "",
-      imageUrl: owned ? imageUrl : "",
     });
 
     activeCard.owned = saved.owned;
-    activeCard.actualSetCode = saved.setCode;
-    activeCard.actualCardNumber = saved.cardNumber;
-    activeCard.actualName = saved.cardName;
-    activeCard.actualImage = saved.imageUrl;
-    activeCard.image = saved.imageUrl || activeCard.originalImage || "";
+    activeCard.actualSetCode = "";
+    activeCard.actualCardNumber = "";
+    activeCard.actualName = "";
+    activeCard.actualImage = "";
+    activeCard.image = activeCard.originalImage || "";
 
     refreshCounts();
     render();
     updateDialog(activeCard);
     fillSeriesEditor(activeCard);
     setSeriesEditorMessage(
-      owned
-        ? "카드 이미지와 보유 정보가 저장되었습니다."
-        : "미보유로 저장되었습니다.",
+      owned ? "보유 카드로 저장되었습니다." : "미보유 카드로 저장되었습니다.",
       "success",
     );
   } catch (error) {
@@ -420,9 +254,7 @@ async function saveSeriesCard() {
     setSeriesEditorMessage(error.message || "저장하지 못했습니다.", "error");
   } finally {
     save.disabled = false;
-    save.textContent = seriesEditorOwned()
-      ? "이미지 찾아 저장"
-      : "미보유로 저장";
+    save.textContent = "보유 상태 저장";
   }
 }
 
