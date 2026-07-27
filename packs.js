@@ -153,6 +153,14 @@ function updatePackAuthControls(user, message = "") {
     return;
   }
 
+  const headerChip = document.querySelector(".header-chip");
+
+if (headerChip) {
+  headerChip.textContent = user
+    ? "SIGNED IN · PRIVATE COLLECTION"
+    : "GUEST · PUBLIC VIEW";
+}
+  
   if (user) {
     const account =
       user.displayName ||
