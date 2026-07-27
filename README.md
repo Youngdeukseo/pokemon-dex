@@ -19,3 +19,10 @@ python scripts/extract_pokedex.py source/1025-pokedex.xlsm data/pokedex.json
 
 이 저장소에는 웹사이트에 필요한 데이터만 포함하며 원본 Excel 파일은
 포함하지 않습니다. 바인더 위치도 공개 데이터에서 제외합니다.
+
+시리즈 도감의 포켓몬 검색명을 다시 보강하려면 다음 명령을 실행합니다.
+기존 카드 순서, 이미지, 보유 상태와 직접 입력된 한글 카드명은 유지됩니다.
+
+```bash
+python scripts/enrich_series_pokemon_names.py
+```

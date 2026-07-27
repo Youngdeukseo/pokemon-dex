@@ -238,7 +238,7 @@
         const key = pageCardIdentity("series", group, card, groupIndex, cardIndex);
         seriesItems.push({
           key,
-          name: card.name || card.code || `${group.code} 카드`,
+          name: card.name || card.pokemonName || card.code || `${group.code} 카드`,
           group: group.code || group.title,
           baselineOwned: Boolean(card.owned),
         });

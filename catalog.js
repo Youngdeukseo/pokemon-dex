@@ -63,7 +63,7 @@ function imageFor(card) {
 
 function displayName(card) {
   return mode === "series"
-    ? card.name || card.code
+    ? card.name || card.pokemonName || card.code
     : card.actualName || card.name || card.code;
 }
 
@@ -424,6 +424,7 @@ function render() {
       status === "all" || (status === "owned") === card.owned;
     const haystack = [
       card.name,
+      card.pokemonName,
       card.actualName,
       card.actualSetCode,
       card.actualCardNumber,

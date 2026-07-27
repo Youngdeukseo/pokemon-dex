@@ -676,7 +676,13 @@
             category,
             key,
             group: group.name || group.title || group.code || "",
-            name: item?.cardName || card.name || card.code || card.meta || key,
+            name:
+              item?.cardName ||
+              card.name ||
+              card.pokemonName ||
+              card.code ||
+              card.meta ||
+              key,
             owned,
             setCode: meta.setCode,
             cardNumber: meta.cardNumber,
