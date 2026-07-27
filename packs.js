@@ -76,13 +76,14 @@ function ensurePackAuthControls() {
   header.append(controls);
 
   const style = document.createElement("style");
-    style.textContent = `
+      style.textContent = `
     #pack-auth-controls {
-      margin-left: auto;
+      margin: 0;
+      min-height: 40px;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 5px 6px 5px 12px;
+      padding: 4px 5px 4px 12px;
       border: 1px solid #dce3ef;
       border-radius: 999px;
       background: #ffffff;
@@ -91,6 +92,7 @@ function ensurePackAuthControls() {
       font-size: 12px;
       font-weight: 700;
       white-space: nowrap;
+      box-sizing: border-box;
     }
 
     #pack-auth-controls::before {
@@ -112,9 +114,10 @@ function ensurePackAuthControls() {
     }
 
     #pack-auth-button {
+      height: 32px;
       border: 0;
       border-radius: 999px;
-      padding: 9px 13px;
+      padding: 0 14px;
       background: #17233f;
       color: #ffffff;
       font: inherit;
@@ -133,17 +136,18 @@ function ensurePackAuthControls() {
 
     @media (max-width: 760px) {
       #pack-auth-controls {
-        margin-left: auto;
-        padding-left: 10px;
+        min-height: 38px;
+        padding: 3px 4px 3px 10px;
         font-size: 11px;
       }
 
       #pack-auth-label {
-        max-width: 150px;
+        max-width: 145px;
       }
 
       #pack-auth-button {
-        padding: 8px 11px;
+        height: 30px;
+        padding: 0 11px;
       }
     }
   `;
@@ -175,8 +179,8 @@ function updatePackAuthControls(user, message = "") {
 
 if (headerChip) {
   headerChip.textContent = user
-    ? "SIGNED IN · PRIVATE COLLECTION"
-    : "GUEST · PUBLIC VIEW";
+    ? "SIGNED IN"
+    : "PUBLIC VIEW";
 }
   
     if (user) {
@@ -208,7 +212,7 @@ if (headerChip) {
     button.textContent = "로그아웃";
   } else {
     label.textContent =
-      message || "게스트 · 전체 미보유";
+  message || "방문자";
 
     button.textContent = "Google 로그인";
   }
