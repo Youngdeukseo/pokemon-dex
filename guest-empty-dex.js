@@ -125,16 +125,27 @@
     }
   };
 
-  function updateGuestLabel(user) {
-    if (user) return;
-
+    function updateGuestLabel(user) {
     const apply = () => {
+      const headerChip = document.querySelector(".header-chip");
+
+      if (headerChip) {
+        headerChip.textContent = user
+          ? "SIGNED IN"
+          : "PUBLIC VIEW";
+      }
+
       const status = document.querySelector("#firebase-auth-status");
-      if (status) status.textContent = "방문자 · 전체 미보유";
+
+      if (!user && status) {
+        status.textContent = "방문자";
+      }
     };
 
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", apply, { once: true });
+      document.addEventListener("DOMContentLoaded", apply, {
+        once: true
+      });
     } else {
       apply();
     }
