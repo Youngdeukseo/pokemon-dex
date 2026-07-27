@@ -15,4 +15,11 @@ window.POKEMON_DEX_FIREBASE = {
   ownerEmail: "onesmemory@gmail.com",
   userCollection: "collections",
   userDocument: "nationalDex",
+  ownerSheets: {
+    enabled: true,
+    spreadsheetId: "13dO3csCGOMmE8hds9GET2_Lsqk0KOsc-AAv14ZhChIM",
+    sheetName: "동기화데이터",
+    maxRows: 8000,
+    scope: "https://www.googleapis.com/auth/spreadsheets",
+  },
 };

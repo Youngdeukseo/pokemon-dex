@@ -351,6 +351,17 @@
     return Boolean(currentUser && firebase && userDocumentRef);
   }
 
+  function notifyOwnerSheets(key) {
+    window.dispatchEvent(
+      new CustomEvent("pokemon-dex:collection-changed", {
+        detail: {
+          category: mode,
+          key: String(key || ""),
+        },
+      }),
+    );
+  }
+
   async function saveOverride(key, value) {
     if (!canEdit()) {
       throw new Error("Google 로그인 후 내 도감을 수정할 수 있습니다.");
@@ -384,6 +395,7 @@
       );
 
       remoteOverrides = nextOverrides;
+      notifyOwnerSheets(key);
       return remoteOverrides[key];
     };
 

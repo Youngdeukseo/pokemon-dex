@@ -8,6 +8,13 @@
 .firebase-auth-panel button:disabled{cursor:wait;opacity:.55}
 .firebase-auth-panel button:focus-visible{outline:3px solid rgba(42,117,187,.25);outline-offset:2px}
 .firebase-auth-panel button[hidden],.account-only-control[hidden]{display:none!important}
+.owner-sheets-status{max-width:120px;overflow:hidden;border-left:1px solid #e5e8ef;padding-left:8px;color:#8b91a1;font-size:.58rem;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+.owner-sheets-status[data-state=connected],.owner-sheets-status[data-state=success]{color:#13795b}
+.owner-sheets-status[data-state=loading]{color:#2a75bb}
+.owner-sheets-status[data-state=error]{color:#b93647}
+.owner-sheets-link{display:inline-flex;align-items:center;justify-content:center;min-height:30px;border:1px solid #dfe3ec;border-radius:999px;background:#fff;color:#596078;font-size:.58rem;font-weight:800;padding:5px 8px;text-decoration:none;white-space:nowrap}
+.owner-sheets-link:hover{border-color:#bcc3d1;background:#f7f9fc;color:#17233f}
+.owner-sheets-link[hidden]{display:none!important}
 .catalog-actions{display:flex;align-items:flex-end;flex-direction:column;gap:10px}
 .collection-manager-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}
 .collection-manager-actions>.manager-button:nth-child(2){display:none!important}
@@ -64,6 +71,6 @@
 .collection-complete-button:focus-visible{outline:3px solid rgba(42,117,187,.26);outline-offset:2px}
 .collection-manager-hidden{display:none!important}
 .collection-detail-row dd{overflow-wrap:anywhere}
-@media(max-width:1080px){#firebase-auth-status{max-width:155px}.header-chip{display:none}}
-@media(max-width:690px){.site-header{gap:10px}.firebase-auth-panel{margin-left:auto;padding-left:8px}.firebase-auth-dot,#firebase-auth-status{display:none}.firebase-auth-panel button{font-size:.58rem;padding:6px 8px}.catalog-actions{gap:8px}.collection-manager-actions{justify-content:flex-end}.manager-button{font-size:.6rem;padding:6px 8px}.collection-manager-notice{align-items:flex-start;flex-direction:column;gap:4px;margin-top:14px}.collection-editor-grid{grid-template-columns:1fr}.collection-editor-wide{grid-column:auto}.collection-editor-actions{align-items:stretch;flex-direction:column-reverse}.collection-editor-actions button{width:100%}.collection-mini-badge--trade{display:none}}
-@media print{.firebase-auth-panel,.collection-manager-actions,.collection-manager-notice,.collection-editor,.collection-complete-button{display:none!important}.pokemon-card.has-completion-action .card-body,.pack-card.has-completion-action .pack-card-body{padding-bottom:15px}}
+@media(max-width:1080px){#firebase-auth-status{max-width:155px}.owner-sheets-status{display:none}.header-chip{display:none}}
+@media(max-width:690px){.site-header{gap:10px}.firebase-auth-panel{margin-left:auto;padding-left:8px}.firebase-auth-dot,#firebase-auth-status,.owner-sheets-link{display:none}.firebase-auth-panel button{font-size:.58rem;padding:6px 8px}.catalog-actions{gap:8px}.collection-manager-actions{justify-content:flex-end}.manager-button{font-size:.6rem;padding:6px 8px}.collection-manager-notice{align-items:flex-start;flex-direction:column;gap:4px;margin-top:14px}.collection-editor-grid{grid-template-columns:1fr}.collection-editor-wide{grid-column:auto}.collection-editor-actions{align-items:stretch;flex-direction:column-reverse}.collection-editor-actions button{width:100%}.collection-mini-badge--trade{display:none}}
+@media print{.firebase-auth-panel,.owner-sheets-status,.owner-sheets-link,.collection-manager-actions,.collection-manager-notice,.collection-editor,.collection-complete-button{display:none!important}.pokemon-card.has-completion-action .card-body,.pack-card.has-completion-action .pack-card-body{padding-bottom:15px}}

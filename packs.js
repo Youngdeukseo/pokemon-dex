@@ -514,6 +514,17 @@ async function persistPackOwned(
     );
 
     pack.owned = owned;
+    window.dispatchEvent(
+      new CustomEvent(
+        "pokemon-dex:collection-changed",
+        {
+          detail: {
+            category: "pack",
+            key: pack.code
+          }
+        }
+      )
+    );
     return pack;
   };
 

@@ -293,6 +293,17 @@
     return Boolean(currentUser && firebase && userDocumentRef);
   }
 
+  function notifyOwnerSheets(key = "") {
+    window.dispatchEvent(
+      new CustomEvent("pokemon-dex:collection-changed", {
+        detail: {
+          category: "national",
+          key: String(key || ""),
+        },
+      }),
+    );
+  }
+
   function normalizeOverride(value) {
     if (!value || typeof value !== "object" || Array.isArray(value)) return null;
     const tradeStatus = Object.prototype.hasOwnProperty.call(
@@ -966,6 +977,7 @@
         ...currentOverrides,
         [String(saveNumber)]: item,
       }));
+      notifyOwnerSheets(saveNumber);
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -988,6 +1000,7 @@
         delete next[String(resetNumber)];
         return next;
       });
+      notifyOwnerSheets(resetNumber);
       window.location.reload();
     } catch (error) {
       alert(`초기화하지 못했습니다.\n${error.message}`);
@@ -1072,6 +1085,7 @@
         ...currentOverrides,
         ...local,
       }));
+      notifyOwnerSheets();
       localStorage.removeItem(LOCAL_STORAGE_KEY);
       alert("기존 기록을 현재 계정의 개인 도감으로 이전했습니다.");
       window.location.reload();
@@ -1142,6 +1156,7 @@
           [String(number)]: savedItem,
         };
       });
+      notifyOwnerSheets(number);
 
       window.PokemonDexNationalView?.setOwned?.(
         number,
