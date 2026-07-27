@@ -119,11 +119,18 @@
         const override = normalizeOverride(remoteOverrides[key]);
         card.owned = override ? override.owned : useLegacy && card.legacyOwned;
         card.accountKey = key;
-        card.actualSetCode = override?.setCode || "";
-        card.actualCardNumber = override?.cardNumber || "";
-        card.actualName = override?.cardName || "";
-        card.actualImage = override?.imageUrl || "";
-        card.image = card.actualImage || card.originalImage;
+        const usesFixedSeriesCard = mode === "series";
+        card.actualSetCode = usesFixedSeriesCard
+          ? ""
+          : override?.setCode || "";
+        card.actualCardNumber = usesFixedSeriesCard
+          ? ""
+          : override?.cardNumber || "";
+        card.actualName = usesFixedSeriesCard ? "" : override?.cardName || "";
+        card.actualImage = usesFixedSeriesCard ? "" : override?.imageUrl || "";
+        card.image = usesFixedSeriesCard
+          ? card.originalImage
+          : card.actualImage || card.originalImage;
       });
     });
 
