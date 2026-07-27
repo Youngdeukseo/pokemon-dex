@@ -207,6 +207,11 @@ async function init(){
     const response=await fetch(DATA_URL,{cache:"no-store"});
     if(!response.ok)throw new Error(`HTTP ${response.status}`);
     dataset=await response.json();
+    const account=window.PokemonDexPageAccount;
+    if(account){
+      await account.ready;
+      account.applyGroups(dataset.artists);
+    }
     setSummary();
     populateArtists();
     initControls();

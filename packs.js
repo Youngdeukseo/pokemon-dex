@@ -56,7 +56,7 @@ function applyOwnedCodes(ownedCodes) {
 }
 
 function ensurePackAuthControls() {
-  if (document.getElementById("pack-auth-controls")) {
+  if (document.getElementById("firebase-auth-panel")) {
     return;
   }
 
@@ -67,157 +67,83 @@ function ensurePackAuthControls() {
   }
 
   const controls = document.createElement("div");
-  controls.id = "pack-auth-controls";
+  controls.id = "firebase-auth-panel";
+  controls.className = "firebase-auth-panel";
   controls.innerHTML = `
-    <span id="pack-auth-label">로그인 상태 확인 중…</span>
-    <button id="pack-auth-button" type="button">Google 로그인</button>
+    <span class="firebase-auth-dot" aria-hidden="true"></span>
+    <span id="firebase-auth-status">로그인 상태 확인 중</span>
+    <button id="firebase-login" type="button">Google 로그인</button>
+    <button id="firebase-logout" type="button" hidden>로그아웃</button>
   `;
 
   header.append(controls);
-
-  const style = document.createElement("style");
-      style.textContent = `
-    #pack-auth-controls {
-      margin: 0;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 5px 4px 12px;
-      border: 1px solid #dce3ef;
-      border-radius: 999px;
-      background: #ffffff;
-      box-shadow: 0 4px 14px rgba(23, 35, 63, 0.08);
-      color: #6f7c95;
-      font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
-      box-sizing: border-box;
-    }
-
-    #pack-auth-controls::before {
-      content: "";
-      flex: 0 0 auto;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #4b9ee8;
-      box-shadow: 0 0 0 4px rgba(75, 158, 232, 0.14);
-    }
-
-    #pack-auth-label {
-      max-width: 260px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: #6f7c95;
-    }
-
-    #pack-auth-button {
-      height: 32px;
-      border: 0;
-      border-radius: 999px;
-      padding: 0 14px;
-      background: #17233f;
-      color: #ffffff;
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    #pack-auth-button:hover {
-      background: #253657;
-    }
-
-    #pack-auth-button:disabled {
-      cursor: wait;
-      opacity: 0.55;
-    }
-
-    @media (max-width: 760px) {
-      #pack-auth-controls {
-        min-height: 38px;
-        padding: 3px 4px 3px 10px;
-        font-size: 11px;
-      }
-
-      #pack-auth-label {
-        max-width: 145px;
-      }
-
-      #pack-auth-button {
-        height: 30px;
-        padding: 0 11px;
-      }
-    }
-  `;
-
-  document.head.append(style);
-
-  document
-    .getElementById("pack-auth-button")
-    .addEventListener("click", async () => {
-      if (packUser) {
-        await signOutPackUser();
-      } else {
-        await signInPackUser();
-      }
-    });
+  controls
+    .querySelector("#firebase-login")
+    ?.addEventListener("click", signInPackUser);
+  controls
+    .querySelector("#firebase-logout")
+    ?.addEventListener("click", signOutPackUser);
 }
 
 function updatePackAuthControls(user, message = "") {
   ensurePackAuthControls();
 
-  const label = $("pack-auth-label");
-  const button = $("pack-auth-button");
+  const panel = $("firebase-auth-panel");
+  const label = $("firebase-auth-status");
+  const login = $("firebase-login");
+  const logout = $("firebase-logout");
 
-  if (!label || !button) {
+  if (!panel || !label || !login || !logout) {
     return;
   }
 
   const headerChip = document.querySelector(".header-chip");
 
-if (headerChip) {
-  headerChip.textContent = user
-    ? "SIGNED IN"
-    : "PUBLIC VIEW";
-}
-  
-    if (user) {
+  if (headerChip) {
+    headerChip.textContent = user ? "SIGNED IN" : "PUBLIC VIEW";
+  }
+
+  const ownerEmail = String(
+    window.POKEMON_DEX_FIREBASE?.ownerEmail ||
+    "onesmemory@gmail.com"
+  )
+    .trim()
+    .toLowerCase();
+  const userEmail = String(user?.email || "")
+    .trim()
+    .toLowerCase();
+
+  panel.classList.toggle("is-account", Boolean(user));
+  panel.classList.toggle(
+    "is-owner",
+    Boolean(user && userEmail === ownerEmail)
+  );
+
+  if (user) {
     const account =
       user.displayName ||
       user.email ||
       "로그인 사용자";
-
-    const ownerEmail = String(
-      window.POKEMON_DEX_FIREBASE?.ownerEmail ||
-      "onesmemory@gmail.com"
-    )
-      .trim()
-      .toLowerCase();
-
-    const userEmail = String(user.email || "")
-      .trim()
-      .toLowerCase();
-
     const modeText =
       userEmail === ownerEmail
         ? "기존 도감 유지"
-        : "개인 도감";
+        : "0장부터 시작";
 
     label.textContent = message
       ? `${account} · ${message}`
       : `${account} · ${modeText}`;
-
-    button.textContent = "로그아웃";
+    login.hidden = true;
+    logout.hidden = false;
   } else {
-    label.textContent =
-  message || "방문자";
-
-    button.textContent = "Google 로그인";
+    label.textContent = message || "방문자";
+    login.hidden = false;
+    logout.hidden = true;
   }
 
-  button.disabled = false;
+  login.disabled = false;
+  login.textContent = "Google 로그인";
+  logout.disabled = false;
+  logout.textContent = "로그아웃";
 }
 
 async function applyPackUserState(user) {
@@ -296,11 +222,7 @@ async function applyPackUserState(user) {
     );
 
     applyOwnedCodes(defaultOwnedCodes);
-
-    updatePackAuthControls(
-      user,
-      "저장 정보를 불러오지 못해 기본 상태로 표시 중"
-    );
+    updatePackAuthControls(user);
   }
 }
 
@@ -419,7 +341,7 @@ async function signInPackUser() {
   } = packFirebase;
 
   const button =
-    $("pack-auth-button");
+    $("firebase-login");
 
   if (button) {
     button.disabled = true;
@@ -479,7 +401,7 @@ async function signOutPackUser() {
   }
 
   const button =
-    $("pack-auth-button");
+    $("firebase-logout");
 
   if (button) {
     button.disabled = true;
