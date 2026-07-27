@@ -69,6 +69,7 @@
       record.quantity = 0;
       record.actualSet = "";
       record.actualCardNumber = "";
+      record.actualCardName = "";
       record.actualRarity = "";
       record.tradeStatus = "none";
       record.collectionNote = "";
