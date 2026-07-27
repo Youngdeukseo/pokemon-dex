@@ -92,6 +92,75 @@ function badge(owned) {
   return element;
 }
 
+function updateCompletionButton(button, card) {
+  const owned = Boolean(card.owned);
+  const name = displayName(card);
+  button.classList.toggle("is-complete", owned);
+  button.classList.remove("is-saving");
+  button.disabled = false;
+  button.setAttribute("aria-pressed", String(owned));
+  button.setAttribute(
+    "aria-label",
+    owned
+      ? `${name} 수집완료 취소`
+      : `${name} 수집완료로 표시`,
+  );
+  button.title = owned
+    ? "다시 누르면 미보유로 변경됩니다."
+    : "로그인한 내 도감에 수집완료로 저장합니다.";
+  button.textContent = owned ? "✓ 수집완료" : "수집완료";
+}
+
+async function toggleCatalogCompletion(card, button) {
+  const account = window.PokemonDexPageAccount;
+  if (!account?.canEdit?.()) {
+    alert("Google 로그인 후 내 수집 상태를 저장할 수 있습니다.");
+    return;
+  }
+
+  const nextOwned = !card.owned;
+  button.disabled = true;
+  button.classList.add("is-saving");
+  button.textContent = "저장 중…";
+
+  try {
+    const saved = await account.saveOwned(card.accountKey, nextOwned);
+    card.owned = saved.owned;
+
+    if (mode === "series") {
+      card.actualSetCode = "";
+      card.actualCardNumber = "";
+      card.actualName = "";
+      card.actualImage = "";
+      card.image = card.originalImage || "";
+    }
+
+    refreshCounts();
+    if (activeCard === card) {
+      updateDialog(card);
+      fillSeriesEditor(card);
+    }
+    render();
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "수집 상태를 저장하지 못했습니다.");
+    updateCompletionButton(button, card);
+  }
+}
+
+function makeCompletionButton(card) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "collection-complete-button";
+  updateCompletionButton(button, card);
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    void toggleCatalogCompletion(card, button);
+  });
+  return button;
+}
+
 function updateSummary() {
   const total = groups.reduce((amount, group) => amount + group.total, 0);
   const owned = groups.reduce((amount, group) => amount + group.owned, 0);
@@ -292,7 +361,7 @@ function makeCard(card) {
   const article = document.createElement("article");
   article.className = `pokemon-card catalog-card${
     card.owned ? "" : " is-missing"
-  }`;
+  } has-completion-action`;
 
   const button = document.createElement("button");
   button.type = "button";
@@ -343,7 +412,7 @@ function makeCard(card) {
   body.append(top, name, group, meta);
   button.append(imageWrap, body);
   button.onclick = () => openDialog(card);
-  article.append(button);
+  article.append(button, makeCompletionButton(card));
   return article;
 }
 

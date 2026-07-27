@@ -18,6 +18,7 @@
   let userDocumentRef = null;
   let accountProfile = { baseMode: "empty" };
   let remoteOverrides = {};
+  let saveQueue = Promise.resolve();
   let resolveReady;
 
   const ready = new Promise((resolve) => {
@@ -120,14 +121,16 @@
         card.owned = override ? override.owned : useLegacy && card.legacyOwned;
         card.accountKey = key;
         const usesFixedSeriesCard = mode === "series";
-        card.actualSetCode = usesFixedSeriesCard
+        const usesOwnedCardDetails =
+          !usesFixedSeriesCard && Boolean(override?.owned);
+        card.actualSetCode = !usesOwnedCardDetails
           ? ""
           : override?.setCode || "";
-        card.actualCardNumber = usesFixedSeriesCard
+        card.actualCardNumber = !usesOwnedCardDetails
           ? ""
           : override?.cardNumber || "";
-        card.actualName = usesFixedSeriesCard ? "" : override?.cardName || "";
-        card.actualImage = usesFixedSeriesCard ? "" : override?.imageUrl || "";
+        card.actualName = usesOwnedCardDetails ? override?.cardName || "" : "";
+        card.actualImage = usesOwnedCardDetails ? override?.imageUrl || "" : "";
         card.image = usesFixedSeriesCard
           ? card.originalImage
           : card.actualImage || card.originalImage;
@@ -358,29 +361,43 @@
       throw new Error("저장할 카드 정보가 올바르지 않습니다.");
     }
 
-    const nextOverrides = {
-      ...remoteOverrides,
-      [key]: {
-        ...item,
-        updatedAt: new Date().toISOString(),
-        updatedBy: currentUser.email || currentUser.uid,
-      },
+    const operation = async () => {
+      const nextOverrides = {
+        ...remoteOverrides,
+        [key]: {
+          ...item,
+          updatedAt: new Date().toISOString(),
+          updatedBy: currentUser.email || currentUser.uid,
+        },
+      };
+
+      await firebase.firestoreModule.setDoc(
+        userDocumentRef,
+        {
+          baseMode: accountProfile.baseMode,
+          email: currentUser.email || "",
+          displayName: currentUser.displayName || "",
+          overrides: nextOverrides,
+          updatedAt: firebase.firestoreModule.serverTimestamp(),
+        },
+        { merge: true },
+      );
+
+      remoteOverrides = nextOverrides;
+      return remoteOverrides[key];
     };
 
-    await firebase.firestoreModule.setDoc(
-      userDocumentRef,
-      {
-        baseMode: accountProfile.baseMode,
-        email: currentUser.email || "",
-        displayName: currentUser.displayName || "",
-        overrides: nextOverrides,
-        updatedAt: firebase.firestoreModule.serverTimestamp(),
-      },
-      { merge: true },
-    );
+    const queued = saveQueue.then(operation, operation);
+    saveQueue = queued.catch(() => undefined);
+    return queued;
+  }
 
-    remoteOverrides = nextOverrides;
-    return remoteOverrides[key];
+  async function saveOwned(key, owned) {
+    const current = normalizeOverride(remoteOverrides[key]) || {};
+    return saveOverride(key, {
+      ...current,
+      owned: Boolean(owned),
+    });
   }
 
   window.PokemonDexPageAccount = {
@@ -388,6 +405,7 @@
     applyGroups,
     canEdit,
     saveOverride,
+    saveOwned,
     get currentUser() {
       return currentUser;
     },

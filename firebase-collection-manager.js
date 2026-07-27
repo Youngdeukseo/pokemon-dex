@@ -16,6 +16,8 @@
   let tradeMode = false;
   let snapshotStarted = false;
   let seriesCatalogPromise = null;
+  let saveQueue = Promise.resolve();
+  let pendingLocalSnapshot = "";
   let resolveReady;
 
   const firebaseReady = new Promise((resolve) => {
@@ -360,14 +362,14 @@
       if (!item) continue;
 
       record.owned = item.owned;
-      record.actualSet = item.setCode;
-      record.actualCardNumber = item.cardNumber;
-      record.actualCardName = item.cardName;
-      record.actualRarity = item.rarity;
-      record.quantity = item.quantity;
+      record.actualSet = item.owned ? item.setCode : "";
+      record.actualCardNumber = item.owned ? item.cardNumber : "";
+      record.actualCardName = item.owned ? item.cardName : "";
+      record.actualRarity = item.owned ? item.rarity : "";
+      record.quantity = item.owned ? Math.max(1, item.quantity || 0) : 0;
       record.tradeStatus = item.tradeStatus;
       record.collectionNote = item.note;
-      if (item.imageUrl) record.imageUrl = item.imageUrl;
+      if (item.owned && item.imageUrl) record.imageUrl = item.imageUrl;
     }
 
     const owned = records.filter((record) => record.owned).length;
@@ -482,14 +484,21 @@
           email: data.email || currentUser?.email || "",
         };
         const nextOverrides = sanitizeOverrides(data.overrides || {});
+        const nextSnapshotSignature = JSON.stringify(nextOverrides);
+        const isLocalSnapshot =
+          pendingLocalSnapshot &&
+          nextSnapshotSignature === pendingLocalSnapshot;
         const changed =
           JSON.stringify(nextProfile) !== JSON.stringify(accountProfile) ||
-          JSON.stringify(nextOverrides) !== JSON.stringify(remoteOverrides);
+          nextSnapshotSignature !== JSON.stringify(remoteOverrides);
 
         accountProfile = nextProfile;
         remoteOverrides = nextOverrides;
+        if (isLocalSnapshot) pendingLocalSnapshot = "";
 
-        if (!firstSnapshot && changed) window.location.reload();
+        if (!firstSnapshot && changed && !isLocalSnapshot) {
+          window.location.reload();
+        }
         firstSnapshot = false;
       },
       (error) => {
@@ -834,23 +843,44 @@
     return true;
   }
 
-  async function writeAccountOverrides(nextOverrides) {
-    await firebase.firestoreModule.setDoc(
-      userDocumentRef,
-      {
-        baseMode: accountProfile?.baseMode || "empty",
-        email: currentUser.email || "",
-        displayName: currentUser.displayName || "",
-        overrides: nextOverrides,
-        updatedAt: firebase.firestoreModule.serverTimestamp(),
-      },
-      { merge: true },
-    );
+  async function writeAccountOverrides(nextOverridesOrBuilder) {
+    const operation = async () => {
+      const nextOverrides =
+        typeof nextOverridesOrBuilder === "function"
+          ? nextOverridesOrBuilder(remoteOverrides)
+          : nextOverridesOrBuilder;
+
+      pendingLocalSnapshot = JSON.stringify(nextOverrides);
+
+      try {
+        await firebase.firestoreModule.setDoc(
+          userDocumentRef,
+          {
+            baseMode: accountProfile?.baseMode || "empty",
+            email: currentUser.email || "",
+            displayName: currentUser.displayName || "",
+            overrides: nextOverrides,
+            updatedAt: firebase.firestoreModule.serverTimestamp(),
+          },
+          { merge: true },
+        );
+        remoteOverrides = nextOverrides;
+        return nextOverrides;
+      } catch (error) {
+        pendingLocalSnapshot = "";
+        throw error;
+      }
+    };
+
+    const queued = saveQueue.then(operation, operation);
+    saveQueue = queued.catch(() => undefined);
+    return queued;
   }
 
   async function saveCurrent() {
     if (!currentNumber || !requireAccount()) return;
 
+    const saveNumber = currentNumber;
     const dialog = document.querySelector("#card-dialog");
     const saveButton = dialog.querySelector("#collection-save-card");
     const owned = dialog.querySelector("#edit-owned").checked;
@@ -932,10 +962,10 @@
 
       item.imageUrl = imageUrl;
       item.imageSource = imageSource;
-      await writeAccountOverrides({
-        ...remoteOverrides,
-        [String(currentNumber)]: item,
-      });
+      await writeAccountOverrides((currentOverrides) => ({
+        ...currentOverrides,
+        [String(saveNumber)]: item,
+      }));
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -950,11 +980,14 @@
     if (!remoteOverrides[String(currentNumber)]) return;
     if (!confirm("이 포켓몬에 입력한 내 카드 정보를 초기화할까요?")) return;
 
-    const next = { ...remoteOverrides };
-    delete next[String(currentNumber)];
+    const resetNumber = currentNumber;
 
     try {
-      await writeAccountOverrides(next);
+      await writeAccountOverrides((currentOverrides) => {
+        const next = { ...currentOverrides };
+        delete next[String(resetNumber)];
+        return next;
+      });
       window.location.reload();
     } catch (error) {
       alert(`초기화하지 못했습니다.\n${error.message}`);
@@ -1035,7 +1068,10 @@
     }
 
     try {
-      await writeAccountOverrides({ ...remoteOverrides, ...local });
+      await writeAccountOverrides((currentOverrides) => ({
+        ...currentOverrides,
+        ...local,
+      }));
       localStorage.removeItem(LOCAL_STORAGE_KEY);
       alert("기존 기록을 현재 계정의 개인 도감으로 이전했습니다.");
       window.location.reload();
@@ -1044,10 +1080,109 @@
     }
   }
 
+  function updateNationalCompletionButton(button, card) {
+    const owned = !card.classList.contains("is-missing");
+    const name =
+      card.querySelector(".card-name-ko")?.textContent?.trim() ||
+      "이 포켓몬";
+
+    button.classList.toggle("is-complete", owned);
+    button.classList.remove("is-saving");
+    button.disabled = false;
+    button.setAttribute("aria-pressed", String(owned));
+    button.setAttribute(
+      "aria-label",
+      owned
+        ? `${name} 수집완료 취소`
+        : `${name} 수집완료로 표시`,
+    );
+    button.title = owned
+      ? "다시 누르면 미보유로 변경됩니다."
+      : "로그인한 내 도감에 수집완료로 저장합니다.";
+    button.textContent = owned ? "✓ 수집완료" : "수집완료";
+  }
+
+  async function toggleNationalCompletion(number, card, button) {
+    if (!number || !requireAccount()) return;
+
+    const nextOwned = card.classList.contains("is-missing");
+    button.disabled = true;
+    button.classList.add("is-saving");
+    button.textContent = "저장 중…";
+
+    try {
+      let savedItem = null;
+      await writeAccountOverrides((currentOverrides) => {
+        const current =
+          normalizeOverride(currentOverrides[String(number)]) || {
+            owned: !nextOwned,
+            setCode: "",
+            cardNumber: "",
+            cardName: "",
+            rarity: "",
+            quantity: 0,
+            tradeStatus: "none",
+            imageUrl: "",
+            imageSource: "",
+            note: "",
+          };
+
+        savedItem = {
+          ...current,
+          owned: nextOwned,
+          quantity: nextOwned
+            ? Math.max(1, current.quantity || 0)
+            : 0,
+          updatedAt: new Date().toISOString(),
+          updatedBy: currentUser.email || currentUser.uid,
+        };
+
+        return {
+          ...currentOverrides,
+          [String(number)]: savedItem,
+        };
+      });
+
+      window.PokemonDexNationalView?.setOwned?.(
+        number,
+        nextOwned,
+        nextOwned ? savedItem?.imageUrl || "" : "",
+      );
+
+      if (currentNumber === number) fillEditor(number);
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "수집 상태를 저장하지 못했습니다.");
+      updateNationalCompletionButton(button, card);
+    }
+  }
+
+  function ensureNationalCompletionButton(card) {
+    card.classList.add("has-completion-action");
+
+    let button = card.querySelector(".collection-complete-button");
+    if (!button) {
+      button = document.createElement("button");
+      button.type = "button";
+      button.className = "collection-complete-button";
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const ownerCard = event.currentTarget.closest(".pokemon-card");
+        const number = parseNumber(ownerCard);
+        void toggleNationalCompletion(number, ownerCard, event.currentTarget);
+      });
+      card.append(button);
+    }
+
+    updateNationalCompletionButton(button, card);
+  }
+
   function applyCardEnhancements() {
     let tradeCount = 0;
 
     for (const card of document.querySelectorAll("#card-grid .pokemon-card")) {
+      ensureNationalCompletionButton(card);
       const item = normalizeOverride(remoteOverrides[String(parseNumber(card))]);
       const top = card.querySelector(".card-topline");
       card.querySelectorAll(".collection-mini-badge").forEach((node) => node.remove());

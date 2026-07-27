@@ -8,6 +8,7 @@ let selectedArtist=null;
 let statusFilter="all";
 let searchQuery="";
 let sortMode="order";
+let activeArtistCard=null;
 
 const rate=(owned,total)=>total?Math.round(owned/total*1000)/10:0;
 
@@ -65,8 +66,7 @@ function makeStatusBadge(card){
   return badge;
 }
 
-function openDialog(card){
-  const dialog=$("artist-dialog");
+function updateDialog(card){
   const imageWrap=$("artist-dialog-image-wrap");
   const image=$("artist-dialog-image");
   image.src=card.image;
@@ -84,7 +84,12 @@ function openDialog(card){
   $("artist-dialog-rarity").textContent=card.rarity||"—";
   $("artist-dialog-card-number").textContent=card.cardNumber||"—";
   $("artist-dialog-ownership").textContent=card.owned?"보유 중":"아직 미보유";
+}
 
+function openDialog(card){
+  const dialog=$("artist-dialog");
+  activeArtistCard=card;
+  updateDialog(card);
   if(typeof dialog.showModal==="function")dialog.showModal();
   else dialog.setAttribute("open","");
 }
@@ -95,9 +100,57 @@ function closeDialog(){
   else dialog.removeAttribute("open");
 }
 
+function updateCompletionButton(button,card){
+  const owned=Boolean(card.owned);
+  button.classList.toggle("is-complete",owned);
+  button.classList.remove("is-saving");
+  button.disabled=false;
+  button.setAttribute("aria-pressed",String(owned));
+  button.setAttribute("aria-label",owned?`${card.name} 수집완료 취소`:`${card.name} 수집완료로 표시`);
+  button.title=owned?"다시 누르면 미보유로 변경됩니다.":"로그인한 내 도감에 수집완료로 저장합니다.";
+  button.textContent=owned?"✓ 수집완료":"수집완료";
+}
+
+async function toggleCompletion(card,button){
+  const account=window.PokemonDexPageAccount;
+  if(!account?.canEdit?.()){
+    alert("Google 로그인 후 내 수집 상태를 저장할 수 있습니다.");
+    return;
+  }
+
+  button.disabled=true;
+  button.classList.add("is-saving");
+  button.textContent="저장 중…";
+
+  try{
+    const saved=await account.saveOwned(card.accountKey,!card.owned);
+    card.owned=saved.owned;
+    setSummary();
+    if(activeArtistCard===card)updateDialog(card);
+    render();
+  }catch(error){
+    console.error(error);
+    alert(error.message||"수집 상태를 저장하지 못했습니다.");
+    updateCompletionButton(button,card);
+  }
+}
+
+function makeCompletionButton(card){
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="collection-complete-button";
+  updateCompletionButton(button,card);
+  button.addEventListener("click",event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    void toggleCompletion(card,button);
+  });
+  return button;
+}
+
 function createCard(card){
   const article=document.createElement("article");
-  article.className=`pokemon-card artist-card${card.owned?"":" is-missing"}`;
+  article.className=`pokemon-card artist-card has-completion-action${card.owned?"":" is-missing"}`;
 
   const button=document.createElement("button");
   button.className="pokemon-card-button artist-card-button";
@@ -156,7 +209,7 @@ function createCard(card){
   body.append(top,name,artist,meta);
   button.append(imageWrap,body);
   button.addEventListener("click",()=>openDialog(card));
-  article.append(button);
+  article.append(button,makeCompletionButton(card));
   return article;
 }
 

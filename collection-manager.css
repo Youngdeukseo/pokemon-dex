@@ -53,8 +53,17 @@
 .collection-mini-badge{display:inline-flex;align-items:center;justify-content:center;margin-left:auto;border-radius:999px;background:#edf2f8;color:#556178;font-size:.52rem;font-weight:800;padding:4px 6px;white-space:nowrap}
 .collection-mini-badge--trade{background:#fff2d8;color:#a46b00}
 .has-collection-record .pokemon-card-button{border-color:#ccd9e8}
+.has-completion-action{position:relative}
+.pokemon-card.has-completion-action .card-body{padding-bottom:58px}
+.pack-card.has-completion-action .pack-card-body{padding-bottom:58px}
+.collection-complete-button{position:absolute;z-index:4;right:11px;bottom:11px;left:11px;display:flex;align-items:center;justify-content:center;min-height:36px;border:1px solid #d9e0eb;border-radius:10px;background:rgba(255,255,255,.96);color:#536078;cursor:pointer;font-size:.68rem;font-weight:900;letter-spacing:-.01em;padding:8px 10px;box-shadow:0 4px 12px rgba(23,35,63,.08);transition:transform .16s ease,border-color .16s ease,background .16s ease,color .16s ease,box-shadow .16s ease}
+.collection-complete-button:hover{transform:translateY(-1px);border-color:#aebbd0;background:#f7f9fc;color:#17233f;box-shadow:0 7px 16px rgba(23,35,63,.12)}
+.collection-complete-button.is-complete{border-color:#b9e4d5;background:#e9f8f2;color:#13795b}
+.collection-complete-button.is-complete:hover{border-color:#8fd2ba;background:#def4ec;color:#0e674d}
+.collection-complete-button.is-saving,.collection-complete-button:disabled{cursor:wait;transform:none;opacity:.68}
+.collection-complete-button:focus-visible{outline:3px solid rgba(42,117,187,.26);outline-offset:2px}
 .collection-manager-hidden{display:none!important}
 .collection-detail-row dd{overflow-wrap:anywhere}
 @media(max-width:1080px){#firebase-auth-status{max-width:155px}.header-chip{display:none}}
 @media(max-width:690px){.site-header{gap:10px}.firebase-auth-panel{margin-left:auto;padding-left:8px}.firebase-auth-dot,#firebase-auth-status{display:none}.firebase-auth-panel button{font-size:.58rem;padding:6px 8px}.catalog-actions{gap:8px}.collection-manager-actions{justify-content:flex-end}.manager-button{font-size:.6rem;padding:6px 8px}.collection-manager-notice{align-items:flex-start;flex-direction:column;gap:4px;margin-top:14px}.collection-editor-grid{grid-template-columns:1fr}.collection-editor-wide{grid-column:auto}.collection-editor-actions{align-items:stretch;flex-direction:column-reverse}.collection-editor-actions button{width:100%}.collection-mini-badge--trade{display:none}}
-@media print{.firebase-auth-panel,.collection-manager-actions,.collection-manager-notice,.collection-editor{display:none!important}}
+@media print{.firebase-auth-panel,.collection-manager-actions,.collection-manager-notice,.collection-editor,.collection-complete-button{display:none!important}.pokemon-card.has-completion-action .card-body,.pack-card.has-completion-action .pack-card-body{padding-bottom:15px}}

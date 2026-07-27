@@ -13,6 +13,8 @@ const state = {
   visibleCount: INITIAL_BATCH_SIZE,
 };
 
+let activeRecord = null;
+
 const elements = {
   heroRate: document.querySelector("#hero-rate"),
   heroOwned: document.querySelector("#hero-owned"),
@@ -268,6 +270,7 @@ function resetFilters() {
 }
 
 function openCardDialog(record) {
+  activeRecord = record;
   elements.dialogImage.src = record.imageUrl;
   elements.dialogImage.alt = `${record.nameKo} 포켓몬 카드 크게 보기`;
   elements.dialogImageWrap.classList.toggle("is-missing", !record.owned);
@@ -278,6 +281,65 @@ function openCardDialog(record) {
   elements.dialogGeneration.textContent = `${record.generation}세대`;
   elements.dialog.showModal();
 }
+
+function updateOwnedState(number, owned, imageUrl = "") {
+  const record = state.data?.records.find(
+    (candidate) => candidate.number === Number(number),
+  );
+  if (!record) return;
+
+  if (!record.originalImageUrl) {
+    record.originalImageUrl = record.imageUrl;
+  }
+
+  record.owned = Boolean(owned);
+  record.imageUrl =
+    record.owned && imageUrl
+      ? imageUrl
+      : record.originalImageUrl || record.imageUrl;
+
+  const records = state.data.records;
+  const ownedCount = records.filter((item) => item.owned).length;
+  state.data.meta.recordCount = records.length;
+  state.data.meta.owned = ownedCount;
+  state.data.meta.missing = records.length - ownedCount;
+  state.data.meta.completionRate = records.length
+    ? Number(((ownedCount / records.length) * 100).toFixed(1))
+    : 0;
+
+  for (const generation of state.data.generations) {
+    const generationRecords = records.filter(
+      (item) => item.generation === generation.generation,
+    );
+    generation.count = generationRecords.length;
+    generation.owned = generationRecords.filter((item) => item.owned).length;
+    generation.missing = generation.count - generation.owned;
+    generation.completionRate = generation.count
+      ? Number(((generation.owned / generation.count) * 100).toFixed(1))
+      : 0;
+
+    const button = elements.generationFilters.querySelector(
+      `button[data-generation="${generation.generation}"]`,
+    );
+    if (button) {
+      button.title = `${generation.owned}/${generation.count}종 · ${generation.completionRate.toFixed(1)}%`;
+    }
+  }
+
+  setSummary(state.data.meta);
+
+  if (activeRecord === record && elements.dialog.open) {
+    elements.dialogImage.src = record.imageUrl;
+    elements.dialogImageWrap.classList.toggle("is-missing", !record.owned);
+    applyStatusBadge(elements.dialogStatus, record.owned);
+  }
+
+  render();
+}
+
+window.PokemonDexNationalView = {
+  setOwned: updateOwnedState,
+};
 
 function bindEvents() {
   elements.searchInput.addEventListener("input", (event) => {

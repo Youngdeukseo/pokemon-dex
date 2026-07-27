@@ -30,6 +30,10 @@ let status = "all";
 let query = "";
 let packFirebase = null;
 let packUser = null;
+let packUserDocumentRef = null;
+let packBaseMode = "empty";
+let packSaveQueue = Promise.resolve();
+let activePack = null;
 
 const $ = id => document.getElementById(id);
 const pct = (n, d) => Math.round(n / d * 1000) / 10;
@@ -104,8 +108,7 @@ function updatePackAuthControls(user, message = "") {
   }
 
   const ownerEmail = String(
-    window.POKEMON_DEX_FIREBASE?.ownerEmail ||
-    "onesmemory@gmail.com"
+    window.POKEMON_DEX_FIREBASE?.ownerEmail || ""
   )
     .trim()
     .toLowerCase();
@@ -148,6 +151,8 @@ function updatePackAuthControls(user, message = "") {
 
 async function applyPackUserState(user) {
   packUser = user;
+  packUserDocumentRef = null;
+  packBaseMode = "empty";
 
   if (!user) {
     applyOwnedCodes([]);
@@ -160,8 +165,7 @@ async function applyPackUserState(user) {
     .toLowerCase();
 
   const ownerEmail = String(
-    window.POKEMON_DEX_FIREBASE?.ownerEmail ||
-    "onesmemory@gmail.com"
+    window.POKEMON_DEX_FIREBASE?.ownerEmail || ""
   )
     .trim()
     .toLowerCase();
@@ -170,6 +174,7 @@ async function applyPackUserState(user) {
     email === ownerEmail
       ? "legacy"
       : "empty";
+  packBaseMode = baseMode;
 
   const defaultOwnedCodes =
     baseMode === "legacy"
@@ -188,6 +193,7 @@ async function applyPackUserState(user) {
     "collections",
     "packDex"
   );
+  packUserDocumentRef = docRef;
 
   try {
     const snapshot =
@@ -423,6 +429,175 @@ async function signOutPackUser() {
   }
 }
 
+function canEditPackCollection() {
+  return Boolean(
+    packUser &&
+      packFirebase &&
+      packUserDocumentRef
+  );
+}
+
+function updatePackCompletionButton(
+  button,
+  pack
+) {
+  const owned = Boolean(pack.owned);
+
+  button.classList.toggle(
+    "is-complete",
+    owned
+  );
+
+  button.classList.remove("is-saving");
+  button.disabled = false;
+
+  button.setAttribute(
+    "aria-pressed",
+    String(owned)
+  );
+
+  button.setAttribute(
+    "aria-label",
+    owned
+      ? `${pack.name} 팩 수집완료 취소`
+      : `${pack.name} 팩 수집완료로 표시`
+  );
+
+  button.title = owned
+    ? "다시 누르면 미수집으로 변경됩니다."
+    : "로그인한 내 도감에 수집완료로 저장합니다.";
+
+  button.textContent = owned
+    ? "✓ 수집완료"
+    : "수집완료";
+}
+
+async function persistPackOwned(
+  pack,
+  owned
+) {
+  if (!canEditPackCollection()) {
+    throw new Error(
+      "Google 로그인 후 내 팩 수집 상태를 저장할 수 있습니다."
+    );
+  }
+
+  const operation = async () => {
+    const nextOwned = new Set(
+      packs
+        .filter(item => item.owned)
+        .map(item => item.code)
+    );
+
+    if (owned) {
+      nextOwned.add(pack.code);
+    } else {
+      nextOwned.delete(pack.code);
+    }
+
+    const ownedCodes = packs
+      .filter(item => nextOwned.has(item.code))
+      .map(item => item.code);
+
+    await packFirebase.firestoreModule.setDoc(
+      packUserDocumentRef,
+      {
+        baseMode: packBaseMode,
+        email: packUser.email || "",
+        displayName:
+          packUser.displayName || "",
+        ownedCodes,
+        updatedAt:
+          packFirebase.firestoreModule.serverTimestamp()
+      },
+      { merge: true }
+    );
+
+    pack.owned = owned;
+    return pack;
+  };
+
+  const queued =
+    packSaveQueue.then(operation, operation);
+
+  packSaveQueue =
+    queued.catch(() => undefined);
+
+  return queued;
+}
+
+async function togglePackCompletion(
+  pack,
+  button
+) {
+  if (!canEditPackCollection()) {
+    alert(
+      "Google 로그인 후 내 팩 수집 상태를 저장할 수 있습니다."
+    );
+    return;
+  }
+
+  button.disabled = true;
+  button.classList.add("is-saving");
+  button.textContent = "저장 중…";
+
+  try {
+    await persistPackOwned(
+      pack,
+      !pack.owned
+    );
+
+    drawSummary();
+
+    if (activePack === pack) {
+      updatePackDialog(pack);
+    }
+
+    render();
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.message ||
+        "팩 수집 상태를 저장하지 못했습니다."
+    );
+
+    updatePackCompletionButton(
+      button,
+      pack
+    );
+  }
+}
+
+function makePackCompletionButton(pack) {
+  const button =
+    document.createElement("button");
+
+  button.type = "button";
+  button.className =
+    "collection-complete-button";
+
+  updatePackCompletionButton(
+    button,
+    pack
+  );
+
+  button.addEventListener(
+    "click",
+    event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      void togglePackCompletion(
+        pack,
+        button
+      );
+    }
+  );
+
+  return button;
+}
+
 function drawSummary() {
   const owned =
     packs.filter(pack => pack.owned).length;
@@ -476,10 +651,7 @@ function spritePosition(index) {
   };
 }
 
-function openPackDialog(pack) {
-  const dialog =
-    $("pack-dialog");
-
+function updatePackDialog(pack) {
   const image =
     $("pack-dialog-image");
 
@@ -544,6 +716,14 @@ function openPackDialog(pack) {
     pack.owned
       ? "보유 중"
       : "아직 미수집";
+}
+
+function openPackDialog(pack) {
+  const dialog =
+    $("pack-dialog");
+
+  activePack = pack;
+  updatePackDialog(pack);
 
   if (
     typeof dialog.showModal === "function"
@@ -572,7 +752,7 @@ function createCard(pack) {
     document.createElement("article");
 
   element.className =
-    `pack-card${
+    `pack-card has-completion-action${
       pack.owned
         ? ""
         : " is-missing"
@@ -588,13 +768,14 @@ function createCard(pack) {
     palettes[pack.era][1]
   );
 
-  element.tabIndex = 0;
-  element.setAttribute(
-    "role",
-    "button"
-  );
+  const detailButton =
+    document.createElement("button");
 
-  element.setAttribute(
+  detailButton.type = "button";
+  detailButton.className =
+    "pack-card-detail";
+
+  detailButton.setAttribute(
     "aria-label",
     `${pack.name} 상세 보기`
   );
@@ -667,26 +848,16 @@ function createCard(pack) {
   name.textContent = pack.name;
 
   body.append(top, name);
-  element.append(art, body);
+  detailButton.append(art, body);
 
-  element.addEventListener(
+  detailButton.addEventListener(
     "click",
     () => openPackDialog(pack)
   );
 
-  element.addEventListener(
-    "keydown",
-    event => {
-      if (
-        event.key !== "Enter" &&
-        event.key !== " "
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-      openPackDialog(pack);
-    }
+  element.append(
+    detailButton,
+    makePackCompletionButton(pack)
   );
 
   return element;
