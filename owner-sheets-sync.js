@@ -4,7 +4,8 @@
   const SDK_VERSION = "12.16.0";
   const CONFIG = window.POKEMON_DEX_FIREBASE || {};
   const SHEETS = CONFIG.ownerSheets || {};
-  const TOKEN_KEY = "pokemonDexOwnerSheetsTokenV1";
+  const TOKEN_KEY = "pokemonDexOwnerSheetsTokenV2";
+  const LEGACY_TOKEN_KEYS = ["pokemonDexOwnerSheetsTokenV1"];
   const PENDING_KEY = "pokemonDexOwnerSheetsPendingV1";
   const LAST_SYNC_KEY = "pokemonDexOwnerSheetsLastSyncV1";
   const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
@@ -80,30 +81,41 @@
     }
   }
 
-  function readToken() {
+  function readTokenRecord() {
     try {
       const parsed = JSON.parse(storageGet(TOKEN_KEY) || "null");
       if (
         parsed?.accessToken &&
         Number(parsed.expiresAt) > Date.now() + 60_000
       ) {
-        return parsed.accessToken;
+        return parsed;
       }
     } catch {
       // 잘못된 토큰은 아래에서 정리합니다.
     }
     storageRemove(TOKEN_KEY);
-    return "";
+    return null;
   }
 
-  function writeToken(accessToken) {
+  function readToken() {
+    return readTokenRecord()?.accessToken || "";
+  }
+
+  function writeToken(accessToken, accountEmail = "") {
     storageSet(
       TOKEN_KEY,
       JSON.stringify({
         accessToken,
+        accountEmail: normalizeEmail(accountEmail),
         expiresAt: Date.now() + 50 * 60 * 1000,
       }),
     );
+  }
+
+  function clearStoredConnection() {
+    storageRemove(TOKEN_KEY);
+    for (const key of LEGACY_TOKEN_KEYS) storageRemove(key);
+    storageRemove(LAST_SYNC_KEY);
   }
 
   function setPending(value = true) {
@@ -197,11 +209,20 @@
     const link = document.querySelector("#owner-sheets-link");
     if (!connect || !sync || !link) return;
 
-    const connected = Boolean(readToken());
+    const tokenRecord = readTokenRecord();
+    const connected = Boolean(tokenRecord);
     connect.hidden = connected;
     sync.hidden = !connected;
     link.hidden = !connected;
-    setSyncStatus(connected ? "Sheets 연결됨" : "시트 미연결", connected ? "connected" : "");
+    setSyncStatus(
+      connected ? "Sheets 연결됨" : "시트 미연결",
+      connected ? "connected" : "",
+    );
+    if (connected && tokenRecord.accountEmail) {
+      sync.title = `${tokenRecord.accountEmail} 계정으로 동기화`;
+    } else {
+      sync.removeAttribute("title");
+    }
   }
 
   async function waitForAuthPanel(timeout = 10_000) {
@@ -226,45 +247,49 @@
   async function connectSheets() {
     if (!firebase || !isOwner(currentUser)) return;
 
-    const { authModule } = firebase;
+    const { appModule, authModule } = firebase;
+    const sheetsAppName = "pokemonDexOwnerSheetsAuth";
+    const sheetsApp =
+      appModule.getApps().find((app) => app.name === sheetsAppName) ||
+      appModule.initializeApp(CONFIG.config, sheetsAppName);
+    const sheetsAuth = authModule.getAuth(sheetsApp);
+    await authModule.setPersistence(
+      sheetsAuth,
+      authModule.inMemoryPersistence,
+    );
     const provider = new authModule.GoogleAuthProvider();
     provider.addScope(SHEETS.scope || SHEETS_SCOPE);
     provider.setCustomParameters({
-      prompt: "consent",
-      login_hint: currentUser.email || "",
+      prompt: "select_account consent",
     });
 
+    clearStoredConnection();
     setUiBusy(true);
     setSyncStatus("권한 확인 중…", "loading");
 
     try {
-      const result = await authModule.reauthenticateWithPopup(
-        currentUser,
-        provider,
-      );
+      const result = await authModule.signInWithPopup(sheetsAuth, provider);
       const credential =
         authModule.GoogleAuthProvider.credentialFromResult(result);
       if (!credential?.accessToken) {
         throw new Error("Google Sheets 접근 토큰을 받지 못했습니다.");
       }
 
-      writeToken(credential.accessToken);
+      writeToken(credential.accessToken, result.user?.email);
       updateOwnerUi();
       await syncAll({ showAlert: true });
     } catch (error) {
+      clearStoredConnection();
       console.error("Google Sheets 연결 실패", error);
       if (
         error.code !== "auth/popup-closed-by-user" &&
         error.code !== "auth/cancelled-popup-request"
       ) {
-        alert(
-          error.code === "auth/user-mismatch"
-            ? "현재 사이트에 로그인한 onesmemory@gmail.com 계정을 선택해주세요."
-            : error.message || "Google Sheets 연결에 실패했습니다.",
-        );
+        alert(error.message || "Google Sheets 연결에 실패했습니다.");
       }
       setSyncStatus("시트 연결 필요", "error");
     } finally {
+      await authModule.signOut(sheetsAuth).catch(() => {});
       setUiBusy(false);
       updateOwnerUi();
     }
@@ -300,8 +325,8 @@
       payload?.error?.message ||
       `Google Sheets 요청에 실패했습니다. (${response.status})`;
 
-    if (response.status === 401) {
-      storageRemove(TOKEN_KEY);
+    if ([401, 403, 404].includes(response.status)) {
+      clearStoredConnection();
       updateOwnerUi();
     }
 
@@ -310,7 +335,16 @@
       /has not been used|disabled|accessNotConfigured/i.test(message)
     ) {
       throw new Error(
-        "Google Sheets API가 아직 활성화되지 않았습니다. Firebase 프로젝트에서 Sheets API를 한 번 활성화한 뒤 다시 연결해주세요.",
+        "Google Sheets API가 아직 활성화되지 않았습니다. Firebase 프로젝트에서 Sheets API를 활성화한 뒤, 시트가 있는 계정으로 다시 연결해주세요.",
+      );
+    }
+
+    if (
+      [403, 404].includes(response.status) &&
+      /permission|not found|requested entity|does not exist|caller/i.test(message)
+    ) {
+      throw new Error(
+        "연결한 Google 계정이 동기화 시트에 접근할 수 없습니다. 시트가 있는 계정으로 다시 연결해주세요.",
       );
     }
 
@@ -992,12 +1026,13 @@
         : appModule.initializeApp(CONFIG.config);
       const auth = authModule.getAuth(app);
       const db = firestoreModule.getFirestore(app);
-      firebase = { auth, db, authModule, firestoreModule };
+      firebase = { app, auth, db, appModule, authModule, firestoreModule };
       currentUser = await firstAuthUser(auth, authModule);
 
       await waitForAuthPanel();
       if (!isOwner(currentUser)) return;
 
+      for (const key of LEGACY_TOKEN_KEYS) storageRemove(key);
       createOwnerUi();
       updateOwnerUi();
       if (readToken() && shouldRunStartupSync()) {
