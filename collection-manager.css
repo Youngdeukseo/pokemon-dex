@@ -37,7 +37,16 @@
 .collection-editor-grid input,.collection-editor-grid select{min-height:38px}
 .collection-editor-grid textarea{resize:vertical;line-height:1.5}
 .collection-editor-grid input:focus,.collection-editor-grid select:focus,.collection-editor-grid textarea:focus{border-color:rgba(42,117,187,.65);box-shadow:0 0 0 3px rgba(42,117,187,.09)}
+.collection-editor-grid input:disabled,.collection-editor-grid select:disabled{cursor:not-allowed;background:#f4f5f8;color:#a1a6b3}
 .collection-editor-wide{grid-column:1/-1}
+.manual-image-fallback{border:1px dashed #d8deea;border-radius:10px;background:#fafbfc;padding:10px 12px}
+.manual-image-fallback summary{cursor:pointer;color:#667087;font-size:.64rem;font-weight:800}
+.manual-image-fallback label{margin-top:11px}
+.manual-image-fallback p{margin:7px 0 0;color:#969cad;font-size:.58rem;line-height:1.5}
+.collection-editor-message{min-height:19px;margin:12px 0 0;color:#747b8f;font-size:.63rem;line-height:1.5}
+.collection-editor-message[data-state=loading]{color:#2a75bb}
+.collection-editor-message[data-state=success]{color:#13795b}
+.collection-editor-message[data-state=error]{color:#b93647}
 .collection-editor-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:15px}
 .collection-editor-actions .primary-button{min-width:128px;min-height:38px}
 .collection-save-hint{margin:10px 0 0;color:#9a9faf;font-size:.58rem;line-height:1.5}
