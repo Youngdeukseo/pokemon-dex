@@ -12,8 +12,9 @@
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css?v=20260728-1" />
     <link rel="stylesheet" href="./collection-manager.css?v=20260729-1" />
-    <link rel="stylesheet" href="./dashboard.css?v=20260729-1" />
+    <link rel="stylesheet" href="./dashboard.css?v=20260729-2" />
     <script src="./firebase-config.js?v=20260727-2" defer></script>
+    <script src="./site-metrics.js?v=20260729-1" defer></script>
     <script src="./shared-readonly-view.js?v=20260729-1" defer></script>
     <script src="./dashboard.js?v=20260729-1" defer></script>
     <script src="./owner-sheets-sync.js?v=20260727-2" defer></script>
@@ -116,6 +117,46 @@
             <p>로그인하지 않은 공개 화면에서는 모든 도감이 미수집 상태로 표시됩니다.</p>
           </div>
           <button id="dashboard-login-cta" type="button">내 도감 로그인</button>
+        </section>
+
+        <section
+          id="dashboard-traffic"
+          class="catalog-panel dashboard-traffic-panel"
+          aria-labelledby="traffic-title"
+          aria-busy="true"
+        >
+          <div class="dashboard-traffic-heading">
+            <div>
+              <p class="section-kicker">SITE ACTIVITY</p>
+              <h2 id="traffic-title">사이트 이용 현황</h2>
+            </div>
+            <p id="dashboard-traffic-status" aria-live="polite">
+              이용 현황을 불러오는 중입니다.
+            </p>
+          </div>
+          <div class="dashboard-traffic-grid" aria-live="polite">
+            <article class="dashboard-traffic-card dashboard-traffic-card--total">
+              <span class="dashboard-traffic-icon" aria-hidden="true">Σ</span>
+              <div>
+                <span>누적 접속수</span>
+                <strong><b id="metric-total-visits">—</b><small>회</small></strong>
+              </div>
+            </article>
+            <article class="dashboard-traffic-card dashboard-traffic-card--today">
+              <span class="dashboard-traffic-icon" aria-hidden="true">24H</span>
+              <div>
+                <span>오늘 접속수</span>
+                <strong><b id="metric-today-visits">—</b><small>회</small></strong>
+              </div>
+            </article>
+            <article class="dashboard-traffic-card dashboard-traffic-card--users">
+              <span class="dashboard-traffic-icon" aria-hidden="true">ID</span>
+              <div>
+                <span>사용 인원수</span>
+                <strong><b id="metric-users">—</b><small>명</small></strong>
+              </div>
+            </article>
+          </div>
         </section>
 
         <section class="catalog-panel dashboard-collections-panel" aria-labelledby="collections-title">

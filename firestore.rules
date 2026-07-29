@@ -6,6 +6,11 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == userId;
     }
 
+    function isOwnerAccount() {
+      return request.auth != null
+        && request.auth.token.email == "onesmemory@gmail.com";
+    }
+
     function isSharedReadOnlyViewer() {
       return request.auth != null
         && request.auth.uid == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2";
@@ -33,6 +38,98 @@ service cloud.firestore {
         || collectionId == "artistDex"
         || collectionId == "seriesDex"
         || collectionId == "pokemonCollectionsDex";
+    }
+
+    function validVisitorId(visitorId) {
+      return visitorId is string
+        && visitorId.size() >= 24
+        && visitorId.size() <= 64
+        && visitorId.matches('^[A-Za-z0-9-]+$');
+    }
+
+    function validDateKey(date) {
+      return date is string
+        && date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+
+    function createsVisitMarker(date, visitorId) {
+      return validDateKey(date)
+        && validVisitorId(visitorId)
+        && !exists(
+          /databases/$(database)/documents/siteDailyMetrics/$(date)/visitors/$(visitorId)
+        )
+        && existsAfter(
+          /databases/$(database)/documents/siteDailyMetrics/$(date)/visitors/$(visitorId)
+        );
+    }
+
+    function validPublicMetricFields() {
+      return request.resource.data.keys().hasAll([
+          "cumulativeVisits",
+          "userCount",
+          "lastVisitDate",
+          "lastVisitorId",
+          "updatedAt"
+        ])
+        && request.resource.data.keys().hasOnly([
+          "cumulativeVisits",
+          "userCount",
+          "lastVisitDate",
+          "lastVisitorId",
+          "updatedAt"
+        ])
+        && request.resource.data.cumulativeVisits is int
+        && request.resource.data.cumulativeVisits >= 0
+        && request.resource.data.userCount is int
+        && request.resource.data.userCount >= 0
+        && request.resource.data.lastVisitDate is string
+        && request.resource.data.lastVisitorId is string
+        && request.resource.data.updatedAt == request.time;
+    }
+
+    function validVisitMetricCreate() {
+      return validPublicMetricFields()
+        && request.resource.data.cumulativeVisits == 1
+        && request.resource.data.userCount == 0
+        && createsVisitMarker(
+          request.resource.data.lastVisitDate,
+          request.resource.data.lastVisitorId
+        );
+    }
+
+    function validVisitMetricUpdate() {
+      return validPublicMetricFields()
+        && request.resource.data.cumulativeVisits
+          == resource.data.cumulativeVisits + 1
+        && request.resource.data.userCount == resource.data.userCount
+        && createsVisitMarker(
+          request.resource.data.lastVisitDate,
+          request.resource.data.lastVisitorId
+        );
+    }
+
+    function createsRegisteredUser(userId, source) {
+      return !exists(
+          /databases/$(database)/documents/siteUserRegistry/$(userId)
+        )
+        && existsAfter(
+          /databases/$(database)/documents/siteUserRegistry/$(userId)
+        )
+        && getAfter(
+          /databases/$(database)/documents/siteUserRegistry/$(userId)
+        ).data.source == source;
+    }
+
+    function validUserMetricUpdate(userId, source) {
+      return validPublicMetricFields()
+        && request.resource.data.cumulativeVisits
+          == resource.data.cumulativeVisits
+        && request.resource.data.userCount == resource.data.userCount + 1
+        && request.resource.data.lastVisitDate
+          == resource.data.lastVisitDate
+        && request.resource.data.lastVisitorId
+          == resource.data.lastVisitorId
+        && createsRegisteredUser(userId, source);
     }
 
     // 각 사용자는 자신의 문서를 읽고 수정할 수 있습니다.
@@ -78,6 +175,132 @@ service cloud.firestore {
         && request.resource.data.ownerEmail == "onesmemory@gmail.com"
         && request.resource.data.viewerUid == viewerId
         && request.resource.data.mode == "read-only";
+    }
+
+    // 공개 대시보드에 표시할 누적 접속수와 로그인 사용자 수입니다.
+    // 접속수는 일별·기기별 방문 표식과 함께 원자적으로 1씩만 증가합니다.
+    match /siteMetrics/public {
+      allow get: if true;
+      allow list: if false;
+      allow create: if validVisitMetricCreate();
+      allow update: if validVisitMetricUpdate()
+        || (
+          request.auth != null
+          && validUserMetricUpdate(request.auth.uid, "login")
+        )
+        || (
+          isOwnerAccount()
+          && validUserMetricUpdate(
+            "9K11y6y4U4dlVmmi9bkxaT4Ci8u2",
+            "seeded"
+          )
+        );
+      allow delete: if false;
+    }
+
+    // 날짜별 접속수와 같은 기기의 중복 집계를 막는 방문 표식입니다.
+    match /siteDailyMetrics/{date} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.resource.data.keys().hasAll([
+          "date",
+          "visits",
+          "lastVisitorId",
+          "updatedAt"
+        ])
+        && request.resource.data.keys().hasOnly([
+          "date",
+          "visits",
+          "lastVisitorId",
+          "updatedAt"
+        ])
+        && validDateKey(date)
+        && request.resource.data.date == date
+        && request.resource.data.visits == 1
+        && request.resource.data.updatedAt == request.time
+        && createsVisitMarker(date, request.resource.data.lastVisitorId);
+      allow update: if request.resource.data.keys().hasAll([
+          "date",
+          "visits",
+          "lastVisitorId",
+          "updatedAt"
+        ])
+        && request.resource.data.keys().hasOnly([
+          "date",
+          "visits",
+          "lastVisitorId",
+          "updatedAt"
+        ])
+        && validDateKey(date)
+        && request.resource.data.date == date
+        && request.resource.data.visits is int
+        && request.resource.data.visits == resource.data.visits + 1
+        && request.resource.data.updatedAt == request.time
+        && createsVisitMarker(date, request.resource.data.lastVisitorId);
+      allow delete: if false;
+
+      match /visitors/{visitorId} {
+        allow get: if true;
+        allow list: if false;
+        allow create: if request.resource.data.keys().hasAll([
+            "visitorId",
+            "date",
+            "createdAt"
+          ])
+          && request.resource.data.keys().hasOnly([
+            "visitorId",
+            "date",
+            "createdAt"
+          ])
+          && validVisitorId(visitorId)
+          && validDateKey(date)
+          && request.resource.data.visitorId == visitorId
+          && request.resource.data.date == date
+          && request.resource.data.createdAt == request.time
+          && getAfter(
+            /databases/$(database)/documents/siteMetrics/public
+          ).data.lastVisitDate == date
+          && getAfter(
+            /databases/$(database)/documents/siteMetrics/public
+          ).data.lastVisitorId == visitorId
+          && getAfter(
+            /databases/$(database)/documents/siteDailyMetrics/$(date)
+          ).data.lastVisitorId == visitorId;
+        allow update, delete: if false;
+      }
+    }
+
+    // 로그인 계정당 한 번 생성되는 비공개 표식입니다.
+    // 공개 화면에는 계정 정보가 아닌 합계만 표시됩니다.
+    match /siteUserRegistry/{userId} {
+      allow get: if request.auth != null
+        && (
+          request.auth.uid == userId
+          || isOwnerAccount()
+        );
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasAll(["createdAt", "source"])
+        && request.resource.data.keys().hasOnly(["createdAt", "source"])
+        && request.resource.data.createdAt == request.time
+        && (
+          (
+            request.auth.uid == userId
+            && request.resource.data.source == "login"
+          )
+          || (
+            isOwnerAccount()
+            && userId == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2"
+            && request.resource.data.source == "seeded"
+          )
+        )
+        && getAfter(
+          /databases/$(database)/documents/siteMetrics/public
+        ).data.userCount
+          == get(
+            /databases/$(database)/documents/siteMetrics/public
+          ).data.userCount + 1;
+      allow update, delete: if false;
     }
 
     // 그 외 모든 Firestore 경로는 차단합니다.
