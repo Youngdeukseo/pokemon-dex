@@ -129,16 +129,22 @@
     function updateGuestLabel(user) {
     const apply = () => {
       const headerChip = document.querySelector(".header-chip");
+      const shared = window.PokemonDexSharedReadonly;
+      const sharedViewActive = Boolean(shared?.updateControl?.(user));
 
       if (headerChip) {
-        headerChip.textContent = user
-          ? "SIGNED IN"
-          : "PUBLIC VIEW";
+        headerChip.textContent = sharedViewActive
+          ? "READ ONLY"
+          : user
+            ? "SIGNED IN"
+            : "PUBLIC VIEW";
       }
 
       const status = document.querySelector("#firebase-auth-status");
 
-      if (!user && status) {
+      if (sharedViewActive && status) {
+        status.textContent = `${shared.buttonLabel()} · 읽기 전용`;
+      } else if (!user && status) {
         status.textContent = "방문자";
       }
     };

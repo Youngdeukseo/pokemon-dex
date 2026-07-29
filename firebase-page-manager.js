@@ -18,6 +18,7 @@
   let userDocumentRef = null;
   let accountProfile = { baseMode: "empty" };
   let remoteOverrides = {};
+  let sharedViewActive = false;
   let saveQueue = Promise.resolve();
   let resolveReady;
 
@@ -167,11 +168,17 @@
     const login = panel.querySelector("#firebase-login");
     const logout = panel.querySelector("#firebase-logout");
     const headerChip = document.querySelector(".header-chip");
+    const shared = window.PokemonDexSharedReadonly;
+    sharedViewActive = Boolean(shared?.updateControl?.(currentUser));
 
     panel.classList.toggle("is-account", Boolean(currentUser));
     panel.classList.toggle("is-owner", isOwnerAccount(currentUser));
     if (headerChip) {
-      headerChip.textContent = currentUser ? "SIGNED IN" : "PUBLIC VIEW";
+      headerChip.textContent = sharedViewActive
+        ? "READ ONLY"
+        : currentUser
+          ? "SIGNED IN"
+          : "PUBLIC VIEW";
     }
 
     if (!configured()) {
@@ -196,6 +203,13 @@
     }
 
     const name = currentUser.displayName || currentUser.email || "내 계정";
+    if (sharedViewActive) {
+      status.textContent = `${shared.buttonLabel()} · 읽기 전용`;
+      login.hidden = true;
+      logout.hidden = false;
+      return;
+    }
+
     const startLabel =
       accountProfile.baseMode === "legacy"
         ? "기존 도감 유지"
@@ -223,6 +237,40 @@
     const fallbackMode = isOwnerAccount(user) ? "legacy" : "empty";
     accountProfile = { baseMode: fallbackMode };
     remoteOverrides = {};
+    userDocumentRef = null;
+
+    const shared = window.PokemonDexSharedReadonly;
+    await shared?.ensureOwnerShare?.(
+      firebase.db,
+      firebase.firestoreModule,
+      user,
+    );
+    sharedViewActive = Boolean(shared?.isActive?.(user));
+
+    if (sharedViewActive) {
+      accountProfile = { baseMode: "legacy" };
+      try {
+        const ownerDocument = await shared.loadOwnerDocument(
+          firebase.db,
+          firebase.firestoreModule,
+          page.documentId,
+        );
+        if (!ownerDocument) {
+          throw new Error(`${page.documentId} 공유 문서를 찾지 못했습니다.`);
+        }
+        const data = ownerDocument.data || {};
+        accountProfile = {
+          baseMode: data.baseMode === "legacy" ? "legacy" : "empty",
+        };
+        remoteOverrides = sanitizeOverrides(data.overrides || {});
+      } catch (error) {
+        console.warn(
+          `${page.documentId} 읽기 전용 공유 데이터를 불러오지 못했습니다.`,
+          error,
+        );
+      }
+      return;
+    }
 
     const { db, firestoreModule } = firebase;
     const documentRef = firestoreModule.doc(
@@ -343,12 +391,18 @@
 
   async function signOutUser() {
     if (!firebase) return;
+    window.PokemonDexSharedReadonly?.clear?.();
     await firebase.authModule.signOut(firebase.auth);
     window.location.reload();
   }
 
   function canEdit() {
-    return Boolean(currentUser && firebase && userDocumentRef);
+    return Boolean(
+      currentUser &&
+        firebase &&
+        userDocumentRef &&
+        !sharedViewActive,
+    );
   }
 
   function notifyOwnerSheets(key) {
@@ -423,6 +477,9 @@
     },
     get baseMode() {
       return accountProfile.baseMode;
+    },
+    get readOnly() {
+      return sharedViewActive;
     },
   };
 

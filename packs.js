@@ -32,6 +32,7 @@ let packFirebase = null;
 let packUser = null;
 let packUserDocumentRef = null;
 let packBaseMode = "empty";
+let packSharedViewActive = false;
 let packSaveQueue = Promise.resolve();
 let activePack = null;
 
@@ -102,9 +103,15 @@ function updatePackAuthControls(user, message = "") {
   }
 
   const headerChip = document.querySelector(".header-chip");
+  const shared = window.PokemonDexSharedReadonly;
+  packSharedViewActive = Boolean(shared?.updateControl?.(user));
 
   if (headerChip) {
-    headerChip.textContent = user ? "SIGNED IN" : "PUBLIC VIEW";
+    headerChip.textContent = packSharedViewActive
+      ? "READ ONLY"
+      : user
+        ? "SIGNED IN"
+        : "PUBLIC VIEW";
   }
 
   const ownerEmail = String(
@@ -132,7 +139,9 @@ function updatePackAuthControls(user, message = "") {
         ? "기존 도감 유지"
         : "0장부터 시작";
 
-    label.textContent = message
+    label.textContent = packSharedViewActive
+      ? `${shared.buttonLabel()} · 읽기 전용`
+      : message
       ? `${account} · ${message}`
       : `${account} · ${modeText}`;
     login.hidden = true;
@@ -153,6 +162,7 @@ async function applyPackUserState(user) {
   packUser = user;
   packUserDocumentRef = null;
   packBaseMode = "empty";
+  packSharedViewActive = false;
 
   if (!user) {
     applyOwnedCodes([]);
@@ -186,6 +196,56 @@ async function applyPackUserState(user) {
     firestoreModule
   } = packFirebase;
 
+  const shared = window.PokemonDexSharedReadonly;
+  await shared?.ensureOwnerShare?.(
+    db,
+    firestoreModule,
+    user
+  );
+  packSharedViewActive = Boolean(
+    shared?.isActive?.(user)
+  );
+
+  if (packSharedViewActive) {
+    packBaseMode = "legacy";
+    try {
+      const ownerDocument =
+        await shared.loadOwnerDocument(
+          db,
+          firestoreModule,
+          "packDex"
+        );
+
+      if (!ownerDocument) {
+        throw new Error(
+          "packDex 공유 문서를 찾지 못했습니다."
+        );
+      }
+
+      const data =
+        ownerDocument.data || {};
+      const ownedCodes =
+        Array.isArray(data.ownedCodes)
+          ? data.ownedCodes
+          : getLegacyOwnedCodes();
+
+      applyOwnedCodes(ownedCodes);
+      updatePackAuthControls(user);
+      return;
+    } catch (error) {
+      console.warn(
+        "팩도감 읽기 전용 공유 데이터를 불러오지 못했습니다.",
+        error
+      );
+
+      applyOwnedCodes(
+        getLegacyOwnedCodes()
+      );
+      updatePackAuthControls(user);
+      return;
+    }
+  }
+
   const docRef = firestoreModule.doc(
     db,
     "users",
@@ -202,6 +262,9 @@ async function applyPackUserState(user) {
     if (!snapshot.exists()) {
       await firestoreModule.setDoc(docRef, {
         baseMode,
+        email: user.email || "",
+        displayName:
+          user.displayName || "",
         ownedCodes: defaultOwnedCodes,
         updatedAt:
           firestoreModule.serverTimestamp()
@@ -415,6 +478,7 @@ async function signOutPackUser() {
   }
 
   try {
+    window.PokemonDexSharedReadonly?.clear?.();
     await packFirebase.authModule.signOut(
       packFirebase.auth
     );
@@ -433,7 +497,8 @@ function canEditPackCollection() {
   return Boolean(
     packUser &&
       packFirebase &&
-      packUserDocumentRef
+      packUserDocumentRef &&
+      !packSharedViewActive
   );
 }
 

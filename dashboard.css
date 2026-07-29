@@ -29,6 +29,16 @@
   background: #fffaf1;
 }
 
+.dashboard-account-note[data-state="readonly"] {
+  border-color: #ded7f6;
+  background: #faf8ff;
+}
+
+.dashboard-account-note[data-state="readonly"] .dashboard-account-icon {
+  background: #eee9ff;
+  color: #6b50c8;
+}
+
 .dashboard-account-icon {
   display: grid;
   place-items: center;

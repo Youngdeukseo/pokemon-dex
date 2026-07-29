@@ -6,6 +6,21 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == userId;
     }
 
+    function isSharedReadOnlyViewer() {
+      return request.auth != null
+        && request.auth.uid == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2";
+    }
+
+    function isConfiguredSharedOwner(userId) {
+      let share = get(
+        /databases/$(database)/documents/sharedDexViews/9K11y6y4U4dlVmmi9bkxaT4Ci8u2
+      );
+      return share.data.ownerUid == userId
+        && share.data.ownerEmail == "onesmemory@gmail.com"
+        && share.data.viewerUid == request.auth.uid
+        && share.data.mode == "read-only";
+    }
+
     function requiredBaseMode() {
       return request.auth.token.email == "onesmemory@gmail.com"
         ? "legacy"
@@ -20,23 +35,49 @@ service cloud.firestore {
         || collectionId == "pokemonCollectionsDex";
     }
 
-    // 각 사용자는 지원되는 도감 중 자신의 문서만 읽고 수정할 수 있습니다.
-    // 소유자 계정은 기존 도감을 유지하고, 다른 신규 계정은 미보유로 시작합니다.
+    // 각 사용자는 자신의 문서를 읽고 수정할 수 있습니다.
+    // 지정된 공유 계정은 소유자의 legacy 도감만 읽을 수 있고 쓰기는 할 수 없습니다.
     match /users/{userId}/collections/{collectionId} {
-      allow read: if ownsDocument(userId)
-        && supportedCollection(collectionId);
+      allow read: if supportedCollection(collectionId)
+        && (
+          ownsDocument(userId)
+          || (
+            isSharedReadOnlyViewer()
+            && isConfiguredSharedOwner(userId)
+          )
+        );
 
       allow create: if ownsDocument(userId)
         && supportedCollection(collectionId)
-        && request.resource.data.baseMode == requiredBaseMode();
+        && request.resource.data.baseMode == requiredBaseMode()
+        && request.resource.data.email == request.auth.token.email;
 
       // 최초 생성된 시작 모드는 이후 변경할 수 없습니다.
       allow update: if ownsDocument(userId)
         && supportedCollection(collectionId)
-        && request.resource.data.baseMode == resource.data.baseMode;
+        && request.resource.data.baseMode == resource.data.baseMode
+        && request.resource.data.email == request.auth.token.email;
 
       allow delete: if ownsDocument(userId)
         && supportedCollection(collectionId);
+    }
+
+    // 소유자 계정이 지정된 뷰어에게만 생성하는 읽기 전용 공유 설정입니다.
+    match /sharedDexViews/{viewerId} {
+      allow get: if request.auth != null
+        && viewerId == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2"
+        && (
+          request.auth.uid == viewerId
+          || request.auth.token.email == "onesmemory@gmail.com"
+        );
+
+      allow create, update: if request.auth != null
+        && request.auth.token.email == "onesmemory@gmail.com"
+        && viewerId == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2"
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ownerEmail == "onesmemory@gmail.com"
+        && request.resource.data.viewerUid == viewerId
+        && request.resource.data.mode == "read-only";
     }
 
     // 그 외 모든 Firestore 경로는 차단합니다.

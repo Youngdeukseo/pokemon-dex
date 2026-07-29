@@ -2,11 +2,14 @@
 .firebase-auth-dot{width:8px;height:8px;flex:0 0 auto;border-radius:50%;background:#a8adba;box-shadow:0 0 0 3px rgba(168,173,186,.13)}
 .firebase-auth-panel.is-account .firebase-auth-dot{background:#21a179;box-shadow:0 0 0 3px rgba(33,161,121,.13)}
 .firebase-auth-panel.is-owner .firebase-auth-dot{background:#2a75bb;box-shadow:0 0 0 3px rgba(42,117,187,.14)}
+.firebase-auth-panel.is-shared-readonly .firebase-auth-dot{background:#7b5fd6;box-shadow:0 0 0 3px rgba(123,95,214,.14)}
 #firebase-auth-status{max-width:230px;overflow:hidden;color:#73798a;font-size:.65rem;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
 .firebase-auth-panel button{min-height:30px;border:0;border-radius:999px;background:#17233f;color:#fff;cursor:pointer;font-size:.62rem;font-weight:800;padding:6px 10px}
 .firebase-auth-panel button:hover{background:#26365b}
 .firebase-auth-panel button:disabled{cursor:wait;opacity:.55}
 .firebase-auth-panel button:focus-visible{outline:3px solid rgba(42,117,187,.25);outline-offset:2px}
+.firebase-auth-panel .shared-readonly-toggle{background:#7b5fd6;white-space:nowrap}
+.firebase-auth-panel .shared-readonly-toggle:hover{background:#6549bd}
 .firebase-auth-panel button[hidden],.account-only-control[hidden]{display:none!important}
 .owner-sheets-status{max-width:120px;overflow:hidden;border-left:1px solid #e5e8ef;padding-left:8px;color:#8b91a1;font-size:.58rem;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
 .owner-sheets-status[data-state=connected],.owner-sheets-status[data-state=success]{color:#13795b}
@@ -71,6 +74,8 @@
 .collection-complete-button:focus-visible{outline:3px solid rgba(42,117,187,.26);outline-offset:2px}
 .collection-manager-hidden{display:none!important}
 .collection-detail-row dd{overflow-wrap:anywhere}
+.shared-readonly-view .account-only-control,.shared-readonly-view .collection-complete-button,.shared-readonly-view #series-card-editor{display:none!important}
+.shared-readonly-view .pokemon-card.has-completion-action .card-body,.shared-readonly-view .pack-card.has-completion-action .pack-card-body{padding-bottom:15px}
 @media(max-width:1080px){#firebase-auth-status{max-width:155px}.owner-sheets-status{display:none}.header-chip{display:none}}
 @media(max-width:690px){.site-header{gap:10px}.firebase-auth-panel{margin-left:auto;padding-left:8px}.firebase-auth-dot,#firebase-auth-status,.owner-sheets-link{display:none}.firebase-auth-panel button{font-size:.58rem;padding:6px 8px}.catalog-actions{gap:8px}.collection-manager-actions{justify-content:flex-end}.manager-button{font-size:.6rem;padding:6px 8px}.collection-manager-notice{align-items:flex-start;flex-direction:column;gap:4px;margin-top:14px}.collection-editor-grid{grid-template-columns:1fr}.collection-editor-wide{grid-column:auto}.collection-editor-actions{align-items:stretch;flex-direction:column-reverse}.collection-editor-actions button{width:100%}.collection-mini-badge--trade{display:none}}
 @media print{.firebase-auth-panel,.owner-sheets-status,.owner-sheets-link,.collection-manager-actions,.collection-manager-notice,.collection-editor,.collection-complete-button{display:none!important}.pokemon-card.has-completion-action .card-body,.pack-card.has-completion-action .pack-card-body{padding-bottom:15px}}

@@ -72,6 +72,7 @@
 
   let firebase = null;
   let currentUser = null;
+  let sharedViewActive = false;
   let catalogs = null;
   let documents = Object.fromEntries(CATEGORY_ORDER.map((key) => [key, null]));
   let documentReadFailed = false;
@@ -311,11 +312,17 @@
     const status = panel.querySelector("#firebase-auth-status");
     const login = panel.querySelector("#firebase-login");
     const logout = panel.querySelector("#firebase-logout");
+    const shared = window.PokemonDexSharedReadonly;
+    sharedViewActive = Boolean(shared?.updateControl?.(currentUser));
 
     panel.classList.toggle("is-account", Boolean(currentUser));
     panel.classList.toggle("is-owner", isOwner(currentUser));
     if (elements.headerChip) {
-      elements.headerChip.textContent = currentUser ? "SIGNED IN" : "PUBLIC VIEW";
+      elements.headerChip.textContent = sharedViewActive
+        ? "READ ONLY"
+        : currentUser
+          ? "SIGNED IN"
+          : "PUBLIC VIEW";
     }
 
     if (!configured()) {
@@ -339,8 +346,9 @@
       return;
     }
 
-    status.textContent =
-      currentUser.displayName || currentUser.email || "내 계정";
+    status.textContent = sharedViewActive
+      ? `${shared.buttonLabel()} · 읽기 전용`
+      : currentUser.displayName || currentUser.email || "내 계정";
     login.hidden = true;
     logout.hidden = false;
   }
@@ -399,6 +407,7 @@
 
   async function signOutUser() {
     if (!firebase) return;
+    window.PokemonDexSharedReadonly?.clear?.();
     await firebase.authModule.signOut(firebase.auth);
     window.location.reload();
   }
@@ -430,6 +439,11 @@
 
       firebase = { auth, db, authModule, firestoreModule };
       currentUser = await firstAuthUser(auth, authModule);
+      await window.PokemonDexSharedReadonly?.ensureOwnerShare?.(
+        db,
+        firestoreModule,
+        currentUser,
+      );
       updateAuthUi();
     } catch (error) {
       console.error("대시보드 Firebase 초기화 실패", error);
@@ -440,7 +454,28 @@
 
   async function loadUserDocuments() {
     documents = Object.fromEntries(CATEGORY_ORDER.map((key) => [key, null]));
+    documentReadFailed = false;
     if (!currentUser || !firebase) return;
+
+    if (sharedViewActive) {
+      try {
+        const ownerDocuments =
+          await window.PokemonDexSharedReadonly.loadOwnerDocuments(
+            firebase.db,
+            firebase.firestoreModule,
+          );
+        documents = Object.fromEntries(
+          CATEGORY_ORDER.map((category) => [
+            category,
+            ownerDocuments.get(DOCUMENT_IDS[category])?.data || null,
+          ]),
+        );
+      } catch (error) {
+        documentReadFailed = true;
+        console.warn("읽기 전용 공유 도감을 불러오지 못했습니다.", error);
+      }
+      return;
+    }
 
     const reads = CATEGORY_ORDER.map(async (category) => {
       const reference = firebase.firestoreModule.doc(
@@ -466,7 +501,7 @@
   function subscribeToDocuments() {
     unsubscribeDocuments.forEach((unsubscribe) => unsubscribe());
     unsubscribeDocuments = [];
-    if (!currentUser || !firebase) return;
+    if (!currentUser || !firebase || sharedViewActive) return;
 
     for (const category of CATEGORY_ORDER) {
       const reference = firebase.firestoreModule.doc(
@@ -803,6 +838,17 @@
         "일부 도감 기록을 읽지 못했습니다.";
       elements.accountNote.querySelector("p").textContent =
         "읽지 못한 도감은 계정의 기본 수집 상태로 표시됩니다.";
+      elements.loginCta.hidden = true;
+      return;
+    }
+
+    if (sharedViewActive) {
+      elements.accountNote.hidden = false;
+      elements.accountNote.dataset.state = "readonly";
+      elements.accountNote.querySelector("strong").textContent =
+        "드기 도감을 읽기 전용으로 보고 있습니다.";
+      elements.accountNote.querySelector("p").textContent =
+        "수집 현황은 확인할 수 있지만 카드 상태를 수정하거나 동기화할 수 없습니다.";
       elements.loginCta.hidden = true;
       return;
     }

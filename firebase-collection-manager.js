@@ -12,6 +12,7 @@
   let currentUser = null;
   let accountProfile = null;
   let remoteOverrides = {};
+  let sharedViewActive = false;
   let currentNumber = null;
   let tradeMode = false;
   let snapshotStarted = false;
@@ -290,7 +291,12 @@
   }
 
   function canEdit() {
-    return Boolean(currentUser && firebase && userDocumentRef);
+    return Boolean(
+      currentUser &&
+        firebase &&
+        userDocumentRef &&
+        !sharedViewActive,
+    );
   }
 
   function notifyOwnerSheets(key = "") {
@@ -448,6 +454,42 @@
 
   async function loadAccountDocument(user) {
     const { firestoreModule, db } = firebase;
+    userDocumentRef = null;
+    remoteOverrides = {};
+
+    const shared = window.PokemonDexSharedReadonly;
+    await shared?.ensureOwnerShare?.(db, firestoreModule, user);
+    sharedViewActive = Boolean(shared?.isActive?.(user));
+
+    if (sharedViewActive) {
+      accountProfile = {
+        baseMode: "legacy",
+        email: CONFIG.ownerEmail || "",
+      };
+      try {
+        const ownerDocument = await shared.loadOwnerDocument(
+          db,
+          firestoreModule,
+          CONFIG.userDocument || "nationalDex",
+        );
+        if (!ownerDocument) {
+          throw new Error("nationalDex 공유 문서를 찾지 못했습니다.");
+        }
+        const data = ownerDocument.data || {};
+        accountProfile = {
+          baseMode: data.baseMode === "legacy" ? "legacy" : "empty",
+          email: data.email || CONFIG.ownerEmail || "",
+        };
+        remoteOverrides = sanitizeOverrides(data.overrides || {});
+      } catch (error) {
+        console.warn(
+          "전국도감 읽기 전용 공유 데이터를 불러오지 못했습니다.",
+          error,
+        );
+      }
+      return;
+    }
+
     userDocumentRef = firestoreModule.doc(
       db,
       "users",
@@ -482,7 +524,7 @@
   }
 
   function subscribeToAccountDocument() {
-    if (!userDocumentRef || snapshotStarted) return;
+    if (!userDocumentRef || snapshotStarted || sharedViewActive) return;
     snapshotStarted = true;
     let firstSnapshot = true;
 
@@ -600,8 +642,18 @@
     const status = panel.querySelector("#firebase-auth-status");
     const login = panel.querySelector("#firebase-login");
     const logout = panel.querySelector("#firebase-logout");
+    const headerChip = document.querySelector(".header-chip");
+    const shared = window.PokemonDexSharedReadonly;
+    sharedViewActive = Boolean(shared?.updateControl?.(currentUser));
     panel.classList.toggle("is-account", Boolean(currentUser));
     panel.classList.toggle("is-owner", isOwnerAccount(currentUser));
+    if (headerChip) {
+      headerChip.textContent = sharedViewActive
+        ? "READ ONLY"
+        : currentUser
+          ? "SIGNED IN"
+          : "PUBLIC VIEW";
+    }
 
     if (!configured()) {
       status.textContent = "Firebase 설정 필요 · 공개 도감";
@@ -625,6 +677,13 @@
     }
 
     const name = currentUser.displayName || currentUser.email || "내 계정";
+    if (sharedViewActive) {
+      status.textContent = `${shared.buttonLabel()} · 읽기 전용`;
+      login.hidden = true;
+      logout.hidden = false;
+      return;
+    }
+
     const startLabel = accountProfile?.baseMode === "legacy" ? "기존 도감 유지" : "0종부터 시작";
     status.textContent = `${name} · ${startLabel}`;
     login.hidden = true;
@@ -678,6 +737,7 @@
 
   async function signOutUser() {
     if (!firebase) return;
+    window.PokemonDexSharedReadonly?.clear?.();
     await firebase.authModule.signOut(firebase.auth);
     window.location.reload();
   }
@@ -716,6 +776,12 @@
     if (!currentUser) {
       notice.innerHTML =
         "<strong>계정별 개인 도감</strong><span>Google 로그인 후 자신의 보유 카드만 수정할 수 있습니다. 다른 사용자의 데이터에는 접근할 수 없습니다.</span>";
+      return;
+    }
+
+    if (sharedViewActive) {
+      notice.innerHTML =
+        "<strong>드기 도감 · 읽기 전용</strong><span>보유 상태와 카드 정보는 볼 수 있지만 수정·삭제하거나 동기화할 수 없습니다.</span>";
       return;
     }
 
