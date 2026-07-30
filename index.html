@@ -12,11 +12,12 @@
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css?v=20260728-1" />
     <link rel="stylesheet" href="./collection-manager.css?v=20260729-1" />
-    <link rel="stylesheet" href="./dashboard.css?v=20260729-2" />
+    <link rel="stylesheet" href="./dashboard.css?v=20260730-1" />
     <script src="./firebase-config.js?v=20260727-2" defer></script>
     <script src="./site-metrics.js?v=20260729-1" defer></script>
     <script src="./shared-readonly-view.js?v=20260729-1" defer></script>
     <script src="./dashboard.js?v=20260729-1" defer></script>
+    <script src="./feedback.js?v=20260730-1" defer></script>
     <script src="./owner-sheets-sync.js?v=20260727-2" defer></script>
   </head>
   <body data-page="dashboard">
@@ -69,6 +70,23 @@
       </aside>
 
       <main id="main-content" class="main-content dashboard-main">
+        <div class="dashboard-feedback-actions" aria-label="의견 및 건의 메뉴">
+          <button id="feedback-open" class="feedback-action feedback-action--send" type="button">
+            <span aria-hidden="true">💡</span>
+            건의 및 요구사항 보내기
+          </button>
+          <button
+            id="feedback-admin-open"
+            class="feedback-action feedback-action--admin"
+            type="button"
+            hidden
+          >
+            <span aria-hidden="true">📋</span>
+            의견 확인(관리자)
+            <b id="feedback-new-count" class="feedback-new-count" hidden>0</b>
+          </button>
+        </div>
+
         <section class="hero dashboard-hero" aria-labelledby="page-title">
           <div class="hero-glow hero-glow--one" aria-hidden="true"></div>
           <div class="hero-glow hero-glow--two" aria-hidden="true"></div>
@@ -121,42 +139,37 @@
 
         <section
           id="dashboard-traffic"
-          class="catalog-panel dashboard-traffic-panel"
+          class="dashboard-traffic-panel"
           aria-labelledby="traffic-title"
           aria-busy="true"
         >
-          <div class="dashboard-traffic-heading">
-            <div>
-              <p class="section-kicker">SITE ACTIVITY</p>
-              <h2 id="traffic-title">사이트 이용 현황</h2>
-            </div>
-            <p id="dashboard-traffic-status" aria-live="polite">
-              이용 현황을 불러오는 중입니다.
-            </p>
-          </div>
+          <h2 id="traffic-title" class="sr-only">사이트 이용 현황</h2>
           <div class="dashboard-traffic-grid" aria-live="polite">
-            <article class="dashboard-traffic-card dashboard-traffic-card--total">
-              <span class="dashboard-traffic-icon" aria-hidden="true">Σ</span>
-              <div>
-                <span>누적 접속수</span>
-                <strong><b id="metric-total-visits">—</b><small>회</small></strong>
-              </div>
-            </article>
             <article class="dashboard-traffic-card dashboard-traffic-card--today">
-              <span class="dashboard-traffic-icon" aria-hidden="true">24H</span>
-              <div>
-                <span>오늘 접속수</span>
-                <strong><b id="metric-today-visits">—</b><small>회</small></strong>
+              <div class="dashboard-traffic-label">
+                <span aria-hidden="true">😊</span>
+                <span>오늘 방문자</span>
               </div>
+              <strong><b id="metric-today-visits">—</b><small>명</small></strong>
+            </article>
+            <article class="dashboard-traffic-card dashboard-traffic-card--total">
+              <div class="dashboard-traffic-label">
+                <span aria-hidden="true">🏆</span>
+                <span>누적 방문자</span>
+              </div>
+              <strong><b id="metric-total-visits">—</b><small>명</small></strong>
             </article>
             <article class="dashboard-traffic-card dashboard-traffic-card--users">
-              <span class="dashboard-traffic-icon" aria-hidden="true">ID</span>
-              <div>
-                <span>사용 인원수</span>
-                <strong><b id="metric-users">—</b><small>명</small></strong>
+              <div class="dashboard-traffic-label">
+                <span aria-hidden="true">👤</span>
+                <span>사용 인원</span>
               </div>
+              <strong><b id="metric-users">—</b><small>명</small></strong>
             </article>
           </div>
+          <p id="dashboard-traffic-status" class="dashboard-traffic-status" aria-live="polite">
+            이용 현황을 불러오는 중입니다.
+          </p>
         </section>
 
         <section class="catalog-panel dashboard-collections-panel" aria-labelledby="collections-title">
@@ -216,5 +229,97 @@
       <strong>대시보드 데이터를 모두 불러오지 못했습니다.</strong>
       <span>일부 도감은 기본 상태로 표시될 수 있습니다.</span>
     </div>
+
+    <dialog id="feedback-dialog" class="feedback-dialog" aria-labelledby="feedback-dialog-title">
+      <div class="feedback-dialog-shell">
+        <div class="feedback-dialog-header">
+          <div>
+            <p class="section-kicker">SUGGESTION BOX</p>
+            <h2 id="feedback-dialog-title">건의 및 요구사항 보내기</h2>
+          </div>
+          <button id="feedback-close" class="feedback-dialog-close" type="button" aria-label="닫기">×</button>
+        </div>
+        <p class="feedback-dialog-description">
+          추가했으면 하는 기능이나 수정이 필요한 내용을 편하게 남겨주세요.
+        </p>
+        <form id="feedback-form" class="feedback-form">
+          <div class="feedback-form-grid">
+            <label>
+              <span>의견 유형</span>
+              <select id="feedback-type" required>
+                <option value="suggestion">건의사항</option>
+                <option value="feature">기능 요청</option>
+                <option value="bug">오류 제보</option>
+                <option value="data">카드·도감 정보 수정</option>
+                <option value="other">기타</option>
+              </select>
+            </label>
+            <label class="feedback-form-wide">
+              <span>제목</span>
+              <input
+                id="feedback-title"
+                type="text"
+                minlength="2"
+                maxlength="80"
+                placeholder="어떤 의견인지 짧게 적어주세요"
+                required
+              />
+            </label>
+            <label class="feedback-form-wide">
+              <span>내용</span>
+              <textarea
+                id="feedback-message"
+                rows="6"
+                minlength="5"
+                maxlength="1000"
+                placeholder="원하는 내용이나 발견한 문제를 자세히 적어주세요"
+                required
+              ></textarea>
+              <small><b id="feedback-message-count">0</b> / 1,000자</small>
+            </label>
+          </div>
+          <p id="feedback-account" class="feedback-account"></p>
+          <p id="feedback-status" class="feedback-status" aria-live="polite"></p>
+          <div class="feedback-dialog-actions">
+            <button id="feedback-cancel" class="feedback-secondary-button" type="button">취소</button>
+            <button id="feedback-submit" class="feedback-primary-button" type="submit">의견 보내기</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog
+      id="feedback-admin-dialog"
+      class="feedback-dialog feedback-admin-dialog"
+      aria-labelledby="feedback-admin-title"
+    >
+      <div class="feedback-dialog-shell">
+        <div class="feedback-dialog-header">
+          <div>
+            <p class="section-kicker">ADMIN ONLY</p>
+            <h2 id="feedback-admin-title">받은 의견 확인</h2>
+          </div>
+          <button
+            id="feedback-admin-close"
+            class="feedback-dialog-close"
+            type="button"
+            aria-label="닫기"
+          >×</button>
+        </div>
+        <div class="feedback-filter-row" role="group" aria-label="의견 상태 필터">
+          <button class="is-active" type="button" data-feedback-filter="all">전체</button>
+          <button type="button" data-feedback-filter="new">새 의견</button>
+          <button type="button" data-feedback-filter="reviewed">확인중</button>
+          <button type="button" data-feedback-filter="completed">완료</button>
+        </div>
+        <p id="feedback-admin-status" class="feedback-admin-status" aria-live="polite">
+          받은 의견을 불러오는 중입니다.
+        </p>
+        <div id="feedback-admin-list" class="feedback-admin-list"></div>
+        <div id="feedback-admin-empty" class="feedback-admin-empty" hidden>
+          해당 상태의 의견이 없습니다.
+        </div>
+      </div>
+    </dialog>
   </body>
 </html>
