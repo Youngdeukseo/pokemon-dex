@@ -132,6 +132,74 @@ service cloud.firestore {
         && createsRegisteredUser(userId, source);
     }
 
+    function validFeedbackType(type) {
+      return type == "suggestion"
+        || type == "feature"
+        || type == "bug"
+        || type == "data"
+        || type == "other";
+    }
+
+    function validFeedbackStatus(status) {
+      return status == "new"
+        || status == "reviewed"
+        || status == "completed";
+    }
+
+    function validFeedbackCreate() {
+      return request.auth != null
+        && request.resource.data.keys().hasAll([
+          "type",
+          "title",
+          "message",
+          "authorUid",
+          "authorEmail",
+          "authorName",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ])
+        && request.resource.data.keys().hasOnly([
+          "type",
+          "title",
+          "message",
+          "authorUid",
+          "authorEmail",
+          "authorName",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ])
+        && validFeedbackType(request.resource.data.type)
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 2
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.message is string
+        && request.resource.data.message.size() >= 5
+        && request.resource.data.message.size() <= 1000
+        && request.resource.data.authorUid == request.auth.uid
+        && request.resource.data.authorEmail == request.auth.token.email
+        && request.resource.data.authorName is string
+        && request.resource.data.authorName.size() <= 80
+        && request.resource.data.status == "new"
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+    }
+
+    function validFeedbackAdminUpdate() {
+      return isOwnerAccount()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          "status",
+          "reviewedAt",
+          "reviewedBy",
+          "updatedAt"
+        ])
+        && validFeedbackStatus(request.resource.data.status)
+        && request.resource.data.reviewedAt == request.time
+        && request.resource.data.reviewedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time;
+    }
+
     // 각 사용자는 자신의 문서를 읽고 수정할 수 있습니다.
     // 지정된 공유 계정은 소유자의 legacy 도감만 읽을 수 있고 쓰기는 할 수 없습니다.
     match /users/{userId}/collections/{collectionId} {
@@ -301,6 +369,20 @@ service cloud.firestore {
             /databases/$(database)/documents/siteMetrics/public
           ).data.userCount + 1;
       allow update, delete: if false;
+    }
+
+    // 로그인 사용자는 의견을 보낼 수 있고, 전체 목록과 처리 상태는
+    // 소유자 계정만 확인·변경할 수 있습니다.
+    match /siteFeedback/{feedbackId} {
+      allow get: if request.auth != null
+        && (
+          resource.data.authorUid == request.auth.uid
+          || isOwnerAccount()
+        );
+      allow list: if isOwnerAccount();
+      allow create: if validFeedbackCreate();
+      allow update: if validFeedbackAdminUpdate();
+      allow delete: if false;
     }
 
     // 그 외 모든 Firestore 경로는 차단합니다.
