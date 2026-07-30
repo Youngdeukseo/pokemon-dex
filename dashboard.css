@@ -693,6 +693,11 @@
   font-weight: 900;
 }
 
+.dashboard-collection-card[data-category="ar"] .dashboard-card-icon {
+  background: #f0f1f5;
+  color: #9297a8;
+}
+
 .dashboard-card-rate {
   color: var(--collection-accent);
   font-size: 1.05rem;
