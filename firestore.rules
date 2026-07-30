@@ -37,7 +37,8 @@ service cloud.firestore {
         || collectionId == "packDex"
         || collectionId == "artistDex"
         || collectionId == "seriesDex"
-        || collectionId == "pokemonCollectionsDex";
+        || collectionId == "pokemonCollectionsDex"
+        || collectionId == "arDex";
     }
 
     function validVisitorId(visitorId) {

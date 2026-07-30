@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="전국도감, 팩, 작가, 시리즈, 포켓몬 컬렉션의 수집 현황을 한눈에 확인하는 통합 대시보드"
+      content="전국도감, 팩, 작가, 시리즈, 포켓몬 컬렉션, AR 전종도감의 수집 현황을 한눈에 확인하는 통합 대시보드"
     />
     <meta name="theme-color" content="#17233f" />
     <title>통합 대시보드 | MY POKÉMON DEX</title>
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css?v=20260728-1" />
+    <link rel="stylesheet" href="./styles.css?v=20260730-2" />
     <link rel="stylesheet" href="./collection-manager.css?v=20260729-1" />
-    <link rel="stylesheet" href="./dashboard.css?v=20260730-1" />
+    <link rel="stylesheet" href="./dashboard.css?v=20260730-2" />
     <script src="./firebase-config.js?v=20260727-2" defer></script>
     <script src="./site-metrics.js?v=20260729-1" defer></script>
-    <script src="./shared-readonly-view.js?v=20260729-1" defer></script>
-    <script src="./dashboard.js?v=20260729-1" defer></script>
+    <script src="./shared-readonly-view.js?v=20260730-2" defer></script>
+    <script src="./dashboard.js?v=20260730-2" defer></script>
     <script src="./feedback.js?v=20260730-1" defer></script>
     <script src="./owner-sheets-sync.js?v=20260727-2" defer></script>
   </head>
@@ -62,10 +62,14 @@
             <span class="collection-icon" aria-hidden="true">05</span>
             <span><strong>포켓몬 컬렉션</strong><small>26 POKÉMON</small></span>
           </a>
+          <a class="collection-link" href="./ar.html">
+            <span class="collection-icon collection-icon--ar" aria-hidden="true">06</span>
+            <span><strong>AR 전종도감</strong><small>SV · 406 CARDS</small></span>
+          </a>
         </nav>
         <div class="sidebar-note">
           <span aria-hidden="true">✦</span>
-          다섯 도감의 수집 현황을 한곳에서 확인할 수 있습니다.
+          여섯 도감의 수집 현황을 한곳에서 확인할 수 있습니다.
         </div>
       </aside>
 
@@ -94,7 +98,7 @@
             <p class="eyebrow">ALL COLLECTIONS · DASHBOARD</p>
             <h1 id="page-title">통합 대시보드</h1>
             <p class="hero-description">
-              전국도감부터 팩·작가·시리즈·포켓몬 컬렉션까지,<br />
+              전국도감부터 팩·작가·시리즈·포켓몬·AR 컬렉션까지,<br />
               나의 모든 수집 현황을 한눈에 확인하세요.
             </p>
           </div>

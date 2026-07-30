@@ -266,6 +266,13 @@ img {
   color: #fff;
 }
 
+.collection-icon--ar {
+  border-color: transparent;
+  background: linear-gradient(145deg, #f0b429, #ffdb63);
+  color: #17233f;
+  box-shadow: 0 5px 13px rgba(240, 180, 41, 0.22);
+}
+
 .collection-link.is-upcoming {
   cursor: default;
   opacity: 0.63;

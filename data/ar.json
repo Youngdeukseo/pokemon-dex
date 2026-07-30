@@ -1,0 +1,3399 @@
+[
+  {
+    "code": "sv1S",
+    "title": "스칼렛 ex",
+    "cards": [
+      {
+        "code": "sv1S_079/078 AR",
+        "number": 79,
+        "denominator": "078",
+        "name": "올리뇨",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_079.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_080/078 AR",
+        "number": 80,
+        "denominator": "078",
+        "name": "카디나르마",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_080.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_081/078 AR",
+        "number": 81,
+        "denominator": "078",
+        "name": "바다그다",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_081.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_082/078 AR",
+        "number": 82,
+        "denominator": "078",
+        "name": "어써러셔",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_082.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_083/078 AR",
+        "number": 83,
+        "denominator": "078",
+        "name": "랄토스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_083.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_084/078 AR",
+        "number": 84,
+        "denominator": "078",
+        "name": "킬리아",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_084.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_085/078 AR",
+        "number": 85,
+        "denominator": "078",
+        "name": "쫀도기",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_085.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_086/078 AR",
+        "number": 86,
+        "denominator": "078",
+        "name": "리오르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_086.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_087/078 AR",
+        "number": 87,
+        "denominator": "078",
+        "name": "깜눈크",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_087.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_088/078 AR",
+        "number": 88,
+        "denominator": "078",
+        "name": "절벼게",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_088.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_089/078 AR",
+        "number": 89,
+        "denominator": "078",
+        "name": "대도각참",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_089.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1S_090/078 AR",
+        "number": 90,
+        "denominator": "078",
+        "name": "찌르꼬",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1S/SV1S_090.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv1V",
+    "title": "바이올렛 ex",
+    "cards": [
+      {
+        "code": "sv1V_079/078 AR",
+        "number": 79,
+        "denominator": "078",
+        "name": "타랜툴라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_079.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_080/078 AR",
+        "number": 80,
+        "denominator": "078",
+        "name": "들눈해",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_080.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_081/078 AR",
+        "number": 81,
+        "denominator": "078",
+        "name": "스코빌런",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_081.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_082/078 AR",
+        "number": 82,
+        "denominator": "078",
+        "name": "야돈",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_082.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_083/078 AR",
+        "number": 83,
+        "denominator": "078",
+        "name": "완철포",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_083.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_084/078 AR",
+        "number": 84,
+        "denominator": "078",
+        "name": "파치리스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_084.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_085/078 AR",
+        "number": 85,
+        "denominator": "078",
+        "name": "빠르모트",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_085.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_086/078 AR",
+        "number": 86,
+        "denominator": "078",
+        "name": "슬리프",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_086.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_087/078 AR",
+        "number": 87,
+        "denominator": "078",
+        "name": "망망이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_087.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_088/078 AR",
+        "number": 88,
+        "denominator": "078",
+        "name": "마피티프",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_088.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_089/078 AR",
+        "number": 89,
+        "denominator": "078",
+        "name": "떨구새",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_089.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1V_090/078 AR",
+        "number": 90,
+        "denominator": "078",
+        "name": "탐리스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1V/SV1V_090.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv1a",
+    "title": "트리플렛비트",
+    "cards": [
+      {
+        "code": "sv1a_074/073 AR",
+        "number": 74,
+        "denominator": "073",
+        "name": "트로피우스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_075/073 AR",
+        "number": 75,
+        "denominator": "073",
+        "name": "나오하",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_076/073 AR",
+        "number": 76,
+        "denominator": "073",
+        "name": "나로테",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_077/073 AR",
+        "number": 77,
+        "denominator": "073",
+        "name": "화염레오",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_078/073 AR",
+        "number": 78,
+        "denominator": "073",
+        "name": "뜨아거",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_078.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_079/073 AR",
+        "number": 79,
+        "denominator": "073",
+        "name": "악뜨거",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_079.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_080/073 AR",
+        "number": 80,
+        "denominator": "073",
+        "name": "잉어킹",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_080.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_081/073 AR",
+        "number": 81,
+        "denominator": "073",
+        "name": "꾸왁스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_081.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_082/073 AR",
+        "number": 82,
+        "denominator": "073",
+        "name": "아꾸왁",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_082.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_083/073 AR",
+        "number": 83,
+        "denominator": "073",
+        "name": "무우마직",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_083.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_084/073 AR",
+        "number": 84,
+        "denominator": "073",
+        "name": "팔데아 켄타로스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_084.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv1a_085/073 AR",
+        "number": 85,
+        "denominator": "073",
+        "name": "팔데아 우파",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV1a/SV1a_085.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv2D",
+    "title": "클레이버스트",
+    "cards": [
+      {
+        "code": "sv2D_072/071 AR",
+        "number": 72,
+        "denominator": "071",
+        "name": "헤라크로스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_073/071 AR",
+        "number": 73,
+        "denominator": "071",
+        "name": "불화살빈",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_074/071 AR",
+        "number": 74,
+        "denominator": "071",
+        "name": "라이츄",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_075/071 AR",
+        "number": 75,
+        "denominator": "071",
+        "name": "모래꿍",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_076/071 AR",
+        "number": 76,
+        "denominator": "071",
+        "name": "어리짱",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_077/071 AR",
+        "number": 77,
+        "denominator": "071",
+        "name": "벼리짱",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_078/071 AR",
+        "number": 78,
+        "denominator": "071",
+        "name": "베베솔트",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_078.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_079/071 AR",
+        "number": 79,
+        "denominator": "071",
+        "name": "마기라스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_079.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_080/071 AR",
+        "number": 80,
+        "denominator": "071",
+        "name": "태깅구르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_080.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_081/071 AR",
+        "number": 81,
+        "denominator": "071",
+        "name": "파밀리쥐",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_081.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_082/071 AR",
+        "number": 82,
+        "denominator": "071",
+        "name": "꼬이밍고",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_082.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2D_083/071 AR",
+        "number": 83,
+        "denominator": "071",
+        "name": "키키링",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2D/SV2D_083.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv2P",
+    "title": "스노해저드",
+    "cards": [
+      {
+        "code": "sv2P_072/071 AR",
+        "number": 72,
+        "denominator": "071",
+        "name": "그푸리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_073/071 AR",
+        "number": 73,
+        "denominator": "071",
+        "name": "마릴",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_074/071 AR",
+        "number": 74,
+        "denominator": "071",
+        "name": "빙큐보",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_075/071 AR",
+        "number": 75,
+        "denominator": "071",
+        "name": "드니차",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_076/071 AR",
+        "number": 76,
+        "denominator": "071",
+        "name": "드니꽁",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_077/071 AR",
+        "number": 77,
+        "denominator": "071",
+        "name": "드닐레이브",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_078/071 AR",
+        "number": 78,
+        "denominator": "071",
+        "name": "고디보미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_078.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_079/071 AR",
+        "number": 79,
+        "denominator": "071",
+        "name": "베라카스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_079.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_080/071 AR",
+        "number": 80,
+        "denominator": "071",
+        "name": "꼬지모",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_080.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_081/071 AR",
+        "number": 81,
+        "denominator": "071",
+        "name": "꿈트렁",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_081.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_082/071 AR",
+        "number": 82,
+        "denominator": "071",
+        "name": "파라꼬",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_082.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2P_083/071 AR",
+        "number": 83,
+        "denominator": "071",
+        "name": "노고고치",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2P/SV2P_083.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv2a",
+    "title": "포켓몬 카드 151",
+    "cards": [
+      {
+        "code": "sv2a_166/165 AR",
+        "number": 166,
+        "denominator": "165",
+        "name": "이상해씨",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_166.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_167/165 AR",
+        "number": 167,
+        "denominator": "165",
+        "name": "이상해풀",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_167.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_168/165 AR",
+        "number": 168,
+        "denominator": "165",
+        "name": "파이리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_168.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_169/165 AR",
+        "number": 169,
+        "denominator": "165",
+        "name": "리자드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_169.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_170/165 AR",
+        "number": 170,
+        "denominator": "165",
+        "name": "꼬부기",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_170.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_171/165 AR",
+        "number": 171,
+        "denominator": "165",
+        "name": "어니부기",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_171.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_172/165 AR",
+        "number": 172,
+        "denominator": "165",
+        "name": "캐터피",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_172.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_173/165 AR",
+        "number": 173,
+        "denominator": "165",
+        "name": "피카츄",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_173.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_174/165 AR",
+        "number": 174,
+        "denominator": "165",
+        "name": "니드킹",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_174.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_175/165 AR",
+        "number": 175,
+        "denominator": "165",
+        "name": "고라파덕",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_175.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_176/165 AR",
+        "number": 176,
+        "denominator": "165",
+        "name": "슈륙챙이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_176.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_177/165 AR",
+        "number": 177,
+        "denominator": "165",
+        "name": "근육몬",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_177.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_178/165 AR",
+        "number": 178,
+        "denominator": "165",
+        "name": "덩쿠리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_178.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_179/165 AR",
+        "number": 179,
+        "denominator": "165",
+        "name": "마임맨",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_179.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_180/165 AR",
+        "number": 180,
+        "denominator": "165",
+        "name": "암나이트",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_180.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_181/165 AR",
+        "number": 181,
+        "denominator": "165",
+        "name": "잠만보",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_181.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_182/165 AR",
+        "number": 182,
+        "denominator": "165",
+        "name": "신뇽",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_182.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv2a_183/165 AR",
+        "number": 183,
+        "denominator": "165",
+        "name": "뮤츠",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV2a/SV2a_183.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv3",
+    "title": "흑염의 지배자",
+    "cards": [
+      {
+        "code": "sv3_109/108 AR",
+        "number": 109,
+        "denominator": "108",
+        "name": "냄새꼬",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_110/108 AR",
+        "number": 110,
+        "denominator": "108",
+        "name": "나인테일",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_110.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_111/108 AR",
+        "number": 111,
+        "denominator": "108",
+        "name": "돌핀맨",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_111.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_112/108 AR",
+        "number": 112,
+        "denominator": "108",
+        "name": "찌리배리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_112.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_113/108 AR",
+        "number": 113,
+        "denominator": "108",
+        "name": "삐",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_113.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_114/108 AR",
+        "number": 114,
+        "denominator": "108",
+        "name": "애버라스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_114.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_115/108 AR",
+        "number": 115,
+        "denominator": "108",
+        "name": "델빌",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_115.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_116/108 AR",
+        "number": 116,
+        "denominator": "108",
+        "name": "핫삼",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_116.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_117/108 AR",
+        "number": 117,
+        "denominator": "108",
+        "name": "부르롱",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_117.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_118/108 AR",
+        "number": 118,
+        "denominator": "108",
+        "name": "구구",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_118.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_119/108 AR",
+        "number": 119,
+        "denominator": "108",
+        "name": "피죤",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_119.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3_120/108 AR",
+        "number": 120,
+        "denominator": "108",
+        "name": "맛보돈",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3/SV3_120.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv3a",
+    "title": "레이징서프",
+    "cards": [
+      {
+        "code": "sv3a_063/062 AR",
+        "number": 63,
+        "denominator": "062",
+        "name": "눈꼬마",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_063.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_064/062 AR",
+        "number": 64,
+        "denominator": "062",
+        "name": "타만타",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_064.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_065/062 AR",
+        "number": 65,
+        "denominator": "062",
+        "name": "플러시",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_065.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_066/062 AR",
+        "number": 66,
+        "denominator": "062",
+        "name": "마이농",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_066.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_067/062 AR",
+        "number": 67,
+        "denominator": "062",
+        "name": "파쪼옥",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_067.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_068/062 AR",
+        "number": 68,
+        "denominator": "062",
+        "name": "모으령",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_068.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_069/062 AR",
+        "number": 69,
+        "denominator": "062",
+        "name": "그란돈",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_069.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_070/062 AR",
+        "number": 70,
+        "denominator": "062",
+        "name": "메테노",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_070.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_071/062 AR",
+        "number": 71,
+        "denominator": "062",
+        "name": "이벨타르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_071.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_072/062 AR",
+        "number": 72,
+        "denominator": "062",
+        "name": "너트령",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_073/062 AR",
+        "number": 73,
+        "denominator": "062",
+        "name": "킬가르도",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv3a_074/062 AR",
+        "number": 74,
+        "denominator": "062",
+        "name": "모토마",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV3a/SV3a_074.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv4M",
+    "title": "미래의 일섬",
+    "cards": [
+      {
+        "code": "sv4M_067/066 AR",
+        "number": 67,
+        "denominator": "066",
+        "name": "레돔벌레",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_067.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_068/066 AR",
+        "number": 68,
+        "denominator": "066",
+        "name": "육파리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_068.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_069/066 AR",
+        "number": 69,
+        "denominator": "066",
+        "name": "무쇠독나방",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_069.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_070/066 AR",
+        "number": 70,
+        "denominator": "066",
+        "name": "바닐리치",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_070.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_071/066 AR",
+        "number": 71,
+        "denominator": "066",
+        "name": "무쇠보따리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_071.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_072/066 AR",
+        "number": 72,
+        "denominator": "066",
+        "name": "줄뮤마",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_073/066 AR",
+        "number": 73,
+        "denominator": "066",
+        "name": "클레스퍼트라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_074/066 AR",
+        "number": 74,
+        "denominator": "066",
+        "name": "강철톤",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_075/066 AR",
+        "number": 75,
+        "denominator": "066",
+        "name": "에이팜",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_076/066 AR",
+        "number": 76,
+        "denominator": "066",
+        "name": "파비코",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_077/066 AR",
+        "number": 77,
+        "denominator": "066",
+        "name": "폴리곤",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4M_078/066 AR",
+        "number": 78,
+        "denominator": "066",
+        "name": "무쇠머리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4M/SV4M_078.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv4K",
+    "title": "고대의 포효",
+    "cards": [
+      {
+        "code": "sv4K_067/066 AR",
+        "number": 67,
+        "denominator": "066",
+        "name": "암팰리스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_067.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_068/066 AR",
+        "number": 68,
+        "denominator": "066",
+        "name": "마그비",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_068.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_069/066 AR",
+        "number": 69,
+        "denominator": "066",
+        "name": "꼬시레",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_069.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_070/066 AR",
+        "number": 70,
+        "denominator": "066",
+        "name": "가비루사",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_070.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_071/066 AR",
+        "number": 71,
+        "denominator": "066",
+        "name": "우렁찬꼬리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_071.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_072/066 AR",
+        "number": 72,
+        "denominator": "066",
+        "name": "비조도",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_073/066 AR",
+        "number": 73,
+        "denominator": "066",
+        "name": "콜로솔트",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_074/066 AR",
+        "number": 74,
+        "denominator": "066",
+        "name": "땅을기는날개",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_075/066 AR",
+        "number": 75,
+        "denominator": "066",
+        "name": "더스트나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_076/066 AR",
+        "number": 76,
+        "denominator": "066",
+        "name": "모르페코",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_077/066 AR",
+        "number": 77,
+        "denominator": "066",
+        "name": "사나운버섯",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4K_078/066 AR",
+        "number": 78,
+        "denominator": "066",
+        "name": "노공룡",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4K/SV4K_078.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv4a",
+    "title": "샤이니트레져 ex",
+    "cards": [
+      {
+        "code": "sv4a_338/190 AR",
+        "number": 338,
+        "denominator": "190",
+        "name": "바닥트리오",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4a/SV4a_338.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4a_339/190 AR",
+        "number": 339,
+        "denominator": "190",
+        "name": "돌핀맨",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4a/SV4a_339.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4a_340/190 AR",
+        "number": 340,
+        "denominator": "190",
+        "name": "빠모",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4a/SV4a_340.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv4a_341/190 AR",
+        "number": 341,
+        "denominator": "190",
+        "name": "따라큐",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV4a/SV4a_341.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv5M",
+    "title": "사이버저지",
+    "cards": [
+      {
+        "code": "sv5M_072/071 AR",
+        "number": 72,
+        "denominator": "071",
+        "name": "다탱구",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_073/071 AR",
+        "number": 73,
+        "denominator": "071",
+        "name": "사철록",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_074/071 AR",
+        "number": 74,
+        "denominator": "071",
+        "name": "바라철록",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_075/071 AR",
+        "number": 75,
+        "denominator": "071",
+        "name": "냐오불",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_076/071 AR",
+        "number": 76,
+        "denominator": "071",
+        "name": "전지충이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_077/071 AR",
+        "number": 77,
+        "denominator": "071",
+        "name": "무쇠가시",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_078/071 AR",
+        "number": 78,
+        "denominator": "071",
+        "name": "에블리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_078.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_079/071 AR",
+        "number": 79,
+        "denominator": "071",
+        "name": "몰드류",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_079.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_080/071 AR",
+        "number": 80,
+        "denominator": "071",
+        "name": "메타그로스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_080.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_081/071 AR",
+        "number": 81,
+        "denominator": "071",
+        "name": "멜탄",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_081.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_082/071 AR",
+        "number": 82,
+        "denominator": "071",
+        "name": "내루미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_082.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5M_083/071 AR",
+        "number": 83,
+        "denominator": "071",
+        "name": "할비롱",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5M/SV5M_083.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv5K",
+    "title": "와일드포스",
+    "cards": [
+      {
+        "code": "sv5K_072/071 AR",
+        "number": 72,
+        "denominator": "071",
+        "name": "수풀부기",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_073/071 AR",
+        "number": 73,
+        "denominator": "071",
+        "name": "누니머기",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_074/071 AR",
+        "number": 74,
+        "denominator": "071",
+        "name": "동미러",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_075/071 AR",
+        "number": 75,
+        "denominator": "071",
+        "name": "란쿨루스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_076/071 AR",
+        "number": 76,
+        "denominator": "071",
+        "name": "날개치는머리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_077/071 AR",
+        "number": 77,
+        "denominator": "071",
+        "name": "시라칸",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_078/071 AR",
+        "number": 78,
+        "denominator": "071",
+        "name": "만마드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_078.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_079/071 AR",
+        "number": 79,
+        "denominator": "071",
+        "name": "아보크",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_079.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_080/071 AR",
+        "number": 80,
+        "denominator": "071",
+        "name": "고오스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_080.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_081/071 AR",
+        "number": 81,
+        "denominator": "071",
+        "name": "페라페",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_081.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_082/071 AR",
+        "number": 82,
+        "denominator": "071",
+        "name": "치라미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_082.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5K_083/071 AR",
+        "number": 83,
+        "denominator": "071",
+        "name": "치라치노",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5K/SV5K_083.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv5a",
+    "title": "크림슨헤이즈",
+    "cards": [
+      {
+        "code": "sv5a_067/066 AR",
+        "number": 67,
+        "denominator": "066",
+        "name": "쁘사이저",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_067.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_068/066 AR",
+        "number": 68,
+        "denominator": "066",
+        "name": "차데스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_068.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_069/066 AR",
+        "number": 69,
+        "denominator": "066",
+        "name": "코터스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_069.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_070/066 AR",
+        "number": 70,
+        "denominator": "066",
+        "name": "초염몽",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_070.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_071/066 AR",
+        "number": 71,
+        "denominator": "066",
+        "name": "피오네",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_071.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_072/066 AR",
+        "number": 72,
+        "denominator": "066",
+        "name": "윽우지",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_073/066 AR",
+        "number": 73,
+        "denominator": "066",
+        "name": "일레도리자드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_074/066 AR",
+        "number": 74,
+        "denominator": "066",
+        "name": "러브로스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_075/066 AR",
+        "number": 75,
+        "denominator": "066",
+        "name": "히스이 가디",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_076/066 AR",
+        "number": 76,
+        "denominator": "066",
+        "name": "대코파스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_076.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_077/066 AR",
+        "number": 77,
+        "denominator": "066",
+        "name": "과사삭벌레",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_077.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv5a_078/066 AR",
+        "number": 78,
+        "denominator": "066",
+        "name": "이브이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV5a/SV5a_078.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv6",
+    "title": "변환의 가면",
+    "cards": [
+      {
+        "code": "sv6_102/101 AR",
+        "number": 102,
+        "denominator": "101",
+        "name": "해루미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_102.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_103/101 AR",
+        "number": 103,
+        "denominator": "101",
+        "name": "과미르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_103.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_104/101 AR",
+        "number": 104,
+        "denominator": "101",
+        "name": "눈여아",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_104.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_105/101 AR",
+        "number": 105,
+        "denominator": "101",
+        "name": "찌리비",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_105.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_106/101 AR",
+        "number": 106,
+        "denominator": "101",
+        "name": "치렁",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_106.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_107/101 AR",
+        "number": 107,
+        "denominator": "101",
+        "name": "이야후",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_107.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_108/101 AR",
+        "number": 108,
+        "denominator": "101",
+        "name": "기로치",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_108.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_109/101 AR",
+        "number": 109,
+        "denominator": "101",
+        "name": "으랏차",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_110/101 AR",
+        "number": 110,
+        "denominator": "101",
+        "name": "조타구",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_110.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_111/101 AR",
+        "number": 111,
+        "denominator": "101",
+        "name": "갱도라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_111.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_112/101 AR",
+        "number": 112,
+        "denominator": "101",
+        "name": "싸리용",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_112.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6_113/101 AR",
+        "number": 113,
+        "denominator": "101",
+        "name": "럭키",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6/SV6_113.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv6a",
+    "title": "나이트 원더러",
+    "cards": [
+      {
+        "code": "sv6a_065/064 AR",
+        "number": 65,
+        "denominator": "064",
+        "name": "카푸브루루",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_065.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_066/064 AR",
+        "number": 66,
+        "denominator": "064",
+        "name": "헬가",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_066.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_067/064 AR",
+        "number": 67,
+        "denominator": "064",
+        "name": "쏘드라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_067.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_068/064 AR",
+        "number": 68,
+        "denominator": "064",
+        "name": "해골몽",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_068.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_069/064 AR",
+        "number": 69,
+        "denominator": "064",
+        "name": "미라몽",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_069.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_070/064 AR",
+        "number": 70,
+        "denominator": "064",
+        "name": "야느와르몽",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_070.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_071/064 AR",
+        "number": 71,
+        "denominator": "064",
+        "name": "크레세리아",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_071.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_072/064 AR",
+        "number": 72,
+        "denominator": "064",
+        "name": "조로아",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_073/064 AR",
+        "number": 73,
+        "denominator": "064",
+        "name": "끼리동",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_074/064 AR",
+        "number": 74,
+        "denominator": "064",
+        "name": "액슨도",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_075/064 AR",
+        "number": 75,
+        "denominator": "064",
+        "name": "페르시온",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv6a_076/064 AR",
+        "number": 76,
+        "denominator": "064",
+        "name": "이븐곰",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV6a/SV6a_076.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv7",
+    "title": "스텔라미라클",
+    "cards": [
+      {
+        "code": "sv7_103/102 AR",
+        "number": 103,
+        "denominator": "102",
+        "name": "레디안",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_103.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_104/102 AR",
+        "number": 104,
+        "denominator": "102",
+        "name": "릴링",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_104.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_105/102 AR",
+        "number": 105,
+        "denominator": "102",
+        "name": "폭거북스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_105.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_106/102 AR",
+        "number": 106,
+        "denominator": "102",
+        "name": "래비풋",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_106.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_107/102 AR",
+        "number": 107,
+        "denominator": "102",
+        "name": "모단단게",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_107.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_108/102 AR",
+        "number": 108,
+        "denominator": "102",
+        "name": "파쪼옥",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_108.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_109/102 AR",
+        "number": 109,
+        "denominator": "102",
+        "name": "제라오라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_110/102 AR",
+        "number": 110,
+        "denominator": "102",
+        "name": "마빌크",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_110.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_111/102 AR",
+        "number": 111,
+        "denominator": "102",
+        "name": "요가랑",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_111.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_112/102 AR",
+        "number": 112,
+        "denominator": "102",
+        "name": "꼴깍몬",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_112.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_113/102 AR",
+        "number": 113,
+        "denominator": "102",
+        "name": "브리두라스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_113.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7_114/102 AR",
+        "number": 114,
+        "denominator": "102",
+        "name": "야부엉",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7/SV7_114.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv7a",
+    "title": "낙원드래고나",
+    "cards": [
+      {
+        "code": "sv7a_065/064 AR",
+        "number": 65,
+        "denominator": "064",
+        "name": "아라리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_065.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_066/064 AR",
+        "number": 66,
+        "denominator": "064",
+        "name": "마셰이드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_066.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_067/064 AR",
+        "number": 67,
+        "denominator": "064",
+        "name": "캐스퐁",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_067.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_068/064 AR",
+        "number": 68,
+        "denominator": "064",
+        "name": "치갈기",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_068.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_069/064 AR",
+        "number": 69,
+        "denominator": "064",
+        "name": "우락고래",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_069.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_070/064 AR",
+        "number": 70,
+        "denominator": "064",
+        "name": "라티오스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_070.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_071/064 AR",
+        "number": 71,
+        "denominator": "064",
+        "name": "비브라바",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_071.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_072/064 AR",
+        "number": 72,
+        "denominator": "064",
+        "name": "때때무노",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_073/064 AR",
+        "number": 73,
+        "denominator": "064",
+        "name": "무장조",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_074/064 AR",
+        "number": 74,
+        "denominator": "064",
+        "name": "애프룡",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_075/064 AR",
+        "number": 75,
+        "denominator": "064",
+        "name": "단지래플",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_075.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv7a_076/064 AR",
+        "number": 76,
+        "denominator": "064",
+        "name": "워글",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV7a/SV7a_076.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv8",
+    "title": "초전브레이커",
+    "cards": [
+      {
+        "code": "sv8_107/106 AR",
+        "number": 107,
+        "denominator": "106",
+        "name": "비비용",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_107.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_108/106 AR",
+        "number": 108,
+        "denominator": "106",
+        "name": "활화르바",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_108.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_109/106 AR",
+        "number": 109,
+        "denominator": "106",
+        "name": "파라블레이즈",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_110/106 AR",
+        "number": 110,
+        "denominator": "106",
+        "name": "빈티나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_110.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_111/106 AR",
+        "number": 111,
+        "denominator": "106",
+        "name": "대굴레오",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_111.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_112/106 AR",
+        "number": 112,
+        "denominator": "106",
+        "name": "레어코일",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_112.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_113/106 AR",
+        "number": 113,
+        "denominator": "106",
+        "name": "메더",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_113.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_114/106 AR",
+        "number": 114,
+        "denominator": "106",
+        "name": "엠라이트",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_114.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_115/106 AR",
+        "number": 115,
+        "denominator": "106",
+        "name": "코코리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_115.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_116/106 AR",
+        "number": 116,
+        "denominator": "106",
+        "name": "닥트리오",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_116.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_117/106 AR",
+        "number": 117,
+        "denominator": "106",
+        "name": "게을로",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_117.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv8_118/106 AR",
+        "number": 118,
+        "denominator": "106",
+        "name": "켈리몬",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV8/SV8_118.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv8a",
+    "title": "테라스탈 페스티벌 ex",
+    "cards": []
+  },
+  {
+    "code": "sv9",
+    "title": "배틀파트너즈",
+    "cards": [
+      {
+        "code": "sv9_101/100 AR",
+        "number": 101,
+        "denominator": "100",
+        "name": "마라카치",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_101.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_102/100 AR",
+        "number": 102,
+        "denominator": "100",
+        "name": "프리져",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_102.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_103/100 AR",
+        "number": 103,
+        "denominator": "100",
+        "name": "고래왕",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_103.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_104/100 AR",
+        "number": 104,
+        "denominator": "100",
+        "name": "찌리비크",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_104.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_105/100 AR",
+        "number": 105,
+        "denominator": "100",
+        "name": "에리본",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_105.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_106/100 AR",
+        "number": 106,
+        "denominator": "100",
+        "name": "꾸꾸리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_106.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_107/100 AR",
+        "number": 107,
+        "denominator": "100",
+        "name": "루가루암",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_107.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_108/100 AR",
+        "number": 108,
+        "denominator": "100",
+        "name": "조로아",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_108.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_109/100 AR",
+        "number": 109,
+        "denominator": "100",
+        "name": "레시라무",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_110/100 AR",
+        "number": 110,
+        "denominator": "100",
+        "name": "다꼬리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_110.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_111/100 AR",
+        "number": 111,
+        "denominator": "100",
+        "name": "음뱃",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_111.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9_112/100 AR",
+        "number": 112,
+        "denominator": "100",
+        "name": "우르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9/SV9_112.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv9a",
+    "title": "열풍의 아레나",
+    "cards": [
+      {
+        "code": "sv9a_064/063 AR",
+        "number": 64,
+        "denominator": "063",
+        "name": "왕자리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_064.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_065/063 AR",
+        "number": 65,
+        "denominator": "063",
+        "name": "로즈레이드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_065.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_066/063 AR",
+        "number": 66,
+        "denominator": "063",
+        "name": "쉐이미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_066.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_067/063 AR",
+        "number": 67,
+        "denominator": "063",
+        "name": "암팰리스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_067.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_068/063 AR",
+        "number": 68,
+        "denominator": "063",
+        "name": "과미드라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_068.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_069/063 AR",
+        "number": 69,
+        "denominator": "063",
+        "name": "날쌩마",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_069.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_070/063 AR",
+        "number": 70,
+        "denominator": "063",
+        "name": "블레이범",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_070.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_071/063 AR",
+        "number": 71,
+        "denominator": "063",
+        "name": "고라파덕",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_071.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_072/063 AR",
+        "number": 72,
+        "denominator": "063",
+        "name": "라프라스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_072.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_073/063 AR",
+        "number": 73,
+        "denominator": "063",
+        "name": "썬더라이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_073.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_074/063 AR",
+        "number": 74,
+        "denominator": "063",
+        "name": "로토무",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_074.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv9a_075/063 AR",
+        "number": 75,
+        "denominator": "063",
+        "name": "요씽리스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV9a/SV9a_075.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv10",
+    "title": "로켓단의 영광",
+    "cards": [
+      {
+        "code": "sv10_099/098 AR",
+        "number": 99,
+        "denominator": "098",
+        "name": "트래피더",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_099.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_100/098 AR",
+        "number": 100,
+        "denominator": "098",
+        "name": "헬가",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_100.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_101/098 AR",
+        "number": 101,
+        "denominator": "098",
+        "name": "번치코",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_101.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_102/098 AR",
+        "number": 102,
+        "denominator": "098",
+        "name": "진주몽",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_102.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_103/098 AR",
+        "number": 103,
+        "denominator": "098",
+        "name": "마자용",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_103.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_104/098 AR",
+        "number": 104,
+        "denominator": "098",
+        "name": "이올브",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_104.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_105/098 AR",
+        "number": 105,
+        "denominator": "098",
+        "name": "또도가스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_105.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_106/098 AR",
+        "number": 106,
+        "denominator": "098",
+        "name": "니로우",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_106.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_107/098 AR",
+        "number": 107,
+        "denominator": "098",
+        "name": "자마젠타",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_107.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_108/098 AR",
+        "number": 108,
+        "denominator": "098",
+        "name": "레트라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_108.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_109/098 AR",
+        "number": 109,
+        "denominator": "098",
+        "name": "나옹",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv10_110/098 AR",
+        "number": 110,
+        "denominator": "098",
+        "name": "캥카",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_110.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv11B",
+    "title": "블랙볼트",
+    "cards": [
+      {
+        "code": "sv11B_087/086 AR",
+        "number": 87,
+        "denominator": "086",
+        "name": "주리비얀",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_087.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_088/086 AR",
+        "number": 88,
+        "denominator": "086",
+        "name": "샤비",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_088.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_089/086 AR",
+        "number": 89,
+        "denominator": "086",
+        "name": "야나프",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_089.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_090/086 AR",
+        "number": 90,
+        "denominator": "086",
+        "name": "야나키",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_090.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_091/086 AR",
+        "number": 91,
+        "denominator": "086",
+        "name": "치릴리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_091.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_092/086 AR",
+        "number": 92,
+        "denominator": "086",
+        "name": "드레디어",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_092.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_093/086 AR",
+        "number": 93,
+        "denominator": "086",
+        "name": "마라카치",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_093.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_094/086 AR",
+        "number": 94,
+        "denominator": "086",
+        "name": "딱정곤",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_094.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_095/086 AR",
+        "number": 95,
+        "denominator": "086",
+        "name": "깜놀버슬",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_095.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_096/086 AR",
+        "number": 96,
+        "denominator": "086",
+        "name": "뽀록나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_096.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_097/086 AR",
+        "number": 97,
+        "denominator": "086",
+        "name": "비크티니",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_097.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_098/086 AR",
+        "number": 98,
+        "denominator": "086",
+        "name": "달막화",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_098.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_099/086 AR",
+        "number": 99,
+        "denominator": "086",
+        "name": "불비달마",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_099.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_100/086 AR",
+        "number": 100,
+        "denominator": "086",
+        "name": "불켜미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_100.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_101/086 AR",
+        "number": 101,
+        "denominator": "086",
+        "name": "램프라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_101.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_102/086 AR",
+        "number": 102,
+        "denominator": "086",
+        "name": "샹델라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_102.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_103/086 AR",
+        "number": 103,
+        "denominator": "086",
+        "name": "활화르바",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_103.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_104/086 AR",
+        "number": 104,
+        "denominator": "086",
+        "name": "불카모스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_104.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_105/086 AR",
+        "number": 105,
+        "denominator": "086",
+        "name": "앗차프",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_105.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_106/086 AR",
+        "number": 106,
+        "denominator": "086",
+        "name": "앗차키",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_106.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_107/086 AR",
+        "number": 107,
+        "denominator": "086",
+        "name": "동챙이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_107.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_108/086 AR",
+        "number": 108,
+        "denominator": "086",
+        "name": "두까비",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_108.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_109/086 AR",
+        "number": 109,
+        "denominator": "086",
+        "name": "두빅굴",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_110/086 AR",
+        "number": 110,
+        "denominator": "086",
+        "name": "프로토가",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_110.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_111/086 AR",
+        "number": 111,
+        "denominator": "086",
+        "name": "늑골라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_111.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_112/086 AR",
+        "number": 112,
+        "denominator": "086",
+        "name": "맘복치",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_112.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_113/086 AR",
+        "number": 113,
+        "denominator": "086",
+        "name": "코고미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_113.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_114/086 AR",
+        "number": 114,
+        "denominator": "086",
+        "name": "툰베어",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_114.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_115/086 AR",
+        "number": 115,
+        "denominator": "086",
+        "name": "프리지오",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_115.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_116/086 AR",
+        "number": 116,
+        "denominator": "086",
+        "name": "에몽가",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_116.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_117/086 AR",
+        "number": 117,
+        "denominator": "086",
+        "name": "저리어",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_117.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_118/086 AR",
+        "number": 118,
+        "denominator": "086",
+        "name": "저리릴",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_118.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_119/086 AR",
+        "number": 119,
+        "denominator": "086",
+        "name": "저리더프",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_119.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_120/086 AR",
+        "number": 120,
+        "denominator": "086",
+        "name": "볼트로스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_120.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_121/086 AR",
+        "number": 121,
+        "denominator": "086",
+        "name": "몽나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_121.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_122/086 AR",
+        "number": 122,
+        "denominator": "086",
+        "name": "몽얌나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_122.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_123/086 AR",
+        "number": 123,
+        "denominator": "086",
+        "name": "유니란",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_123.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_124/086 AR",
+        "number": 124,
+        "denominator": "086",
+        "name": "듀란",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_124.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_125/086 AR",
+        "number": 125,
+        "denominator": "086",
+        "name": "란쿨루스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_125.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_126/086 AR",
+        "number": 126,
+        "denominator": "086",
+        "name": "리그레",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_126.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_127/086 AR",
+        "number": 127,
+        "denominator": "086",
+        "name": "벰크",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_127.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_128/086 AR",
+        "number": 128,
+        "denominator": "086",
+        "name": "골비람",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_128.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_129/086 AR",
+        "number": 129,
+        "denominator": "086",
+        "name": "골루그",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_129.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_130/086 AR",
+        "number": 130,
+        "denominator": "086",
+        "name": "두더류",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_130.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_131/086 AR",
+        "number": 131,
+        "denominator": "086",
+        "name": "으랏차",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_131.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_132/086 AR",
+        "number": 132,
+        "denominator": "086",
+        "name": "토쇠골",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_132.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_133/086 AR",
+        "number": 133,
+        "denominator": "086",
+        "name": "노보청",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_133.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_134/086 AR",
+        "number": 134,
+        "denominator": "086",
+        "name": "던지미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_134.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_135/086 AR",
+        "number": 135,
+        "denominator": "086",
+        "name": "돌살이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_135.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_136/086 AR",
+        "number": 136,
+        "denominator": "086",
+        "name": "암팰리스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_136.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_137/086 AR",
+        "number": 137,
+        "denominator": "086",
+        "name": "랜드로스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_137.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_138/086 AR",
+        "number": 138,
+        "denominator": "086",
+        "name": "마디네",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_138.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_139/086 AR",
+        "number": 139,
+        "denominator": "086",
+        "name": "휠구",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_139.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_140/086 AR",
+        "number": 140,
+        "denominator": "086",
+        "name": "펜드라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_140.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_141/086 AR",
+        "number": 141,
+        "denominator": "086",
+        "name": "깜눈크",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_141.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_142/086 AR",
+        "number": 142,
+        "denominator": "086",
+        "name": "악비르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_142.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_143/086 AR",
+        "number": 143,
+        "denominator": "086",
+        "name": "악비아르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_143.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_144/086 AR",
+        "number": 144,
+        "denominator": "086",
+        "name": "벌차이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_144.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_145/086 AR",
+        "number": 145,
+        "denominator": "086",
+        "name": "버랜지나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_145.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_146/086 AR",
+        "number": 146,
+        "denominator": "086",
+        "name": "슈바르고",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_146.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_147/086 AR",
+        "number": 147,
+        "denominator": "086",
+        "name": "자망칼",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_147.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_148/086 AR",
+        "number": 148,
+        "denominator": "086",
+        "name": "절각참",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_148.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_149/086 AR",
+        "number": 149,
+        "denominator": "086",
+        "name": "코바르온",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_149.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_150/086 AR",
+        "number": 150,
+        "denominator": "086",
+        "name": "터검니",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_150.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_151/086 AR",
+        "number": 151,
+        "denominator": "086",
+        "name": "액슨도",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_151.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_152/086 AR",
+        "number": 152,
+        "denominator": "086",
+        "name": "액스라이즈",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_152.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_153/086 AR",
+        "number": 153,
+        "denominator": "086",
+        "name": "콩둘기",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_153.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_154/086 AR",
+        "number": 154,
+        "denominator": "086",
+        "name": "유토브",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_154.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_155/086 AR",
+        "number": 155,
+        "denominator": "086",
+        "name": "켄호로우",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_155.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_156/086 AR",
+        "number": 156,
+        "denominator": "086",
+        "name": "다부니",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_156.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_157/086 AR",
+        "number": 157,
+        "denominator": "086",
+        "name": "치라미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_157.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11B_158/086 AR",
+        "number": 158,
+        "denominator": "086",
+        "name": "치라치노",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11B/SV11B_158.png?w=400",
+        "owned": false
+      }
+    ]
+  },
+  {
+    "code": "sv11W",
+    "title": "화이트플레어",
+    "cards": [
+      {
+        "code": "sv11W_087/086 AR",
+        "number": 87,
+        "denominator": "086",
+        "name": "두르보",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_087.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_088/086 AR",
+        "number": 88,
+        "denominator": "086",
+        "name": "두르쿤",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_088.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_089/086 AR",
+        "number": 89,
+        "denominator": "086",
+        "name": "모아머",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_089.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_090/086 AR",
+        "number": 90,
+        "denominator": "086",
+        "name": "소미안",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_090.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_091/086 AR",
+        "number": 91,
+        "denominator": "086",
+        "name": "사철록",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_091.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_092/086 AR",
+        "number": 92,
+        "denominator": "086",
+        "name": "바라철록",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_092.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_093/086 AR",
+        "number": 93,
+        "denominator": "086",
+        "name": "쪼마리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_093.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_094/086 AR",
+        "number": 94,
+        "denominator": "086",
+        "name": "어지리더",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_094.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_095/086 AR",
+        "number": 95,
+        "denominator": "086",
+        "name": "비리디온",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_095.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_096/086 AR",
+        "number": 96,
+        "denominator": "086",
+        "name": "뚜꾸리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_096.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_097/086 AR",
+        "number": 97,
+        "denominator": "086",
+        "name": "차오꿀",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_097.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_098/086 AR",
+        "number": 98,
+        "denominator": "086",
+        "name": "염무왕",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_098.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_099/086 AR",
+        "number": 99,
+        "denominator": "086",
+        "name": "바오프",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_099.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_100/086 AR",
+        "number": 100,
+        "denominator": "086",
+        "name": "바오키",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_100.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_101/086 AR",
+        "number": 101,
+        "denominator": "086",
+        "name": "앤티골",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_101.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_102/086 AR",
+        "number": 102,
+        "denominator": "086",
+        "name": "수댕이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_102.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_103/086 AR",
+        "number": 103,
+        "denominator": "086",
+        "name": "쌍검자비",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_103.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_104/086 AR",
+        "number": 104,
+        "denominator": "086",
+        "name": "대검귀",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_104.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_105/086 AR",
+        "number": 105,
+        "denominator": "086",
+        "name": "배쓰나이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_105.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_106/086 AR",
+        "number": 106,
+        "denominator": "086",
+        "name": "꼬지보리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_106.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_107/086 AR",
+        "number": 107,
+        "denominator": "086",
+        "name": "스완나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_107.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_108/086 AR",
+        "number": 108,
+        "denominator": "086",
+        "name": "바닐프티",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_108.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_109/086 AR",
+        "number": 109,
+        "denominator": "086",
+        "name": "바닐리치",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_109.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_110/086 AR",
+        "number": 110,
+        "denominator": "086",
+        "name": "배바닐라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_110.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_111/086 AR",
+        "number": 111,
+        "denominator": "086",
+        "name": "줄뮤마",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_111.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_112/086 AR",
+        "number": 112,
+        "denominator": "086",
+        "name": "제브라이카",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_112.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_113/086 AR",
+        "number": 113,
+        "denominator": "086",
+        "name": "파쪼옥",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_113.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_114/086 AR",
+        "number": 114,
+        "denominator": "086",
+        "name": "전툴라",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_114.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_115/086 AR",
+        "number": 115,
+        "denominator": "086",
+        "name": "메더",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_115.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_116/086 AR",
+        "number": 116,
+        "denominator": "086",
+        "name": "또르박쥐",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_116.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_117/086 AR",
+        "number": 117,
+        "denominator": "086",
+        "name": "맘박쥐",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_117.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_118/086 AR",
+        "number": 118,
+        "denominator": "086",
+        "name": "심보러",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_118.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_119/086 AR",
+        "number": 119,
+        "denominator": "086",
+        "name": "데스마스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_119.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_120/086 AR",
+        "number": 120,
+        "denominator": "086",
+        "name": "데스니칸",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_120.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_121/086 AR",
+        "number": 121,
+        "denominator": "086",
+        "name": "고디탱",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_121.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_122/086 AR",
+        "number": 122,
+        "denominator": "086",
+        "name": "고디보미",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_122.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_123/086 AR",
+        "number": 123,
+        "denominator": "086",
+        "name": "고디모아젤",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_123.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_124/086 AR",
+        "number": 124,
+        "denominator": "086",
+        "name": "탱그릴",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_124.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_125/086 AR",
+        "number": 125,
+        "denominator": "086",
+        "name": "단굴",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_125.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_126/086 AR",
+        "number": 126,
+        "denominator": "086",
+        "name": "암트르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_126.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_127/086 AR",
+        "number": 127,
+        "denominator": "086",
+        "name": "기가이어스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_127.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_128/086 AR",
+        "number": 128,
+        "denominator": "086",
+        "name": "타격귀",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_128.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_129/086 AR",
+        "number": 129,
+        "denominator": "086",
+        "name": "아켄",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_129.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_130/086 AR",
+        "number": 130,
+        "denominator": "086",
+        "name": "아케오스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_130.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_131/086 AR",
+        "number": 131,
+        "denominator": "086",
+        "name": "비조푸",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_131.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_132/086 AR",
+        "number": 132,
+        "denominator": "086",
+        "name": "비조도",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_132.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_133/086 AR",
+        "number": 133,
+        "denominator": "086",
+        "name": "테라키온",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_133.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_134/086 AR",
+        "number": 134,
+        "denominator": "086",
+        "name": "쌔비냥",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_134.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_135/086 AR",
+        "number": 135,
+        "denominator": "086",
+        "name": "레파르다스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_135.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_136/086 AR",
+        "number": 136,
+        "denominator": "086",
+        "name": "곤율랭",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_136.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_137/086 AR",
+        "number": 137,
+        "denominator": "086",
+        "name": "곤율거니",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_137.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_138/086 AR",
+        "number": 138,
+        "denominator": "086",
+        "name": "깨봉이",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_138.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_139/086 AR",
+        "number": 139,
+        "denominator": "086",
+        "name": "더스트나",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_139.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_140/086 AR",
+        "number": 140,
+        "denominator": "086",
+        "name": "조로아",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_140.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_141/086 AR",
+        "number": 141,
+        "denominator": "086",
+        "name": "조로아크",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_141.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_142/086 AR",
+        "number": 142,
+        "denominator": "086",
+        "name": "모노두",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_142.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_143/086 AR",
+        "number": 143,
+        "denominator": "086",
+        "name": "디헤드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_143.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_144/086 AR",
+        "number": 144,
+        "denominator": "086",
+        "name": "철시드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_144.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_145/086 AR",
+        "number": 145,
+        "denominator": "086",
+        "name": "너트령",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_145.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_146/086 AR",
+        "number": 146,
+        "denominator": "086",
+        "name": "기어르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_146.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_147/086 AR",
+        "number": 147,
+        "denominator": "086",
+        "name": "기기어르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_147.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_148/086 AR",
+        "number": 148,
+        "denominator": "086",
+        "name": "기기기어르",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_148.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_149/086 AR",
+        "number": 149,
+        "denominator": "086",
+        "name": "아이앤트",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_149.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_150/086 AR",
+        "number": 150,
+        "denominator": "086",
+        "name": "크리만",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_150.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_151/086 AR",
+        "number": 151,
+        "denominator": "086",
+        "name": "보르쥐",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_151.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_152/086 AR",
+        "number": 152,
+        "denominator": "086",
+        "name": "보르그",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_152.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_153/086 AR",
+        "number": 153,
+        "denominator": "086",
+        "name": "요테리",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_153.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_154/086 AR",
+        "number": 154,
+        "denominator": "086",
+        "name": "하데리어",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_154.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_155/086 AR",
+        "number": 155,
+        "denominator": "086",
+        "name": "바랜드",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_155.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_156/086 AR",
+        "number": 156,
+        "denominator": "086",
+        "name": "수리둥보",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_156.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_157/086 AR",
+        "number": 157,
+        "denominator": "086",
+        "name": "워글",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_157.png?w=400",
+        "owned": false
+      },
+      {
+        "code": "sv11W_158/086 AR",
+        "number": 158,
+        "denominator": "086",
+        "name": "토네로스",
+        "image": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV11W/SV11W_158.png?w=400",
+        "owned": false
+      }
+    ]
+  }
+]

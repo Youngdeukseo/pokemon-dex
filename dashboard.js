@@ -3,7 +3,14 @@
 (function () {
   const SDK_VERSION = "12.16.0";
   const CONFIG = window.POKEMON_DEX_FIREBASE || {};
-  const CATEGORY_ORDER = ["national", "pack", "artist", "series", "pokemon"];
+  const CATEGORY_ORDER = [
+    "national",
+    "pack",
+    "artist",
+    "series",
+    "pokemon",
+    "ar",
+  ];
   const CATEGORY_META = {
     national: {
       number: "01",
@@ -40,6 +47,13 @@
       href: "./pokemon-collections.html",
       unit: "장",
     },
+    ar: {
+      number: "06",
+      title: "AR 전종도감",
+      description: "SV 시리즈 AR 406장",
+      href: "./ar.html",
+      unit: "장",
+    },
   };
   const DOCUMENT_IDS = {
     national: CONFIG.userDocument || "nationalDex",
@@ -47,6 +61,7 @@
     artist: "artistDex",
     series: "seriesDex",
     pokemon: "pokemonCollectionsDex",
+    ar: "arDex",
   };
 
   const elements = {
@@ -189,7 +204,14 @@
     };
   }
 
-  function buildCatalogs(pokedex, artistData, seriesData, pokemonData, packData) {
+  function buildCatalogs(
+    pokedex,
+    artistData,
+    seriesData,
+    pokemonData,
+    arData,
+    packData,
+  ) {
     const nationalItems = pokedex.records.map((record) => ({
       key: String(record.number),
       name: record.nameKo,
@@ -267,24 +289,45 @@
       return { key: groupIdentity(group, groupIndex), name: group.name, itemKeys };
     });
 
+    const arItems = [];
+    const arGroups = (arData || []).map((group, groupIndex) => {
+      const itemKeys = (group.cards || []).map((card, cardIndex) => {
+        const key = pageCardIdentity("ar", group, card, groupIndex, cardIndex);
+        arItems.push({
+          key,
+          name: card.name || card.code || `${group.code} AR`,
+          group: `${group.code} · ${group.title}`,
+          baselineOwned: Boolean(card.owned),
+        });
+        return key;
+      });
+      return {
+        key: groupIdentity(group, groupIndex),
+        name: `${group.code} · ${group.title}`,
+        itemKeys,
+      };
+    });
+
     return {
       national: createCategory("national", nationalItems, nationalGroups),
       pack: createCategory("pack", packItems, packGroups),
       artist: createCategory("artist", artistItems, artistGroups),
       series: createCategory("series", seriesItems, seriesGroups),
       pokemon: createCategory("pokemon", pokemonItems, pokemonGroups),
+      ar: createCategory("ar", arItems, arGroups),
     };
   }
 
   async function loadCatalogs() {
-    const [pokedex, artists, series, pokemon, packs] = await Promise.all([
+    const [pokedex, artists, series, pokemon, ar, packs] = await Promise.all([
       fetchJson("./data/pokedex.json"),
       fetchJson("./data/artists.json"),
       fetchJson("./data/series.json"),
       fetchJson("./data/pokemon-collections.json"),
+      fetchJson("./data/ar.json"),
       fetchPacks(),
     ]);
-    return buildCatalogs(pokedex, artists, series, pokemon, packs);
+    return buildCatalogs(pokedex, artists, series, pokemon, ar, packs);
   }
 
   function createAuthUi() {

@@ -599,7 +599,7 @@
 
 .dashboard-collection-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-top: 24px;
 }
@@ -659,6 +659,10 @@
 
 .dashboard-collection-card[data-category="pokemon"] {
   --collection-accent: #21a179;
+}
+
+.dashboard-collection-card[data-category="ar"] {
+  --collection-accent: #f0b429;
 }
 
 .dashboard-card-top,

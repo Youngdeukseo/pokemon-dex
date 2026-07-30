@@ -3,18 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>시리즈 도감 | MY POKÉMON DEX</title>
+    <meta
+      name="description"
+      content="포켓몬코리아 공식 이미지로 구성한 SV 시리즈 AR 카드 406장 전종도감"
+    >
+    <meta name="theme-color" content="#17233f">
+    <title>AR 전종도감 | MY POKÉMON DEX</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="./styles.css?v=20260730-2">
     <link rel="stylesheet" href="./catalog.css?v=20260727-3">
     <link rel="stylesheet" href="./collection-manager.css?v=20260729-1">
+    <link rel="stylesheet" href="./ar.css?v=20260730-1">
     <script src="./firebase-config.js?v=20260727-2" defer></script>
     <script src="./site-metrics.js?v=20260729-1" defer></script>
     <script src="./shared-readonly-view.js?v=20260730-2" defer></script>
     <script src="./firebase-page-manager.js?v=20260730-2" defer></script>
-    <script src="./owner-sheets-sync.js?v=20260727-2" defer></script>
-    <script src="./catalog.js?v=20260727-5" defer></script>
+    <script src="./ar.js?v=20260730-1" defer></script>
   </head>
-  <body data-catalog="series">
+  <body data-catalog="ar">
     <header class="site-header">
       <a class="brand" href="./">
         <span class="brand-mark"><span></span></span>
@@ -45,78 +51,87 @@
             <span class="collection-icon">03</span>
             <span><strong>작가 도감</strong><small>29 ARTISTS</small></span>
           </a>
-          <a class="collection-link is-active" href="./series.html">
-            <span class="collection-icon collection-icon--red">04</span>
+          <a class="collection-link" href="./series.html">
+            <span class="collection-icon">04</span>
             <span><strong>시리즈 도감</strong><small>31 SETS</small></span>
           </a>
           <a class="collection-link" href="./pokemon-collections.html">
             <span class="collection-icon">05</span>
             <span><strong>포켓몬 컬렉션</strong><small>26 POKÉMON</small></span>
           </a>
-          <a class="collection-link" href="./ar.html">
+          <a class="collection-link is-active" href="./ar.html" aria-current="page">
             <span class="collection-icon collection-icon--ar">06</span>
             <span><strong>AR 전종도감</strong><small>SV · 406 CARDS</small></span>
           </a>
         </nav>
       </aside>
       <main class="main-content">
-        <section class="hero">
+        <section class="hero ar-hero">
+          <span class="hero-glow hero-glow--one"></span>
+          <span class="hero-glow hero-glow--two"></span>
           <div class="hero-content">
-            <p class="eyebrow">SERIES CARD ARCHIVE · COLLECTION 04</p>
-            <h1>시리즈 도감</h1>
+            <p class="eyebrow">ART RARE ARCHIVE · COLLECTION 06</p>
+            <h1>AR 전종도감</h1>
             <p class="hero-description">
-              확장팩별 카드 목록과 수집 현황을<br>
-              한눈에 확인하는 시리즈 컬렉션
+              SV 시리즈의 모든 AR 카드를<br>
+              세트별로 모아보는 전종 컬렉션
             </p>
+            <div class="ar-source-badge">
+              <span>✓</span>
+              <strong>포켓몬코리아 공식 이미지</strong>
+              <small>시트 순서 · 25세트 · 406장</small>
+            </div>
           </div>
           <div class="hero-progress">
             <div class="progress-ring" id="catalog-progress-ring">
-              <div><strong id="catalog-rate">—</strong><span>COMPLETE</span></div>
+              <div><strong id="catalog-rate">0%</strong><span>COMPLETE</span></div>
             </div>
             <div class="hero-progress-copy">
               <span>현재 수집 현황</span>
               <strong>
-                <b id="catalog-owned">—</b>
-                <small>/ <span id="catalog-total">—</span>장</small>
+                <b id="catalog-owned">0</b>
+                <small>/ <span id="catalog-total">406</span>장</small>
               </strong>
-              <p>미보유 <b id="catalog-missing">—</b>장</p>
+              <p>미보유 <b id="catalog-missing">406</b>장</p>
             </div>
           </div>
         </section>
+
         <section class="stats-grid">
           <article class="stat-card stat-card--owned">
-            <span class="stat-icon">▤</span>
+            <span class="stat-icon">SV</span>
             <div>
-              <span>등록 세트</span>
-              <strong><b id="stat-catalog-groups">—</b><small>개</small></strong>
+              <span>대상 세트</span>
+              <strong><b id="stat-catalog-groups">25</b><small>개</small></strong>
             </div>
           </article>
           <article class="stat-card stat-card--missing">
-            <span class="stat-icon">○</span>
+            <span class="stat-icon">AR</span>
             <div>
-              <span>전체 카드</span>
-              <strong><b id="stat-catalog-total">—</b><small>장</small></strong>
+              <span>전체 AR</span>
+              <strong><b id="stat-catalog-total">406</b><small>장</small></strong>
             </div>
           </article>
           <article class="stat-card stat-card--rate">
             <span class="stat-icon">↗</span>
             <div>
               <span>전체 수집률</span>
-              <strong><b id="stat-catalog-rate">—</b><small>%</small></strong>
+              <strong><b id="stat-catalog-rate">0</b><small>%</small></strong>
             </div>
           </article>
         </section>
+
         <section class="catalog-panel">
           <div class="catalog-heading">
             <div>
-              <p class="section-kicker">SERIES CATALOG</p>
-              <h2>세트별 카드 목록</h2>
+              <p class="section-kicker">SV ART RARE CATALOG</p>
+              <h2>전체 AR 모음</h2>
             </div>
             <p class="catalog-caption">미보유 카드는 흑백으로 표시됩니다.</p>
           </div>
           <div class="catalog-toolbar">
             <label class="catalog-select">
-              <span class="filter-label">시리즈 선택</span>
+              <span class="filter-label">세트 선택</span>
               <select id="catalog-select"></select>
             </label>
             <label class="search-field">
@@ -130,47 +145,64 @@
               <button data-status="owned">보유</button>
               <button data-status="missing">미보유</button>
             </div>
+            <span class="ar-order-note">시트의 세트 순서대로 표시</span>
           </div>
           <div class="catalog-summary">
             <div>
-              <span>선택 시리즈</span>
-              <strong id="selected-name">—</strong>
+              <span>선택 범위</span>
+              <strong id="selected-name">전체 AR 모음</strong>
             </div>
-            <p id="selected-progress">—</p>
+            <p id="selected-progress">0 / 406장 · 0%</p>
           </div>
           <div class="results-bar">
-            <p>검색 결과 <strong id="result-count">—</strong>장</p>
+            <p>검색 결과 <strong id="result-count">406</strong>장</p>
           </div>
           <div id="catalog-grid" class="card-grid"></div>
           <div id="catalog-empty" class="empty-state" hidden>
-            <h3>검색 결과가 없습니다</h3>
+            <span class="empty-ball"><span></span></span>
+            <h3 id="empty-title">검색 결과가 없습니다</h3>
+            <p id="empty-copy">다른 세트나 검색어를 선택해 보세요.</p>
           </div>
         </section>
+
         <footer class="site-footer">
           <p>개인 수집 기록을 위한 비공식 팬 사이트입니다.</p>
-          <p>최신 시리즈도감 기준</p>
+          <p>[최종]AR전종도감 모음 탭 순서 · 검수 보정 406장</p>
         </footer>
       </main>
     </div>
+
     <dialog id="catalog-dialog" class="card-dialog">
-      <button id="dialog-close" class="dialog-close">×</button>
+      <button id="dialog-close" class="dialog-close" aria-label="닫기">×</button>
       <div id="catalog-dialog-image-wrap" class="dialog-card-image catalog-dialog-image">
-        <img id="catalog-dialog-image">
+        <img id="catalog-dialog-image" alt="">
       </div>
       <div class="dialog-card-copy">
         <div class="dialog-badges">
           <span id="dialog-code" class="number-badge"></span>
-          <span id="dialog-status" class="status-badge"></span>
+          <span class="ar-dialog-rarity">AR</span>
+          <span id="dialog-status" class="status-badge is-missing">미보유</span>
         </div>
         <h2 id="dialog-name"></h2>
         <p id="dialog-meta" class="dialog-name-en"></p>
         <dl class="dialog-details">
-          <div><dt>시리즈</dt><dd id="dialog-group"></dd></div>
+          <div><dt>수록 세트</dt><dd id="dialog-group"></dd></div>
+          <div><dt>카드 번호</dt><dd id="dialog-number"></dd></div>
         </dl>
+        <button
+          id="dialog-toggle"
+          class="primary-button ar-dialog-toggle account-only-control"
+          type="button"
+        >
+          수집완료로 표시
+        </button>
+        <p class="ar-dialog-hint">Google 로그인 후 내 AR 도감에 저장됩니다.</p>
       </div>
     </dialog>
+
     <div id="catalog-error" class="app-error" hidden>
-      데이터를 불러오지 못했습니다.
+      <strong>AR 데이터를 불러오지 못했습니다.</strong>
+      <span>페이지를 새로고침해 주세요.</span>
     </div>
   </body>
 </html>
