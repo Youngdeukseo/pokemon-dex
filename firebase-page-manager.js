@@ -7,6 +7,7 @@
     artist: { documentId: "artistDex" },
     series: { documentId: "seriesDex" },
     pokemon: { documentId: "pokemonCollectionsDex" },
+    ar: { documentId: "arDex" },
   };
 
   const mode = document.body?.dataset.catalog || "";
@@ -121,7 +122,7 @@
         const override = normalizeOverride(remoteOverrides[key]);
         card.owned = override ? override.owned : useLegacy && card.legacyOwned;
         card.accountKey = key;
-        const usesFixedSeriesCard = mode === "series";
+        const usesFixedSeriesCard = mode === "series" || mode === "ar";
         const usesOwnedCardDetails =
           !usesFixedSeriesCard && Boolean(override?.owned);
         card.actualSetCode = !usesOwnedCardDetails

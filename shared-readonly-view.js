@@ -12,6 +12,7 @@
     "artistDex",
     "seriesDex",
     "pokemonCollectionsDex",
+    "arDex",
   ];
 
   let ownerDocumentsPromise = null;
