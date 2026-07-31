@@ -9,19 +9,28 @@
   const PENDING_KEY = "pokemonDexOwnerSheetsPendingV1";
   const LAST_SYNC_KEY = "pokemonDexOwnerSheetsLastSyncV1";
   const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
-  const VALID_CATEGORIES = ["national", "pack", "artist", "series", "pokemon"];
+  const VALID_CATEGORIES = [
+    "national",
+    "pack",
+    "artist",
+    "series",
+    "pokemon",
+    "ar",
+  ];
   const DOCUMENT_IDS = {
     national: CONFIG.userDocument || "nationalDex",
     pack: "packDex",
     artist: "artistDex",
     series: "seriesDex",
     pokemon: "pokemonCollectionsDex",
+    ar: "arDex",
   };
   const DATA_FILES = {
     pokedex: "./data/pokedex.json",
     artists: "./data/artists.json",
     series: "./data/series.json",
     pokemon: "./data/pokemon-collections.json",
+    ar: "./data/ar.json",
     packs: "./packs.js",
   };
 
@@ -449,12 +458,14 @@
         fetchJson(DATA_FILES.artists),
         fetchJson(DATA_FILES.series),
         fetchJson(DATA_FILES.pokemon),
+        fetchJson(DATA_FILES.ar),
         fetchPacks(),
-      ]).then(([pokedex, artists, series, pokemon, packs]) => ({
+      ]).then(([pokedex, artists, series, pokemon, ar, packs]) => ({
         pokedex,
         artists,
         series,
         pokemon,
+        ar,
         packs,
       }));
     }
@@ -623,10 +634,21 @@
   function groupsForCategory(category, catalogs) {
     if (category === "artist") return catalogs.artists.artists || [];
     if (category === "series") return catalogs.series || [];
+    if (category === "ar") return catalogs.ar || [];
     return catalogs.pokemon || [];
   }
 
   function collectionCardMeta(category, group, card, item) {
+    if (category === "ar") {
+      const number = String(card.number || "").padStart(3, "0");
+      return {
+        setCode: group.code || "",
+        cardNumber: `${number}/${card.denominator || ""}`,
+        rarity: "AR",
+        imageUrl: card.image || "",
+      };
+    }
+
     if (category === "series") {
       return {
         setCode: group.code || "",
@@ -748,7 +770,7 @@
       keys.national.add(String(record.number));
     }
     for (const pack of catalogs.packs) keys.pack.add(pack.code);
-    for (const category of ["artist", "series", "pokemon"]) {
+    for (const category of ["artist", "series", "pokemon", "ar"]) {
       groupsForCategory(category, catalogs).forEach((group, groupIndex) => {
         (group.cards || []).forEach((card, cardIndex) => {
           keys[category].add(
@@ -847,7 +869,7 @@
             ? existing.imageSource || "manual"
             : "";
           item.note = String(values[10] || "").trim();
-        } else if (category !== "series") {
+        } else if (!["series", "ar"].includes(category)) {
           item.setCode = String(values[5] || "").trim();
           item.cardNumber = String(values[6] || "").trim();
           item.cardName = String(values[3] || "").trim();
