@@ -5,39 +5,19 @@
     var(--navy);
 }
 
-.ar-source-badge {
-  display: inline-flex;
+.ar-hero-meta {
+  display: flex;
   align-items: center;
-  gap: 7px;
-  margin-top: 24px;
-  border: 1px solid rgba(255, 215, 93, 0.22);
-  border-radius: 999px;
-  background: rgba(255, 218, 97, 0.08);
-  color: rgba(255, 255, 255, 0.78);
-  padding: 8px 11px;
-}
-
-.ar-source-badge > span {
-  display: grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--yellow);
-  color: var(--navy);
+  gap: 8px;
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.42);
   font-size: 0.65rem;
-  font-weight: 900;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-.ar-source-badge strong {
-  font-size: 0.67rem;
-}
-
-.ar-source-badge small {
-  border-left: 1px solid rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.48);
-  font-size: 0.59rem;
-  padding-left: 7px;
+.ar-hero-meta span[aria-hidden="true"] {
+  color: rgba(255, 255, 255, 0.22);
 }
 
 .ar-order-note {
@@ -131,11 +111,6 @@
 }
 
 @media (max-width: 690px) {
-  .ar-source-badge {
-    flex-wrap: wrap;
-    border-radius: 14px;
-  }
-
   .ar-order-note {
     display: none;
   }
