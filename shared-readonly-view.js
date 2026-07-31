@@ -2,7 +2,11 @@
 
 (function () {
   const CONFIG = window.POKEMON_DEX_FIREBASE || {};
-  const VIEWER_UID = "9K11y6y4U4dlVmmi9bkxaT4Ci8u2";
+  const SHARE_DOCUMENT_UID = "9K11y6y4U4dlVmmi9bkxaT4Ci8u2";
+  const VIEWER_UIDS = new Set([
+    SHARE_DOCUMENT_UID,
+    "04EWx9gDWWNzTw4gNpFtxEGlQTs1",
+  ]);
   const SHARED_BUTTON_LABEL = "드기 도감 보기";
   const STORAGE_KEY = "pokemonDexSharedReadonly";
   const SHARE_COLLECTION = "sharedDexViews";
@@ -23,7 +27,7 @@
   }
 
   function isViewer(user) {
-    return Boolean(user && user.uid === VIEWER_UID);
+    return Boolean(user && VIEWER_UIDS.has(user.uid));
   }
 
   function readStoredMode() {
@@ -120,14 +124,14 @@
         const ref = firestoreModule.doc(
           db,
           SHARE_COLLECTION,
-          VIEWER_UID,
+          SHARE_DOCUMENT_UID,
         );
         const snapshot = await firestoreModule.getDoc(ref);
         const data = snapshot.exists() ? snapshot.data() || {} : {};
         if (
           data.ownerUid === user.uid &&
           normalizeEmail(data.ownerEmail) === ownerEmail &&
-          data.viewerUid === VIEWER_UID &&
+          data.viewerUid === SHARE_DOCUMENT_UID &&
           data.mode === "read-only"
         ) {
           return true;
@@ -138,7 +142,7 @@
           {
             ownerUid: user.uid,
             ownerEmail,
-            viewerUid: VIEWER_UID,
+            viewerUid: SHARE_DOCUMENT_UID,
             mode: "read-only",
             updatedAt: firestoreModule.serverTimestamp(),
           },
@@ -166,7 +170,7 @@
         const shareRef = firestoreModule.doc(
           db,
           SHARE_COLLECTION,
-          VIEWER_UID,
+          SHARE_DOCUMENT_UID,
         );
         const shareSnapshot = await firestoreModule.getDoc(shareRef);
         const share = shareSnapshot.exists()
@@ -177,7 +181,7 @@
         if (
           !ownerUid ||
           normalizeEmail(share.ownerEmail) !== ownerEmail ||
-          share.viewerUid !== VIEWER_UID ||
+          share.viewerUid !== SHARE_DOCUMENT_UID ||
           share.mode !== "read-only"
         ) {
           throw new Error("공유 소유자 설정을 확인하지 못했습니다.");

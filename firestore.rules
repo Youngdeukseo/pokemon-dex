@@ -13,7 +13,10 @@ service cloud.firestore {
 
     function isSharedReadOnlyViewer() {
       return request.auth != null
-        && request.auth.uid == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2";
+        && (
+          request.auth.uid == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2"
+          || request.auth.uid == "04EWx9gDWWNzTw4gNpFtxEGlQTs1"
+        );
     }
 
     function isConfiguredSharedOwner(userId) {
@@ -22,7 +25,7 @@ service cloud.firestore {
       );
       return share.data.ownerUid == userId
         && share.data.ownerEmail == "onesmemory@gmail.com"
-        && share.data.viewerUid == request.auth.uid
+        && share.data.viewerUid == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2"
         && share.data.mode == "read-only";
     }
 
@@ -233,7 +236,7 @@ service cloud.firestore {
       allow get: if request.auth != null
         && viewerId == "9K11y6y4U4dlVmmi9bkxaT4Ci8u2"
         && (
-          request.auth.uid == viewerId
+          isSharedReadOnlyViewer()
           || request.auth.token.email == "onesmemory@gmail.com"
         );
 
