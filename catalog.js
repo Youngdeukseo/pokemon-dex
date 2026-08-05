@@ -178,7 +178,12 @@ function updateSummary() {
 
 function updateSelected() {
   const owned = cards.filter((card) => card.owned).length;
-  setText("selected-name", groupName(selected));
+  setText(
+    "selected-name",
+    mode === "series"
+      ? `${groupName(selected)} · ${selected.code}`
+      : groupName(selected),
+  );
   setText(
     "selected-progress",
     `${owned} / ${cards.length}장 · ${pct(owned, cards.length)}%`,
@@ -486,7 +491,10 @@ async function init() {
     groups.forEach((group) => {
       const option = document.createElement("option");
       option.value = group.code || group.name;
-      option.textContent = `${groupName(group)} · ${group.total}장`;
+      option.textContent =
+        mode === "series"
+          ? `${groupName(group)} · ${group.code} · ${group.total}장`
+          : `${groupName(group)} · ${group.total}장`;
       select.append(option);
     });
 
