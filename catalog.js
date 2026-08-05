@@ -444,10 +444,20 @@ function render() {
   $("catalog-empty").hidden = shown.length !== 0;
 }
 
+function seriesCardNumber(card) {
+  const match = String(card.code || card.meta || "").match(/_([0-9]+)/);
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+}
+
 function loadGroup(value) {
   selected =
     groups.find((group) => (group.code || group.name) === value) || groups[0];
-  cards = selected.cards;
+  cards =
+    mode === "series"
+      ? [...selected.cards].sort(
+          (left, right) => seriesCardNumber(left) - seriesCardNumber(right),
+        )
+      : selected.cards;
   updateSelected();
   render();
 }
