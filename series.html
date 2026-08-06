@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>시리즈 도감 | MY POKÉMON DEX</title>
     <link rel="stylesheet" href="./styles.css?v=20260730-3">
+    <link rel="stylesheet" href="./legal.css?v=20260806-1">
     <link rel="stylesheet" href="./catalog.css?v=20260727-3">
     <link rel="stylesheet" href="./collection-manager.css?v=20260729-1">
     <script src="./firebase-config.js?v=20260727-2" defer></script>
     <script src="./site-metrics.js?v=20260729-1" defer></script>
     <script src="./image-protection.js?v=20260806-1" defer></script>
+    <script src="./legal.js?v=20260806-1" defer></script>
     <script src="./shared-readonly-view.js?v=20260731-1" defer></script>
     <script src="./firebase-page-manager.js?v=20260730-2" defer></script>
     <script src="./owner-sheets-sync.js?v=20260731-1" defer></script>
@@ -148,8 +150,17 @@
           </div>
         </section>
         <footer class="site-footer">
-          <p>개인 수집 기록을 위한 비공식 팬 사이트입니다.</p>
-          <p>최신 시리즈도감 기준</p>
+          <div class="site-footer-main">
+            <nav class="site-footer-links" aria-label="정책 및 문의">
+              <a href="./privacy.html">개인정보처리방침</a>
+              <a href="./terms.html">이용약관</a>
+              <a href="mailto:pokemon.dogam.support@gmail.com">문의·삭제 요청</a>
+              <a href="https://pokemoncard.co.kr/" target="_blank" rel="noopener noreferrer">포켓몬 카드 공식 사이트 ↗</a>
+            </nav>
+            <p>본 사이트는 개인이 운영하는 비공식 팬 사이트이며, 포켓몬 관련 권리자 및 ㈜포켓몬코리아와 제휴·승인·후원 관계가 없습니다.</p>
+            <p>Pokémon 및 관련 명칭·상표·캐릭터, 카드 이미지와 카드 텍스트의 권리는 각 권리자에게 있습니다. ©<span data-current-year>2026</span> Pokémon. ©1995–<span data-current-year>2026</span> Nintendo/Creatures Inc./GAME FREAK inc.</p>
+          </div>
+          <p class="site-footer-note">최신 시리즈도감 기준</p>
         </footer>
       </main>
     </div>
