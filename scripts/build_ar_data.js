@@ -7,7 +7,7 @@ const ROOT = path.resolve(__dirname, "..");
 const SERIES_PATH = path.join(ROOT, "data", "series.json");
 const OUTPUT_PATH = path.join(ROOT, "data", "ar.json");
 
-// [최종]AR전종도감의 "모음" 탭에 배치된 순서입니다.
+// 포켓몬코리아 발매 순서와 각 세트의 카드번호 오름차순입니다.
 const SETS = Object.freeze([
   { code: "sv1S", title: "스칼렛 ex", start: 79, end: 90, denominator: "078" },
   { code: "sv1V", title: "바이올렛 ex", start: 79, end: 90, denominator: "078" },
@@ -34,6 +34,13 @@ const SETS = Object.freeze([
   { code: "sv10", title: "로켓단의 영광", start: 99, end: 110, denominator: "098" },
   { code: "sv11B", title: "블랙볼트", start: 87, end: 158, denominator: "086" },
   { code: "sv11W", title: "화이트플레어", start: 87, end: 158, denominator: "086" },
+  { code: "m1S", title: "메가심포니아", start: 64, end: 75, denominator: "063" },
+  { code: "m1L", title: "메가브레이브", start: 64, end: 75, denominator: "063" },
+  { code: "m2", title: "인페르노X", start: 81, end: 92, denominator: "080" },
+  { code: "m2a", title: "MEGA 드림 ex", start: 194, end: 213, denominator: "193" },
+  { code: "m3", title: "니힐제로", start: 81, end: 92, denominator: "080" },
+  { code: "m4", title: "닌자스피너", start: 84, end: 95, denominator: "083" },
+  { code: "m5", title: "어비스아이", start: 82, end: 93, denominator: "081" },
 ]);
 
 const MANUAL_NAMES = Object.freeze({
@@ -57,9 +64,15 @@ const MANUAL_NAMES = Object.freeze({
 const NAME_FIXES = Object.freeze({
   "sv6-104": "눈여아",
   "sv10-102": "진주몽",
+  "m2a-197": "심향의 마그카르고",
+  "m2a-204": "호브의 대로트",
+  "m2a-205": "로켓단의 따라큐",
+  "m2a-206": "로켓단의 닥트리오",
+  "m2a-208": "난천의 화강돌",
+  "m2a-210": "N의 제크로무",
 });
 
-const EXPECTED_TOTAL = 406;
+const EXPECTED_TOTAL = 498;
 
 function pad(value) {
   return String(value).padStart(3, "0");
@@ -70,6 +83,10 @@ function sourceKey(setCode, number) {
 }
 
 function imageUrl(setCode, number) {
+  if (/^m/i.test(setCode)) {
+    const imageCode = String(setCode).replace(/^m/i, "M");
+    return `https://cards.image.pokemonkorea.co.kr/data/wmimages/MEGA/${imageCode}/${imageCode}_${pad(number)}.png?w=400`;
+  }
   const imageCode = `SV${String(setCode).slice(2)}`;
   return `https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/${imageCode}/${imageCode}_${pad(number)}.png?w=400`;
 }

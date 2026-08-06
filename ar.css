@@ -36,6 +36,28 @@
   min-height: 130px;
 }
 
+.catalog-dialog-image {
+  position: relative;
+}
+
+.catalog-dialog-image .dialog-image-fallback {
+  display: none;
+  max-width: 210px;
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.catalog-dialog-image.has-image-error img {
+  display: none;
+}
+
+.catalog-dialog-image.has-image-error .dialog-image-fallback {
+  display: block;
+}
+
 .ar-card .card-name-ko {
   display: block;
 }

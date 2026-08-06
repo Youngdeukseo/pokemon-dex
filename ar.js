@@ -2,7 +2,8 @@
 
 const $ = (id) => document.getElementById(id);
 const DATA_URL = "./data/ar.json";
-const EXPECTED_TOTAL = 406;
+const EXPECTED_GROUPS = 32;
+const EXPECTED_TOTAL = 498;
 
 let groups = [];
 let allCards = [];
@@ -72,9 +73,17 @@ function refreshCounts() {
 function updateDialog(card) {
   const image = $("catalog-dialog-image");
   const imageWrap = $("catalog-dialog-image-wrap");
+  const imageFallback = $("catalog-dialog-image-fallback");
+  imageWrap.classList.remove("has-image-error");
+  image.onload = () => imageWrap.classList.remove("has-image-error");
+  image.onerror = () => imageWrap.classList.add("has-image-error");
   image.src = card.image;
   image.alt = `${card.name} 카드`;
   imageWrap.classList.toggle("is-missing", !card.owned);
+  imageFallback.textContent =
+    card.setCode.toLowerCase() === "m5"
+      ? "포켓몬코리아 공식 AR 이미지 준비 중"
+      : "이미지를 불러오지 못했습니다";
 
   setText("dialog-code", card.code);
   setText("dialog-name", card.name);
@@ -181,8 +190,15 @@ function makeCard(card) {
 
   const fallback = document.createElement("span");
   fallback.className = "image-fallback";
-  fallback.innerHTML =
-    '<span class="fallback-ball"><span></span></span>이미지를 불러오지 못했습니다';
+  const fallbackBall = document.createElement("span");
+  fallbackBall.className = "fallback-ball";
+  fallbackBall.append(document.createElement("span"));
+  const fallbackCopy = document.createElement("span");
+  fallbackCopy.textContent =
+    card.setCode.toLowerCase() === "m5"
+      ? "포켓몬코리아 공식 AR 이미지 준비 중"
+      : "이미지를 불러오지 못했습니다";
+  fallback.append(fallbackBall, fallbackCopy);
   imageWrap.append(image, missing, rarity, fallback);
 
   const body = document.createElement("span");
@@ -283,7 +299,7 @@ function normalizeGroups(sourceGroups) {
   }));
 
   allCards = groups.flatMap((group) => group.cards);
-  if (groups.length !== 25 || allCards.length !== EXPECTED_TOTAL) {
+  if (groups.length !== EXPECTED_GROUPS || allCards.length !== EXPECTED_TOTAL) {
     throw new Error(
       `AR 데이터가 ${groups.length}세트 ${allCards.length}장입니다.`,
     );

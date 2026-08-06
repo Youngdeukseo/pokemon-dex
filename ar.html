@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta
       name="description"
-      content="포켓몬코리아 공식 이미지로 구성한 SV 시리즈 AR 카드 406장 전종도감"
+      content="포켓몬코리아 공식 카드 정보 기준으로 구성한 SV·M 시리즈 AR 카드 498장 전종도감"
     >
     <meta name="theme-color" content="#17233f">
     <title>AR 전종도감 | MY POKÉMON DEX</title>
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./legal.css?v=20260806-1">
     <link rel="stylesheet" href="./catalog.css?v=20260727-3">
     <link rel="stylesheet" href="./collection-manager.css?v=20260729-1">
-    <link rel="stylesheet" href="./ar.css?v=20260731-1">
+    <link rel="stylesheet" href="./ar.css?v=20260806-1">
     <script src="./firebase-config.js?v=20260727-2" defer></script>
     <script src="./site-metrics.js?v=20260729-1" defer></script>
     <script src="./image-protection.js?v=20260806-1" defer></script>
@@ -22,7 +22,7 @@
     <script src="./shared-readonly-view.js?v=20260731-1" defer></script>
     <script src="./firebase-page-manager.js?v=20260730-2" defer></script>
     <script src="./owner-sheets-sync.js?v=20260731-1" defer></script>
-    <script src="./ar.js?v=20260730-1" defer></script>
+    <script src="./ar.js?v=20260806-2" defer></script>
   </head>
   <body data-catalog="ar">
     <header class="site-header">
@@ -65,7 +65,7 @@
           </a>
           <a class="collection-link is-active" href="./ar.html" aria-current="page">
             <span class="collection-icon collection-icon--ar">06</span>
-            <span><strong>AR 전종도감</strong><small>SV · 406 CARDS</small></span>
+            <span><strong>AR 전종도감</strong><small>SV · M · 498 CARDS</small></span>
           </a>
         </nav>
       </aside>
@@ -76,11 +76,11 @@
           <div class="hero-content">
             <p class="eyebrow">ART RARE ARCHIVE · COLLECTION 06</p>
             <h1>AR 전종도감</h1>
-            <p class="hero-description">세트별로 모아보는 AR 컬렉션</p>
+            <p class="hero-description">공식 발매 순서로 모아보는 AR 컬렉션</p>
             <p class="ar-hero-meta">
-              <span>25세트</span>
+              <span>32세트</span>
               <span aria-hidden="true">·</span>
-              <span>406장</span>
+              <span>498장</span>
             </p>
           </div>
           <div class="hero-progress">
@@ -91,26 +91,26 @@
               <span>현재 수집 현황</span>
               <strong>
                 <b id="catalog-owned">0</b>
-                <small>/ <span id="catalog-total">406</span>장</small>
+                <small>/ <span id="catalog-total">498</span>장</small>
               </strong>
-              <p>미보유 <b id="catalog-missing">406</b>장</p>
+              <p>미보유 <b id="catalog-missing">498</b>장</p>
             </div>
           </div>
         </section>
 
         <section class="stats-grid">
           <article class="stat-card stat-card--owned">
-            <span class="stat-icon">SV</span>
+            <span class="stat-icon">SV·M</span>
             <div>
               <span>대상 세트</span>
-              <strong><b id="stat-catalog-groups">25</b><small>개</small></strong>
+              <strong><b id="stat-catalog-groups">32</b><small>개</small></strong>
             </div>
           </article>
           <article class="stat-card stat-card--missing">
             <span class="stat-icon">AR</span>
             <div>
               <span>전체 AR</span>
-              <strong><b id="stat-catalog-total">406</b><small>장</small></strong>
+              <strong><b id="stat-catalog-total">498</b><small>장</small></strong>
             </div>
           </article>
           <article class="stat-card stat-card--rate">
@@ -125,7 +125,7 @@
         <section class="catalog-panel">
           <div class="catalog-heading">
             <div>
-              <p class="section-kicker">SV ART RARE CATALOG</p>
+              <p class="section-kicker">SV · M ART RARE CATALOG</p>
               <h2>전체 AR 모음</h2>
             </div>
             <p class="catalog-caption">미보유 카드는 흑백으로 표시됩니다.</p>
@@ -146,17 +146,17 @@
               <button data-status="owned">보유</button>
               <button data-status="missing">미보유</button>
             </div>
-            <span class="ar-order-note">시트의 세트 순서대로 표시</span>
+            <span class="ar-order-note">공식 발매 순서 · 카드번호 오름차순</span>
           </div>
           <div class="catalog-summary">
             <div>
               <span>선택 범위</span>
               <strong id="selected-name">전체 AR 모음</strong>
             </div>
-            <p id="selected-progress">0 / 406장 · 0%</p>
+            <p id="selected-progress">0 / 498장 · 0%</p>
           </div>
           <div class="results-bar">
-            <p>검색 결과 <strong id="result-count">406</strong>장</p>
+            <p>검색 결과 <strong id="result-count">498</strong>장</p>
           </div>
           <div id="catalog-grid" class="card-grid"></div>
           <div id="catalog-empty" class="empty-state" hidden>
@@ -177,7 +177,7 @@
             <p>본 사이트는 개인이 운영하는 비공식 팬 사이트이며, 포켓몬 관련 권리자 및 ㈜포켓몬코리아와 제휴·승인·후원 관계가 없습니다.</p>
             <p>Pokémon 및 관련 명칭·상표·캐릭터, 카드 이미지와 카드 텍스트의 권리는 각 권리자에게 있습니다. ©<span data-current-year>2026</span> Pokémon. ©1995–<span data-current-year>2026</span> Nintendo/Creatures Inc./GAME FREAK inc.</p>
           </div>
-          <p class="site-footer-note">[최종]AR전종도감 모음 탭 순서 · 검수 보정 406장</p>
+          <p class="site-footer-note">포켓몬코리아 카드번호 기준 · 세트별 카드번호 오름차순 · 498장</p>
         </footer>
       </main>
     </div>
@@ -186,6 +186,7 @@
       <button id="dialog-close" class="dialog-close" aria-label="닫기">×</button>
       <div id="catalog-dialog-image-wrap" class="dialog-card-image catalog-dialog-image">
         <img id="catalog-dialog-image" alt="">
+        <span id="catalog-dialog-image-fallback" class="dialog-image-fallback"></span>
       </div>
       <div class="dialog-card-copy">
         <div class="dialog-badges">

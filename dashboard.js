@@ -50,7 +50,7 @@
     ar: {
       number: "06",
       title: "AR 전종도감",
-      description: "SV 시리즈 AR 406장",
+      description: "SV·M 시리즈 AR 498장",
       href: "./ar.html",
       unit: "장",
     },
