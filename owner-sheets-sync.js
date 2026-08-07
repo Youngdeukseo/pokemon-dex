@@ -478,6 +478,9 @@
 
   function pageCardIdentity(category, group, card, groupIndex, cardIndex) {
     const groupId = groupIdentity(group, groupIndex);
+    const accountIndex = Number.isInteger(card.accountIndex)
+      ? card.accountIndex
+      : cardIndex;
     if (category === "artist") {
       return [
         groupId,
@@ -496,7 +499,7 @@
     return [
       groupId,
       card.meta || card.code || card.name || cardIndex,
-      cardIndex,
+      accountIndex,
     ].join("::");
   }
 

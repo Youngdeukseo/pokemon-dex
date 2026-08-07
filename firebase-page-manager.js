@@ -83,6 +83,9 @@
 
   function cardIdentity(group, card, groupIndex, cardIndex) {
     const groupId = groupIdentity(group, groupIndex);
+    const accountIndex = Number.isInteger(card.accountIndex)
+      ? card.accountIndex
+      : cardIndex;
 
     if (mode === "artist") {
       return [
@@ -100,7 +103,7 @@
     return [
       groupId,
       card.meta || card.code || card.name || cardIndex,
-      cardIndex,
+      accountIndex,
     ].join("::");
   }
 
